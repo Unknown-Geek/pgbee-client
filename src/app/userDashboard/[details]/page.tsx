@@ -106,9 +106,9 @@ const reviews = [
         </div>
       </nav>
 
-   /*   <div className="hidden lg:block w-full">
+      { /*   <div className="hidden lg:block w-full">
   <Navbar />
-</div>
+</div>*/}
 
 
       <div className='flex flex-row md:ml-8 ml-2 sm:pr-0 justify-between items-center p-4'> 
