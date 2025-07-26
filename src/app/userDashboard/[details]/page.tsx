@@ -70,13 +70,19 @@ const reviews = [
 </div>
 
 
-      <div className='flex flex-row ml-8 justify-between items-center p-4'> 
-        <Image src="/back.svg" alt="back" width={24} height={24} />
+      <div className='flex flex-row md:ml-8 ml-2 sm:pr-0 justify-between items-center p-4'> 
+      <Image src="/back.svg" alt="back" width={24} height={24} className="hidden sm:block"/>
+<div className='flex flex-row gap-2 lg:hidden'>
+  <Image src="/back2.svg" alt="back" width={6} height={10} />
+  <p className='text-lg'>Back</p>
+</div>
+
+
         
       <p className="hidden lg:block text-4xl font-bold absolute left-[10%]">
         Golden Turtles Homestay
       </p>
-        <div className=" rounded-md p-4 flex gap-4 mr-8 ">
+        <div className=" rounded-md p-4 flex gap-4 md:mr-8 ">
         
             <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md">
             <Image src="./Globe_icon.svg" alt="share" width={24} height={24} />
@@ -90,7 +96,7 @@ const reviews = [
 
         </div>
       </div>
-      <hr className="w-full border-t-2 border-black" />
+      <hr className="w-full border-t-1 border-black" />
 <div>
 
   
@@ -115,7 +121,7 @@ const reviews = [
         alt="house1"
         width={600}
         height={600}
-        className="w-full h-auto rounded"
+        className="w-full h-auto rounded p-2"
       />
     </div>
 
@@ -183,27 +189,30 @@ const reviews = [
   </div>
   <div className="mr-28">
     <button className="bg-black text-white px-8 py-4 rounded-md hover:bg-gray-800 transition">
-      Reserve Now
+      Book Now
     </button>
   </div>
 </div>
 
-          <hr className="w-full border-t-2 border-b-gray-300" /> 
-<div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 ml-6 md:ml-32 mt-4 mb-4">
+          <hr className="w-full border-t-1 border-b-gray-300" /> 
+<div className="flex md:flex-row items-center gap-4 md:gap-8 ml-2 md:ml-32 mt-4 mb-4">
   <Image
     src="/user-black.png"
     alt="user"
     width={40}
     height={40}
-    className="rounded-full"
+    className="rounded-full "
   />
-  <div className="text-center md:text-left">
-    <p className="text-lg font-bold">Hosted by John Doe</p>
-    <p className="text-sm text-gray-400">11 years of hosting</p>
+  <div className=" md:text-left">
+    <p className="text-lg font-bold">Hosted by John </p>
+    <p className="text-sm text-gray-400 ">11 years of hosting</p>
   </div>
+  <button className="flex items-center gap-2 ml-6 px-4 py-2 border-2 border-black rounded-md hover:bg-gray-100 transition md:absolute right-1/9">
+    Contact Owner
+  </button>
 </div>
  
-          <hr className="w-full border-t-2 border-black" /><div className='flex flex-col mb-8'>
+          <hr className="w-full border-t-1 border-black" /><div className='flex flex-col mb-8'>
   <p className='text-2xl font-bold ml-6 sm:ml-10 md:ml-16 mt-8'> 
     Amenities Offered
   </p>
@@ -217,7 +226,7 @@ const reviews = [
   </div>
 </div>
 
-    <hr className="w-full border-t-2 border-black" />
+    <hr className="w-full border-t-1 border-black" />
 
 <div className="mt-12 px-4 sm:px-8 md:px-12">
   <h2 className="text-2xl font-bold mb-4">Reviews</h2>
@@ -260,7 +269,7 @@ const reviews = [
   </div>
 </div>
 
-  <hr className="w-full border-t-2 border-black" />
+  <hr className="w-full border-t-1 border-gray-4" />
   <div className='flex flex-col ml-16 mt-8 mb-8 mr-16'>
     <p className='text-2xl font-bold'>Location</p>
     <p>Vattapara,Kerala,India</p>

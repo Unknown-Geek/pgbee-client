@@ -38,12 +38,15 @@ const Navbar = () => {
           </button>
         </div>  
         <div className='absolute right-1/4 mr-16  flex items-center gap-16'>
+            <div className="flex items-center gap-4">
             <Image
                 src='/Globe_icon.svg'
                 alt="Globe"
-                width={30}
-                height={30}
+                width={20}
+                height={20}
             />
+            <p className="text-lg">EN</p>
+            </div>
             <Image src="/currency.svg" alt="currency" width={40} height={30} />
 
         </div>
