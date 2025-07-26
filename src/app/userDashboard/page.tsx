@@ -10,6 +10,9 @@ import Image1 from './../../../public/PgBee.png';
 import Image2 from './../../../public/user.png';
 import Image3 from './../../../public/Globe_icon.svg';
 import { FilterList } from "@mui/icons-material";
+import Navbar from "./navbar/page";
+import Footer from "./footer/page";
+
 
 const useIsMobile = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -34,6 +37,8 @@ const useIsMobile = () => {
 
 
 export default function DashBoard() {
+
+
     const [location, setLocation] = useState<string>('');
     const { isMobile, isHydrated } = useIsMobile();
     const [toggle, setToggle] = useState(false);
@@ -53,6 +58,10 @@ export default function DashBoard() {
 
     return (
         <div className="flex flex-col bg-white ">
+            <div className="hidden sm:block">
+            <Navbar />
+                </div>
+
             {!toggle &&
                 <nav className="flex md:hidden flex-col items-center justify-center p-[20px]">
                     <Image src={Image1} alt="PgBee Logo" className="" width={100} height={100} />
@@ -86,7 +95,7 @@ export default function DashBoard() {
                 </div>
             )}
             
-
+            <Footer />
         </div>
     )
 }
