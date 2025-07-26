@@ -9,6 +9,20 @@ import Login from '../../login/page'; // Adjust the import path as necessary
 import Signup from '../../signup/page'; // Adjust the import path as necessary
 import Navbar from '../navbar/page';
 import Footer from '../footer/page';
+import Image from 'next/image';
+import { useState } from 'react';
+import Image1 from '../../../../public/PgBee.png';
+import Image2 from '../../../../public/user.png';
+import Image3 from '../../../../public/Globe_icon.svg';
+import Image4 from '../../../../public/share.jpg';
+import Image5 from '../../../../public/heart.png';
+import House1 from '../../../../public/house1.png';
+import House2 from '../../../../public/house2.png';
+import House3 from '../../../../public/house3.png';
+import House4 from '../../../../public/house4.png';
+import House5 from '../../../../public/house5.png';
+import UserBlack from '../../../../public/user-black.png';
+import User1 from '../../../../public/Container.png';
 
 const Page: React.FC = () => {
   const [location, setLocation] = useState<string>('');
