@@ -67,7 +67,8 @@ const reviews = [
 
   return (
     <div className='min-h-screen overflow-y-auto'>
-      <nav className="flex flex-row gap-32 items-center pl-12 p-4 shadow-md bg-white">
+      {/* navbar */}
+      <nav className="flex-row gap-32 items-center pl-12 p-4 shadow-md bg-white">
         <Image src={Image1} alt="PgBee Logo" width={100} height={100} />
 
         <div className="flex flex-row absolute left-1/4 w-full max-w-md  space-x-4">
