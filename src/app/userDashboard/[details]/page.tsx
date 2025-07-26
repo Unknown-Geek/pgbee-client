@@ -9,8 +9,7 @@ import Login from '../../login/page'; // Adjust the import path as necessary
 import Signup from '../../signup/page'; // Adjust the import path as necessary
 import Navbar from '../navbar/page';
 import Footer from '../footer/page';
-import Image from 'next/image';
-import { useState } from 'react';
+
 import Image1 from '../../../../public/PgBee.png';
 import Image2 from '../../../../public/user.png';
 import Image3 from '../../../../public/Globe_icon.svg';
