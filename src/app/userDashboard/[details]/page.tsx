@@ -10,6 +10,19 @@ import Signup from '../../signup/page'; // Adjust the import path as necessary
 import Navbar from '../navbar/page';
 import Footer from '../footer/page';
 
+import Image1 from '../../../../public/PgBee.png';
+import Image2 from '../../../../public/user.png';
+import Image3 from '../../../../public/Globe_icon.svg';
+import Image4 from '../../../../public/share.jpg';
+import Image5 from '../../../../public/heart.png';
+import House1 from '../../../../public/house1.png';
+import House2 from '../../../../public/house2.png';
+import House3 from '../../../../public/house3.png';
+import House4 from '../../../../public/house4.png';
+import House5 from '../../../../public/house5.png';
+import UserBlack from '../../../../public/user-black.png';
+import User1 from '../../../../public/Container.png';
+
 const Page: React.FC = () => {
   const [location, setLocation] = useState<string>('');
 
@@ -65,9 +78,50 @@ const reviews = [
 
   return (
     <div className='min-h-screen overflow-y-auto'>
-      <div className="hidden lg:block w-full">
+
+      {/* navbar */}
+      <nav className="flex-row gap-32 items-center pl-12 p-4 shadow-md bg-white">
+        <Image src={Image1} alt="PgBee Logo" width={100} height={100} />
+
+        <div className="flex flex-row absolute left-1/4 w-full max-w-md  space-x-4">
+          
+
+          <input
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            placeholder="Type a location..."
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+          />
+
+          <button
+            onClick={handleSearch}
+            className="w-50 bg-black hover:bg-gray-800 text-white py-2 rounded-md transition"
+          >
+            Search
+          </button>
+        </div>
+        <div className='absolute right-1/4  flex items-center gap-2'>
+            <Image
+                src={Image3}
+                alt="Globe"
+                width={30}
+                height={30}
+            />
+        </div>
+        <div className='flex flex-row ml-auto'>
+        <Image src={Image2} alt="user" width={40} height={30} />
+        <button
+          className="flex items-center gap-2  text-black px-4 py-2 rounded-md  transition"
+        >
+          <span>Login / Signup</span>
+        </button>
+        </div>
+      </nav>
+
+      { /*   <div className="hidden lg:block w-full">
   <Navbar />
-</div>
+</div>*/}
 
 
       <div className='flex flex-row md:ml-8 ml-2 sm:pr-0 justify-between items-center p-4'> 
@@ -75,7 +129,8 @@ const reviews = [
 <div className='flex flex-row gap-2 lg:hidden'>
   <Image src="/back2.svg" alt="back" width={6} height={10} />
   <p className='text-lg'>Back</p>
-</div>
+</div>*/
+
 
 
         
