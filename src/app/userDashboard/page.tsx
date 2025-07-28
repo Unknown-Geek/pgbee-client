@@ -27,7 +27,7 @@ const useIsMobile = () => {
             setIsMobile(window.innerWidth < 768);
         };
 
-        handleResize(); // set initial value
+        handleResize();
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
@@ -67,16 +67,16 @@ export default function DashBoard() {
                     <Image src={Image1} alt="PgBee Logo" className="" width={100} height={100} />
                     <div className="flex flex-row mt-[20px] gap-2">
                         {/* Input field */}
-                        <div className="relative flex items-center flex-grow"> {/* Added relative and flex-grow for layout */}
+                        <div className="relative flex items-center flex-grow"> 
                             <input
                                 className="p-[15px] pr-10 rounded-lg border h-[38px] w-full border-gray-400 text-gray-800" // Added pr-10 for icon space, text-gray-800 for explicit color
-                                placeholder="Bangalore, India" // Changed placeholder to match image
-                                value="Bangalore, India" // If you want pre-filled text as in image, use value prop
-                                readOnly // Make it read-only if it's just for display/triggering filters
+                                placeholder="Bangalore, India" 
+                                value="Bangalore, India" 
+                                readOnly 
                             />
                             <button
                                 onClick={() => handleToggle()}
-                                className="absolute right-2 bg-gray-100 text-gray-700 p-2 rounded-full cursor-pointer flex items-center justify-center" // Adjusted styling to match image
+                                className="absolute right-2 bg-gray-100 text-gray-700 p-2 rounded-full cursor-pointer flex items-center justify-center" 
                                 aria-label="Filter options"
                             >
                                 <FilterList fontSize="small" />

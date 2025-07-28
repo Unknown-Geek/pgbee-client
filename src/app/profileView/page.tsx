@@ -19,7 +19,7 @@ export default function ProfileView() {
             </div>
 
             <div className='flex items-center justify-start my-[30px] ' >
-                <div className='ml-[10px] '><KeyboardArrowLeft/></div>
+                <div onClick={()=>router.push("/profile")} className='ml-[10px] '><KeyboardArrowLeft/></div>
                 <span className='ml-[10px] '>Profile</span>
             </div>
             

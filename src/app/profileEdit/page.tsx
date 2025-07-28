@@ -1,12 +1,13 @@
-"'use client';"
+"use client";
 
 import Image from 'next/image';
 import Image1 from './../../../public/PgBee.png';
 import Image2 from './../../../public/Person.png';
 import { Edit, KeyboardArrowLeft } from '@mui/icons-material';
+import { useRouter } from 'next/navigation';
 
 export default function ProfileEdit() {
-    
+    const router = useRouter();
 
     return(
         <div className="flex flex-col mt-[30px] ">
@@ -16,7 +17,7 @@ export default function ProfileEdit() {
             </div>
 
             <div className='flex items-center justify-start my-[30px] ' >
-                <div className='ml-[10px]'><KeyboardArrowLeft/></div>
+                <div onClick={()=>router.push("/profileView")} className='ml-[10px]'><KeyboardArrowLeft/></div>
                 <span className='ml-[6px] '>Profile</span>
             </div>
             
