@@ -1,6 +1,10 @@
 import { CheckCircleOutline, Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-//hello
+
+import { useRouter } from 'next/navigation';
+
+
+
 export default function LandingPage() {
     const pgs = [
         {
@@ -69,6 +73,12 @@ export default function LandingPage() {
         return isMobile;
     };
     const isMobile = useIsMobile();
+
+    const router = useRouter();
+      const detailId = ""; // Replace with your dynamic value
+    
+      const handleClick = () => {
+        router.push(`/userDashboard/page`);};
 
     return (
         <div className="w-full lg:basis-4/5">
@@ -168,7 +178,7 @@ export default function LandingPage() {
 
                             {/* Buttons */}
                             <div className="flex items-center justify-center ">
-                                <button className="hidden sm:block bg-white text-black px-5 py-2 rounded-xl mt-4 mr-2 border cursor-pointer">
+                                <button onClick={handleClick} className="hidden sm:block bg-white text-black px-5 py-2 rounded-xl mt-4 mr-2 border cursor-pointer">
                                     View Details
                                 </button>
                                 <button className="hidden sm:block bg-black text-white px-5 py-2 rounded-xl mt-4  cursor-pointer">
