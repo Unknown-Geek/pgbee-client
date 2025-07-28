@@ -1,14 +1,16 @@
 "'use client';"
 
 import Image from 'next/image';
-import Image1 from './../../../public/PgBee.png';
-import Image2 from './../../../public/Person.png';
+import Image1 from '../../../../public/PgBee.png';
+import Image2 from '../../../../public/Person.png';
 import { Edit, KeyboardArrowLeft } from '@mui/icons-material';
+import BottomNav from '@/Components/BottomNav';
 
 export default function ProfileEdit() {
     
 
     return(
+        <>
         <div className="flex flex-col mt-[30px] ">
             <div className='relative flex items-center justify-center'>
                 <Image src={Image1} alt="Pgbee" className=" w-[130px]" width={100} height={100} />
@@ -75,5 +77,7 @@ export default function ProfileEdit() {
                 <input type="text" className='border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px] ' placeholder='Enter your postal code' />
             </div>
         </div>
+       <BottomNav />
+        </>
     )
 }

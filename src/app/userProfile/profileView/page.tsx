@@ -1,19 +1,21 @@
 "use client";
 
 import Image from 'next/image';
-import Image1 from './../../../public/PgBee.png';
-import Image2 from './../../../public/Person.png';
+import Image1 from '../../../../public/PgBee.png';
+import Image2 from '../../../../public/Person.png';
 import { KeyboardArrowLeft } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
+import BottomNav from '@/Components/BottomNav';
 
 export default function ProfileView() {
     const router=useRouter();
     const pushroute=()=>{
-        router.push('/profileEdit');    
+        router.push('/userProfile/profileEdit');    
     }
 
     return(
-        <div className="flex flex-col mt-[30px] ">
+        <>
+                <div className="flex flex-col mt-[30px] ">
             <div className='flex items-center justify-center'>
                 <Image src={Image1} alt="Pgbee" className=" w-[130px]" width={100} height={100} />
             </div>
@@ -78,5 +80,8 @@ export default function ProfileView() {
                 <div className="border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px] ">123456</div>
             </div>
         </div>
+        <BottomNav />
+        </>
+
     )
 }
