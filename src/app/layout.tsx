@@ -30,7 +30,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // Add suppressHydrationWarning here
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable}`}
         style={{ fontFamily: "var(--font-poppins)" }}

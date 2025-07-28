@@ -1,21 +1,23 @@
 "use client";
 
 import Image from 'next/image';
-import Image1 from '../../../../public/PgBee.png';
-import Image2 from '../../../../public/Person.png';
-import { KeyboardArrowLeft } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
-import BottomNav from '@/Components/BottomNav';
+import { KeyboardArrowLeft } from '@mui/icons-material';
+import Sidebar1 from '../../../Components/Sidebar1';
+import BottomNav from '../../../Components/BottomNav';
 
-export default function ProfileView() {
-    const router=useRouter();
-    const pushroute=()=>{
-        router.push('/userProfile/profileEdit');    
+const Image1 = '/PgBee.png';
+const Image2 = '/Person.png';
+
+// --- This is your original mobile layout ---
+function MobileProfileView() {
+    const router = useRouter();
+    const pushroute = () => {
+        router.push('/userProfile/profileEdit');
     }
 
-    return(
-        <>
-                <div className="flex flex-col mt-[30px] ">
+    return (
+        <div className="flex flex-col mt-[30px] ">
             <div className='flex items-center justify-center'>
                 <Image src={Image1} alt="Pgbee" className=" w-[130px]" width={100} height={100} />
             </div>
@@ -26,7 +28,7 @@ export default function ProfileView() {
             </div>
             
             <div className='flex flex-col items-center justify-center'>
-                <Image src={Image2} alt="Pgbee" className=" w-[130px]" width={100} height={100} />
+                <Image src={Image2} alt="Profile" className=" w-[130px]" width={100} height={100} />
                 <button onClick={pushroute} className='bg-black text-white px-[20px] py-[5px] rounded-[10px] mt-[20px]'>Edit Profile</button>
             </div>
 
@@ -80,8 +82,58 @@ export default function ProfileView() {
                 <div className="border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px] ">123456</div>
             </div>
         </div>
-        <BottomNav />
-        </>
+    );
+}
 
-    )
+// --- This is the new desktop grid layout ---
+function DesktopProfileView() {
+    const router = useRouter();
+    const profileData = { name: "Charlene Reed", userName: "Charlene Reed", email: "charlenereed@gmail.com", password: "••••••••••", dob: "25 January 1990", country: "USA", permanentAddress: "San Jose, California, USA", presentAddress: "San Jose, California, USA", city: "San Jose", postalCode: "45962" };
+    
+    return (
+        <div>
+            <h1 className="text-3xl font-bold text-gray-800 mb-8">My Profile</h1>
+            <div className="bg-white p-8 rounded-2xl shadow-lg w-full">
+                <h2 className="text-xl font-bold text-yellow-500 mb-6">Personal Info</h2>
+                <div className="flex flex-col md:flex-row gap-8">
+                    <div className="flex-shrink-0">
+                        <Image src={Image2} alt="Profile" className="rounded-full" width={100} height={100} />
+                    </div>
+                    <div className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                        {Object.entries(profileData).map(([key, value]) => (
+                            <div key={key}>
+                                <p className="text-sm text-gray-500 mb-1">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</p>
+                                <p className="font-semibold text-gray-800 border border-gray-200 rounded-md p-3 bg-gray-50">{value}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="flex justify-end mt-8">
+                    <button onClick={() => router.push('/userProfile/profileEdit')} className='bg-black text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-800'>Edit Profile</button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// --- Main Page Component ---
+export default function ProfileViewPage() {
+    return (
+        <div className="flex h-screen bg-gray-100">
+            <Sidebar1 />
+            <div className="flex flex-col flex-1 w-full">
+                <main className="flex-1 md:p-8 overflow-y-auto pb-24 md:pb-0">
+                    {/* Show original layout on mobile */}
+                    <div className="block md:hidden">
+                        <MobileProfileView />
+                    </div>
+                    {/* Show new grid layout on desktop */}
+                    <div className="hidden md:block">
+                        <DesktopProfileView />
+                    </div>
+                </main>
+            </div>
+            <BottomNav />
+        </div>
+    );
 }
