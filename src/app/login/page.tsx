@@ -2,24 +2,66 @@
 
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [captchaChecked, setCaptchaChecked] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const validateEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const handleLogin = () => {
+    let valid = true;
+
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+      valid = false;
+    } else {
+      setEmailError("");
+    }
+
+    if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters.");
+      valid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    if (!captchaChecked) {
+      alert("Please verify that you're not a robot.");
+      valid = false;
+    }
+
+    if (valid) {
+      alert("Login successful!");
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-[#f9f9f9] flex items-center justify-center">
-      <img src="/Group2.png" alt="hexagon" className="absolute top-0 left-240 w-376.5px h-75 
+    <div className="min-h-screen bg-[#f9f9f9] flex items-center justify-center relative">
+      {/* Background Hexagons */}
+                 {/*<img src="/Group2.png" alt="hexagon" className="absolute top-0 left-240 w-376.5px h-75 
            "></img>
-            <img src="/Group2.png" alt="hexagon" className="absolute top-110 left-75 w-376.5px h-75 -scale-x-100 -scale-y-100"></img> 
+            <img src="/Group 3.png" alt="hexagon" className="absolute top-100 left-0 w-500.5px h-200 "></img>*/}
 
-            {/* ===== Background Hexagons ===== */}                                     
+      {/* Logo Heading */}
+      <h1 className="absolute top-6 left-1/2 transform -translate-x-1/2 text-5xl font-extrabold text-center z-20">
+        <span className="text-yellow-400">Pg</span>
+        <span className="text-black">Bee</span>
+      </h1>
 
-      <div className="w-full max-w-md p-6 bg-white rounded-xl shadow-xl">
+      {/* Login Card */}
+      <div className="w-full max-w-md p-6 bg-white rounded-xl shadow-xl z-10">
         {/* Tabs */}
         <div className="flex mb-6 rounded-lg overflow-hidden border border-gray-300">
-          <button className="w-1/2 py-2 bg-white text-black font-medium">Sign up</button>
+          <button onClick={() => router.push("/signup")} className="w-1/2 py-2 bg-white text-black font-medium">Sign up</button>
           <button className="w-1/2 py-2 bg-black text-white font-medium">Log in</button>
         </div>
 
@@ -36,7 +78,7 @@ export default function LoginPage() {
           <hr className="w-1/3 border-gray-300" />
         </div>
 
-        {/* Email */}
+        {/* Email Field */}
         <div className="mb-4">
           <label className="block text-sm mb-1 text-gray-700">Email</label>
           <input
@@ -46,9 +88,10 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
         </div>
 
-        {/* Password */}
+        {/* Password Field */}
         <div className="mb-2">
           <label className="block text-sm mb-1 text-gray-700">Password</label>
           <input
@@ -58,6 +101,7 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
         </div>
 
         {/* Forgot Password */}
@@ -69,22 +113,14 @@ export default function LoginPage() {
         <div className="mb-6">
           <label className="block text-sm mb-1 text-gray-700">Verify Captcha</label>
           <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 gap-2">
-            <input
-              type="checkbox"
-              checked={captchaChecked}
-              onChange={() => setCaptchaChecked(!captchaChecked)}
-            />
+            <input type="checkbox" checked={captchaChecked} onChange={() => setCaptchaChecked(!captchaChecked)} />
             <span className="text-sm">I’m not a robot</span>
-            <img
-              src="https://www.gstatic.com/recaptcha/api2/logo_48.png"
-              alt="reCAPTCHA"
-              className="h-6 ml-auto"
-            />
+            <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" className="h-6 ml-auto" />
           </div>
         </div>
 
-        {/* Login Button */}
-        <button className="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-gray-800">
+        {/* Submit Button */}
+        <button onClick={handleLogin} className="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-gray-800">
           Log In
         </button>
       </div>
