@@ -98,11 +98,11 @@ const reviews = [
 
       <div className='flex flex-row md:ml-8 ml-2 sm:pr-0 justify-between items-center p-4'> 
       <button onClick={handleClick} >
-      <Image src="/back.svg" alt="back" width={24} height={24} className="hidden sm:block"/>
+      <Image src="/back.svg" alt="back" width={24} height={24} className="hidden sm:block hover:cursor-pointer"/>
       </button>
 <div className='flex flex-row gap-2 lg:hidden'>
   <Image src="/back2.svg" alt="back" width={6} height={10} />
-  <button onClick={handleClick} className="text-black px-4 py-2 rounded-lg mt-4 shadow">
+  <button onClick={handleClick} className="text-black px-4 py-2 rounded-lg mt-4 shadow hover:cursor-pointer">
   <p className='text-lg'>Back</p>
   </button>
 </div>
@@ -112,12 +112,12 @@ const reviews = [
       </p>
         <div className=" rounded-md p-4 flex gap-4 md:mr-8 ">
         
-            <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md">
+            <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:cursor-pointer">
             <Image src="/share.jpg" alt="share" width={24} height={24} />
             Share
             </button>
 
-            <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md">
+            <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:cursor-pointer">
             <Image src="/heart.png" alt="heart" width={24} height={24} />
             Save
             </button>
@@ -196,7 +196,7 @@ const reviews = [
         <button className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-full hover:bg-gray-50 transition-colors">
           View Details
         </button>
-        <button className="flex-1 px-4 py-2 bg-gray-900 text-white font-medium rounded-full hover:bg-gray-800 transition-colors">
+        <button className="flex-1 px-4 py-2 bg-gray-900 text-white font-medium rounded-full hover:bg-gray-800 transition-colors hover:cursor-pointer">
           Book Now
         </button>
       </div>
@@ -216,7 +216,7 @@ const reviews = [
     </p>
   </div>
   <div className="mr-28">
-    <button className="bg-black text-white px-8 py-4 rounded-md hover:bg-gray-800 transition">
+    <button className="bg-black text-white px-8 py-4 rounded-md hover:bg-gray-800 transition hover:cursor-pointer">
       Book Now
     </button>
   </div>
@@ -235,7 +235,7 @@ const reviews = [
     <p className="text-lg font-bold">Hosted by John </p>
     <p className="text-sm text-gray-400 ">11 years of hosting</p>
   </div>
-  <button className="flex items-center gap-2 ml-6 px-4 py-2 border-2 border-black rounded-md hover:bg-gray-100 transition md:absolute right-1/9">
+  <button className="flex items-center gap-2 ml-6 px-4 py-2 border-2 border-black rounded-md hover:bg-gray-100 transition md:absolute right-1/9 hover:cursor-pointer">
     Contact Owner
   </button>
 </div>
