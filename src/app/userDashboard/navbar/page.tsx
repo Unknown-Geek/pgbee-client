@@ -3,9 +3,10 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { LocationOn, Search, Clear } from "@mui/icons-material";
+import { LocationOn, Search, Clear, Menu as MenuIcon, Close as CloseIcon } from "@mui/icons-material";
 import Modal from '../[details]/modal'
 import Wishlist from '../wishlists/page';
+import Sidebar1 from '../../../Components/Sidebar1'; // Ensure this path is correct
 
 interface NavbarProps {
   onSearch: (query?: string) => void;
@@ -22,6 +23,7 @@ const Navbar = ({ onSearch, searchQuery }: NavbarProps) => {
   const [showModal, setShowModal] = useState(false);
   const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
 
   // ====================================================================
@@ -111,97 +113,124 @@ const Navbar = ({ onSearch, searchQuery }: NavbarProps) => {
   };
 
   return (
-    <nav className="flex flex-row gap-32 items-center pl-12 p-4 shadow-md bg-white">
-        <Image src="/PgBee.png" alt="PgBee Logo" width={100} height={100} />
-
-        <div className="flex flex-row absolute left-1/4 w-full max-w-md  space-x-4">
-          <div className="relative flex-1">
-            <input
-              type="text"
-              value={location}
-              onChange={handleInputChange}
-              onKeyPress={handleKeyPress}
-              onBlur={handleInputBlur}
-              onFocus={() => location.trim().length > 0 && setShowSuggestions(true)}
-              placeholder="Type a location..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-            />
-            {location && (
-              <button
-                onClick={() => {
-                  setLocation('');
-                  onSearch('');
-                  setShowSuggestions(false);
-                }}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 z-10"
-              >
-                ✕
-              </button>
-            )}
-            
-            {/* Search Suggestions Dropdown */}
-            {showSuggestions && suggestions.length > 0 && (
-              <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-md shadow-lg mt-1 z-20 max-h-60 overflow-y-auto">
-                {suggestions.map((suggestion, index) => (
-                  <div
-                    key={index}
-                    onMouseDown={(e) => {
-                      e.preventDefault(); // Prevent blur from firing
-                      handleSuggestionClick(suggestion);
-                    }}
-                    className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0 flex items-center gap-3"
-                  >
-                    {suggestion.type === 'hostel' && <Search className="text-blue-500 text-sm" />}
-                    {suggestion.type === 'location' && <LocationOn className="text-green-500 text-sm" />}
-                    {suggestion.type === 'amenity' && <span className="text-orange-500 text-xs">★</span>}
-                    <div className="flex flex-col">
-                      <span className="text-sm text-gray-700">{suggestion.text}</span>
-                      <span className="text-xs text-gray-400 capitalize">{suggestion.type}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <button
-            onClick={handleSearch}
-            className="w-50 bg-black hover:bg-gray-800 text-white py-2 px-4 rounded-md transition hover:cursor-pointer"
-          >
-            Search
-          </button>
-        </div>  
-        <div className='absolute right-1/4 mr-16  flex items-center gap-16'>
-            <div className="flex items-center gap-4">
-            <Image
-                src='/Globe_icon.svg'
-                alt="Globe"
-                width={20}
-                height={20}
-            />
-            <p className="text-lg">EN</p>
-            </div>
-            <Image src="/Currency.svg" alt="currency" width={40} height={30} />
-
+    <>
+      {/* The entire Navbar is now a single component */}
+      <nav className="flex items-center justify-between p-4 shadow-md bg-white relative z-20">
+        {/* Left side: Logo */}
+        <div className="flex items-center gap-4">
+          <Image src="/PgBee.png" alt="PgBee Logo" width={100} height={40} />
         </div>
 
-        <div className='flex flex-row ml-auto'>
-          <button onClick={() => setShowModal(true)} className="flex items-center gap-2 mr-12  px-4 py-2 border border-gray-300 rounded-md hover:cursor-pointer">
-            <Image src='/heart.png' alt="heart" width={24} height={24} />
-            Wishlist
-            </button>
+        {/* Center: Search Bar */}
+        <div className="flex-1 justify-center px-8 hidden lg:flex">
+          <div className="relative flex w-full max-w-md space-x-2">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                value={location}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
+                onBlur={handleInputBlur}
+                onFocus={() => location.trim().length > 0 && setShowSuggestions(true)}
+                placeholder="Type a location..."
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+              />
+              {location && (
+                <button
+                  onClick={() => {
+                    setLocation('');
+                    onSearch('');
+                    setShowSuggestions(false);
+                  }}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 z-10"
+                >
+                  ✕
+                </button>
+              )}
+              
+              {/* Search Suggestions Dropdown */}
+              {showSuggestions && suggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-md shadow-lg mt-1 z-20 max-h-60 overflow-y-auto">
+                  {suggestions.map((suggestion, index) => (
+                    <div
+                      key={index}
+                      onMouseDown={(e) => {
+                        e.preventDefault(); // Prevent blur from firing
+                        handleSuggestionClick(suggestion);
+                      }}
+                      className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0 flex items-center gap-3"
+                    >
+                      {suggestion.type === 'hostel' && <Search className="text-blue-500 text-sm" />}
+                      {suggestion.type === 'location' && <LocationOn className="text-green-500 text-sm" />}
+                      {suggestion.type === 'amenity' && <span className="text-orange-500 text-xs">★</span>}
+                      <div className="flex flex-col">
+                        <span className="text-sm text-gray-700">{suggestion.text}</span>
+                        <span className="text-xs text-gray-400 capitalize">{suggestion.type}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
+            <button onClick={handleSearch} className="px-6 bg-black hover:bg-gray-800 text-white py-2 rounded-md transition">
+              Search
+            </button>
+          </div>
+        </div>
+
+        {/* Right side: Actions */}
+        <div className="flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-8">
+            <div className="flex items-center gap-2">
+              <Image src='/Globe_icon.svg' alt="Globe" width={20} height={20} />
+              <span>EN</span>
+            </div>
+            <Image src="/Currency.svg" alt="currency" width={30} height={20} />
+          </div>
+          
+          <button onClick={() => setShowModal(true)} className="hidden md:flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md">
+            <Image src='/heart.png' alt="heart" width={20} height={20} />
+            Wishlist
+          </button>
+          
+          <button onClick={login} className="hidden md:flex items-center gap-2 px-4 py-2">
+            <span>Login / Signup</span>
+          </button>
+
+          {/* Hamburger Menu Icon for Desktop */}
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="p-2 border rounded-md"
+            aria-label="Open menu"
+          >
+            <MenuIcon />
+          </button>
+        </div>
+      </nav>
+
+      {/* Sidebar with Overlay */}
+      <div 
+        onClick={() => setIsSidebarOpen(false)}
+        className={`fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+      />
+      <div className={`fixed top-0 left-0 h-full bg-white z-40 transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="flex justify-end p-2">
+          <button
+            onClick={() => setIsSidebarOpen(false)}
+            aria-label="Close menu"
+          >
+            <CloseIcon />
+          </button>
+        </div>
+        <Sidebar1 />
+      </div>
+
+      {/* Wishlist Modal */}
       <Modal show={showModal} onClose={() => setShowModal(false)}>
         <Wishlist />
       </Modal>
-        <Image src="/user.png" alt="user" width={40} height={30} />
-        <button onClick={login}
-          className="flex items-center gap-2  text-black px-4 py-2 rounded-md  transition hover:cursor-pointer"
-        >
-          <span>Login / Signup</span>
-        </button>
-        </div>
-      </nav>
+    </>
   );
 };
 

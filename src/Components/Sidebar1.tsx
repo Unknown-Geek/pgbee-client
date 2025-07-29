@@ -6,7 +6,6 @@ import { Home, Article, Person, Mail, Logout } from '@mui/icons-material';
 
 const navItems = [
   { href: '/', icon: <Home />, label: 'Home' }, // 1. Corrected href
-  { href: '/userDashboard', icon: <Article />, label: 'PG Details' },
   { href: '/inbox', icon: <Mail />, label: 'Inbox' },
   { href: '/profile', icon: <Person />, label: 'Profile' },
 ];

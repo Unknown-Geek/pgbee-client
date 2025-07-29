@@ -2,50 +2,34 @@
 
 import LandingPage from "@/Components/LandingPage";
 import Sidebar from "@/Components/Sidebar";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Image from 'next/image';
-import Image1 from './../../../public/PgBee.png';
-import Image2 from './../../../public/user.png';
-import Image3 from './../../../public/Globe_icon.svg';
 import { FilterList, LocationOn, Search } from "@mui/icons-material";
 import Navbar from "./navbar/page";
 import Footer from "./footer/page";
 import BottomNav from "@/Components/BottomNav";
+import { useMediaQuery } from 'react-responsive';
 
 interface SuggestionItem {
     text: string;
     type: 'hostel' | 'location' | 'amenity';
 }
 
-const useIsMobile = () => {
-    const [isMobile, setIsMobile] = useState(false);
-    const [isHydrated, setIsHydrated] = useState(false);
-
-    useEffect(() => {
-        setIsHydrated(true);
-    }, []);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    return { isMobile, isHydrated };
-};
-
 export default function DashBoard() {
-
+    const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
     const [location, setLocation] = useState<string>('');
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
-    const { isMobile, isHydrated } = useIsMobile();
-    const [toggle, setToggle] = useState(false);
+    
+    // Use the hook to detect screen size
+    const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+    
+    // This state prevents hydration errors by delaying render until the client has mounted
+    const [isClient, setIsClient] = useState(false);
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     // ====================================================================
     // 🔍 MOBILE SEARCH SUGGESTIONS - REPLACE WITH YOUR ACTUAL DATA
@@ -76,10 +60,6 @@ export default function DashBoard() {
         // 📝 NOTE: Keep this data synchronized with navbar component
         // Consider moving this to a shared data file or context
     ];
-
-    const handleToggle = () => {
-        setToggle(!toggle);
-    }
 
     // Handle input change and generate suggestions for mobile
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,82 +118,104 @@ export default function DashBoard() {
         setTimeout(() => setShowSuggestions(false), 200);
     };
 
+    // Render nothing on the server to avoid mismatch
+    if (!isClient) {
+        return null;
+    }
+
     return (
-        <div className="flex flex-col bg-white ">
-            <div className="hidden sm:block">
-            <Navbar onSearch={handleSearch} searchQuery={searchQuery} />
-                </div>
-                
-            {!toggle &&
-                <nav className="flex md:hidden flex-col items-center justify-center p-[20px]">
-                    <Image src={Image1} alt="PgBee Logo" className="" width={100} height={100} />
-                    <div className="flex flex-row mt-[20px] gap-2">
-                        {/* Input field */}
-                        <div className="relative flex items-center flex-grow"> 
-                            <input
-                                className="p-[15px] pr-20 rounded-lg border h-[38px] w-full border-gray-400 text-gray-800"
-                                placeholder="Type a location..." 
-                                value={location}
-                                onChange={handleInputChange}
-                                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                                onBlur={handleInputBlur}
-                                onFocus={() => location.trim().length > 0 && setShowSuggestions(true)}
-                            />
-                            {location && (
-                                <button
-                                    onClick={() => handleSearch('')}
-                                    className="absolute right-12 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 z-10"
-                                >
-                                    ✕
-                                </button>
-                            )}
-                            <button
-                                onClick={() => handleToggle()}
-                                className="absolute right-2 bg-gray-100 text-gray-700 p-2 rounded-full cursor-pointer flex items-center justify-center" 
-                                aria-label="Filter options"
-                            >
-                                <FilterList fontSize="small" />
-                            </button>
-                            
-                            {/* Search Suggestions Dropdown for Mobile */}
-                            {showSuggestions && suggestions.length > 0 && (
-                                <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-md shadow-lg mt-1 z-20 max-h-60 overflow-y-auto">
-                                    {suggestions.map((suggestion, index) => (
-                                        <div
-                                            key={index}
-                                            onMouseDown={(e) => {
-                                                e.preventDefault(); // Prevent blur from firing
-                                                handleSuggestionClick(suggestion);
-                                            }}
-                                            className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0 flex items-center gap-3"
+        <div className="flex flex-col min-h-screen bg-white">
+            
+            {/* --- NAVIGATION --- */}
+            {/* Conditionally render based on the hook's return value */}
+            {isMobile ? (
+                // --- MOBILE SEARCH BAR ---
+                !isFilterSidebarOpen && (
+                    <div className="p-4 border-b">
+                        <div className="flex flex-col items-center">
+                            <Image src="/PgBee.png" alt="PgBee Logo" width={100} height={40} />
+                            <div className="flex items-center w-full mt-4 gap-2">
+                                <div className="relative flex-grow">
+                                    <input
+                                        className="w-full h-12 px-4 pr-12 text-gray-800 border border-gray-300 rounded-lg"
+                                        value={location}
+                                        onChange={handleInputChange}
+                                        onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                                        onBlur={handleInputBlur}
+                                        onFocus={() => location.trim().length > 0 && setShowSuggestions(true)}
+                                        placeholder="Type a location..."
+                                    />
+                                    {location && (
+                                        <button
+                                            onClick={() => handleSearch('')}
+                                            className="absolute right-14 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 z-10"
                                         >
-                                            {suggestion.type === 'hostel' && <Search className="text-blue-500 text-sm" />}
-                                            {suggestion.type === 'location' && <LocationOn className="text-green-500 text-sm" />}
-                                            {suggestion.type === 'amenity' && <span className="text-orange-500 text-xs">★</span>}
-                                            <div className="flex flex-col">
-                                                <span className="text-sm text-gray-700">{suggestion.text}</span>
-                                                <span className="text-xs text-gray-400 capitalize">{suggestion.type}</span>
-                                            </div>
+                                            ✕
+                                        </button>
+                                    )}
+                                    <button
+                                        onClick={() => setIsFilterSidebarOpen(true)}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-gray-100 rounded-full"
+                                        aria-label="Show filters"
+                                    >
+                                        <FilterList />
+                                    </button>
+                                    
+                                    {/* Search Suggestions Dropdown for Mobile */}
+                                    {showSuggestions && suggestions.length > 0 && (
+                                        <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-md shadow-lg mt-1 z-20 max-h-60 overflow-y-auto">
+                                            {suggestions.map((suggestion, index) => (
+                                                <div
+                                                    key={index}
+                                                    onMouseDown={(e) => {
+                                                        e.preventDefault(); // Prevent blur from firing
+                                                        handleSuggestionClick(suggestion);
+                                                    }}
+                                                    className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0 flex items-center gap-3"
+                                                >
+                                                    {suggestion.type === 'hostel' && <Search className="text-blue-500 text-sm" />}
+                                                    {suggestion.type === 'location' && <LocationOn className="text-green-500 text-sm" />}
+                                                    {suggestion.type === 'amenity' && <span className="text-orange-500 text-xs">★</span>}
+                                                    <div className="flex flex-col">
+                                                        <span className="text-sm text-gray-700">{suggestion.text}</span>
+                                                        <span className="text-xs text-gray-400 capitalize">{suggestion.type}</span>
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
+                                    )}
                                 </div>
-                            )}
+                                <button 
+                                    onClick={() => handleSearch()}
+                                    className="bg-black text-white px-6 h-12 rounded-lg font-semibold"
+                                >
+                                    Search
+                                </button>
+                            </div>
                         </div>
-                        <button 
-                            onClick={() => handleSearch()}
-                            className=" bg-black text-white px-5 py-1.5 rounded-lg cursor-pointer"
-                        >
-                            Search
-                        </button>
                     </div>
-                </nav>
-            }
-            {!isHydrated ? null : (
-                <div className="flex flex-row lg:pt-16">
-                    {(toggle || !isMobile) && <Sidebar toggle={toggle} setToggle={setToggle} />}
-                    {(!toggle || !isMobile) && <LandingPage searchQuery={searchQuery} onClearSearch={handleClearSearch} />}
-                </div>
+                )
+            ) : (
+                // --- DESKTOP NAVIGATION ---
+                <Navbar onSearch={handleSearch} searchQuery={searchQuery} />
             )}
+
+            {/* --- MAIN CONTENT AREA --- */}
+            <div className="flex flex-grow">
+                {/* SIDEBAR */}
+                {(!isMobile || isFilterSidebarOpen) && (
+                    <div className={isMobile ? 'w-full' : ''}>
+                        <Sidebar toggle={isFilterSidebarOpen} setToggle={setIsFilterSidebarOpen} />
+                    </div>
+                )}
+                
+                {/* LANDING PAGE */}
+                {(!isMobile || !isFilterSidebarOpen) && (
+                    <div className="w-full">
+                        <LandingPage searchQuery={searchQuery} onClearSearch={handleClearSearch} />
+                    </div>
+                )}
+            </div>
             
             <Footer />
             
