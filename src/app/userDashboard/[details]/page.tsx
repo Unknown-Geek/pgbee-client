@@ -133,14 +133,14 @@ const amenities: string[] = [
 // First, define the correct prop types for Next.js App Router
 interface PageProps {
   params: {
-    details: string;
+    details: number;
   };
-  searchParams: Record<string, string | string[] | undefined>;
+ 
 }
 
 // Then update your component to use these props
-export default function Page({ params, searchParams }: PageProps) {
-  const id = parseInt(params.details);
+export default function Page({ params }: PageProps) {
+  const id = params.details;
   const [location, setLocation] = useState<string>('');
   const router = useRouter();
 
