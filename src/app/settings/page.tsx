@@ -5,7 +5,9 @@ import Image1 from './../../../public/PgBee.png';
 import { KeyboardArrowLeft, ToggleOn, ToggleOff } from '@mui/icons-material';
 import { useState } from 'react';
 import BottomNav from '../../Components/BottomNav';
+import { useRouter } from 'next/navigation';
 export default function SettingsPage() {
+    const router = useRouter();
     const options = [
         "Push Notifications",
         "Notifications Sound",
@@ -33,7 +35,7 @@ export default function SettingsPage() {
 
             <div className='flex items-center justify-start my-[30px]'>
                 <div className='ml-[10px]'><KeyboardArrowLeft /></div>
-                <button className='ml-[6px]' onClick={() => window.history.back()}>
+                <button className='ml-[6px]' onClick={() => router.push('/profile')}>
                      <span className='ml-[6px]'>Settings and Privacy</span>
                 </button>
                
