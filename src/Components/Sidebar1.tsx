@@ -4,16 +4,16 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Article, Person, Settings, Logout } from '@mui/icons-material';
 
-// 1. Updated the href for 'Profile' to point to the correct page.
+// 1. Correct the href for the Settings page.
 const navItems = [
   { href: '/userDashboard', icon: <Home />, label: 'Home' },
   { href: '/pg-details', icon: <Article />, label: 'PG Details' },
   { href: '/userProfile/profileView', icon: <Person />, label: 'Profile' },
-  { href: '/userSettings', icon: <Settings />, label: 'Settings' }//redirct to settings page
+  { href: '/#', icon: <Settings />, label: 'Settings' },
 ];
 
 export default function Sidebar1() {
-  const pathname = usePathname(); // This gets the current URL, e.g., "/userProfile/profileView"
+  const pathname = usePathname();
 
   return (
     <aside className="hidden md:flex flex-col w-64 h-screen px-4 py-8 bg-white border-r">
@@ -26,11 +26,15 @@ export default function Sidebar1() {
         <nav>
           <ul>
             {navItems.map((item) => {
-              // 2. This logic now checks if the current URL starts with the item's href.
-              // This makes 'Profile' active for both '/profileView' and '/profileEdit'.
-              const isActive = item.label === 'Profile'
-                ? pathname.startsWith('/userProfile')
-                : pathname === item.href;
+              // 2. This logic is now more specific for each section.
+              let isActive = false;
+              if (item.label === 'Profile') {
+                // Only highlight if the URL is for profileView or profileEdit
+                isActive = pathname.startsWith('/userProfile/profileView') || pathname.startsWith('/userProfile/profileEdit');
+              } else {
+                // For all other links, check for an exact match
+                isActive = pathname === item.href;
+              }
 
               return (
                 <li key={item.label} className="mb-2">
