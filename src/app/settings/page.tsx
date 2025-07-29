@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Image1 from './../../../public/PgBee.png';
 import { KeyboardArrowLeft, ToggleOn, ToggleOff } from '@mui/icons-material';
 import { useState } from 'react';
-
+import BottomNav from '../../Components/BottomNav';
 export default function SettingsPage() {
     const options = [
         "Push Notifications",
@@ -33,7 +33,10 @@ export default function SettingsPage() {
 
             <div className='flex items-center justify-start my-[30px]'>
                 <div className='ml-[10px]'><KeyboardArrowLeft /></div>
-                <span className='ml-[6px]'>Settings and Privacy</span>
+                <button className='ml-[6px]' onClick={() => window.history.back()}>
+                     <span className='ml-[6px]'>Settings and Privacy</span>
+                </button>
+               
             </div>
 
             <span className='font-semibold mx-[18px] text-[18px]'>Notification Settings</span>
@@ -87,6 +90,7 @@ export default function SettingsPage() {
             <div>
                 <button className='text-red border px-[16px] py-[5px] rounded-[8px] mx-[15px] mt-[20px]'>Delete Account</button>
             </div>
+             <BottomNav />
         </div>
     );
 }

@@ -2,18 +2,17 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Article, Person, Settings, Logout } from '@mui/icons-material';
+import { Home, Article, Person, Mail, Logout } from '@mui/icons-material';
 
-// 1. Updated the href for 'Profile' to point to the correct page.
 const navItems = [
   { href: '/userDashboard', icon: <Home />, label: 'Home' },
   { href: '/pg-details', icon: <Article />, label: 'PG Details' },
-  { href: '/userProfile/profileView', icon: <Person />, label: 'Profile' },
-  { href: '/ownerSettings', icon: <Settings />, label: 'Settings' },
+  { href: '/inbox', icon: <Mail />, label: 'Inbox' },
+  { href: '/profile', icon: <Person />, label: 'Profile' }, // Changed href to the main profile page
 ];
 
 export default function Sidebar1() {
-  const pathname = usePathname(); // This gets the current URL, e.g., "/userProfile/profileView"
+  const pathname = usePathname();
 
   return (
     <aside className="hidden md:flex flex-col w-64 h-screen px-4 py-8 bg-white border-r">
@@ -26,11 +25,13 @@ export default function Sidebar1() {
         <nav>
           <ul>
             {navItems.map((item) => {
-              // 2. This logic now checks if the current URL starts with the item's href.
-              // This makes 'Profile' active for both '/profileView' and '/profileEdit'.
-              const isActive = item.label === 'Profile'
-                ? pathname.startsWith('/userProfile')
-                : pathname === item.href;
+              // **FIX:** This logic now highlights "Profile" for all related pages.
+              let isActive = false;
+              if (item.label === 'Profile') {
+                isActive = pathname.startsWith('/profile') || pathname.startsWith('/userProfile');
+              } else {
+                isActive = pathname === item.href;
+              }
 
               return (
                 <li key={item.label} className="mb-2">
@@ -38,8 +39,8 @@ export default function Sidebar1() {
                     href={item.href}
                     className={`flex items-center px-4 py-3 rounded-md transition-colors duration-300 transform ${
                       isActive
-                        ? 'bg-black text-white' // Active link style
-                        : 'text-gray-700 hover:bg-gray-100' // Inactive link style
+                        ? 'bg-black text-white'
+                        : 'text-gray-700 hover:bg-gray-100'
                     }`}
                   >
                     {item.icon}
@@ -53,7 +54,7 @@ export default function Sidebar1() {
 
         <div>
           <Link
-            href="/logout"
+            href="/signup"
             className="flex items-center px-4 py-3 text-gray-700 transition-colors duration-300 transform rounded-md hover:bg-gray-100"
           >
             <Logout />
