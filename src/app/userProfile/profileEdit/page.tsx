@@ -21,7 +21,8 @@ type FormData = {
 type ProfileEditProps = {
     imagePreview: string | null;
     onIconClick: () => void;
-    fileInputRef: RefObject<HTMLInputElement>;
+    // **FIX:** Changed the type to allow for null
+    fileInputRef: RefObject<HTMLInputElement | null>; 
     onImageChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onSave: () => void;
     formData: FormData;
@@ -172,8 +173,7 @@ function DesktopProfileEdit({
     );
 }
 
-
-// --- Main Page Component that handles state and logic ---
+// --- Main Page Component ---
 export default function ProfileEditPage() {
     const router = useRouter();
     const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -209,7 +209,6 @@ export default function ProfileEditPage() {
 
     const handleSave = () => {
         console.log('Saving Form Data:', formData);
-        // You would typically send this data to your backend API here
         router.push('/userProfile/profileView');
     };
 
