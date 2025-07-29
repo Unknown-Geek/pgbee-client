@@ -1,6 +1,9 @@
 import { CheckCircleOutline, Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useEffect, useState } from "react";
+
 import { useRouter } from 'next/navigation';
+
+
 
 export default function LandingPage() {
     const pgs = [
@@ -162,8 +165,8 @@ const handleViewDetails = (id: number) => {
                         </div>
 
                         {/* Description */}
-                        <div className="flex flex-col ml-[20px] lg:ml-[50px]">
-                            <span className="text-[15px] lg:text-[22px] font-bold">{pg.name}</span>
+                        <div className="flex flex-col ml-[15px] lg:ml-[20px] lg:ml-[50px]">
+                            <span className="text-[17px] lg:text-[22px] font-bold">{pg.name}</span>
                             <span className="text-[14px] lg:text-[20px] text-gray-500 mt-[0px] lg:mt-[5px]">{pg.location}</span>
                             <div className="mt-[5px] flex flex-row gap-4 flex-wrap items-center">
                                 {pg.amenities.slice(0, isMobile ? 2 : 4).map((a, idx) => (
