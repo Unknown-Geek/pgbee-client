@@ -6,7 +6,7 @@ import { Home, Article, Person, Mail, Logout } from '@mui/icons-material';
 
 // The navItems array has been reordered
 const navItems = [
-  { href: '/home', icon: <Home />, label: 'Home' },
+  { href: '/userDashboard', icon: <Home />, label: 'Home' },
   { href: '/pg-details', icon: <Article />, label: 'PG Details' },
   { href: '/inbox', icon: <Mail />, label: 'Inbox' },
   { href: '/userProfile/profileView', icon: <Person />, label: 'Profile' },
