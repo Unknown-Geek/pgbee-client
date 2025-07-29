@@ -6,7 +6,7 @@ import { Home, Article, Mail, Person, HomeOutlined, ArticleOutlined, MailOutline
 
 const navItems = [
   { href: '/Dashboard', icon: <HomeOutlined />, activeIcon: <Home />, label: 'Home' },
-  { href: '/pg-details', icon: <ArticleOutlined />, activeIcon: <Article />, label: 'PG Details' },
+  { href: '/userDashboard', icon: <ArticleOutlined />, activeIcon: <Article />, label: 'PG Details' },
   { href: '/inbox', icon: <MailOutlined />, activeIcon: <Mail />, label: 'Inbox' },
   { href: '/profile', icon: <PersonOutline />, activeIcon: <Person />, label: 'Profile' },
 ];
