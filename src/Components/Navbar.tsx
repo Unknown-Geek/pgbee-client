@@ -212,7 +212,7 @@ const Navbar = ({ onSearch, searchQuery }: NavbarProps) => {
       {/* Sidebar with Overlay */}
       <div 
         onClick={() => setIsSidebarOpen(false)}
-        className={`fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed inset-0 backdrop-blur-sm bg-white/10 z-30 transition-all duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
       />
       <div className={`fixed top-0 left-0 h-full bg-white z-40 transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex justify-end p-2">
