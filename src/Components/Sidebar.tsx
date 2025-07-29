@@ -29,7 +29,12 @@ export default function Sidebar({toggle, setToggle }: SidebarProps) {
                     </div>
                     <div className="block md:hidden flex flex-col">
                         <span className="text-xl font-semibold ">Sort By</span>
-                        <select className="p-[8px] cursor-pointer rounded-lg border h-[40px] mt-[15px] w-[300px] border-gray-400 appearance-none bg-white pr-10">
+                        <label htmlFor="sortBy" className="sr-only">Sort By</label>
+                        <select
+                            id="sortBy"
+                            aria-label="Sort By"
+                            className="p-[8px] cursor-pointer rounded-lg border h-[40px] mt-[15px] w-[300px] border-gray-400 appearance-none bg-white pr-10"
+                        >
                             <option>Popularity</option>
                             <option>Price: Low to High</option>
                             <option>Price: High to Low</option>
