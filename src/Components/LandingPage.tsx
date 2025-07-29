@@ -106,8 +106,7 @@ export default function LandingPage() {
                 return (
                     <div key={i} className="m-[12px] lg:m-[30px] flex pb-6 ">
                         {/* Main image */}
-                        <div className="relative w-[220px] lg:w-[400px] h-[170px] lg:h-[260px] rounded-2xl overflow-hidden flex-shrink-0">
-
+                        <div className="relative w-[200px] lg:w-[400px] h-[165px] lg:h-[260px] rounded-2xl overflow-hidden flex-shrink-0">
                             <img
                                 src={pg.images[0]}
                                 alt={pg.name}
@@ -147,8 +146,8 @@ export default function LandingPage() {
                         </div>
 
                         {/* Description */}
-                        <div className="flex flex-col ml-[10px] lg:ml-[20px] lg:ml-[50px]">
-                            <span className="text-[15px] lg:text-[22px] font-bold">{pg.name}</span>
+                        <div className="flex flex-col ml-[15px] lg:ml-[20px] lg:ml-[50px]">
+                            <span className="text-[17px] lg:text-[22px] font-bold">{pg.name}</span>
                             <span className="text-[14px] lg:text-[20px] text-gray-500 mt-[0px] lg:mt-[5px]">{pg.location}</span>
                             <div className="mt-[5px] flex flex-row gap-4 flex-wrap items-center">
                                 {pg.amenities.slice(0, isMobile ? 2 : 4).map((a, idx) => (

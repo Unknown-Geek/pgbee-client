@@ -3,6 +3,7 @@
 import { FcGoogle } from "react-icons/fc";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -20,6 +21,37 @@ export default function SignupPage() {
     return regex.test(email);
   };
 
+  const handleSignup = async () => {
+    if (!firstName || !lastName) {
+      alert("Please enter your full name.");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      alert("Please enter a valid email.");
+      return;
+    }
+
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters.");
+      return;
+    }
+
+    if (!agreeTerms) {
+      alert("You must agree to the terms to sign up.");
+      return;
+    }
+
+    try {
+      await fetchDetails();
+      alert("Signup successful!");
+      router.push("/"); 
+    } catch (error) {
+      console.error("Signup error:", error);
+    }
+  };
+
+
   useEffect(() => {
     if (email === "") {
       setEmailValid(null);
@@ -28,10 +60,24 @@ export default function SignupPage() {
     }
   }, [email]);
 
+  // fetch details
+  const fetchDetails = async () => {
+    try {
+      const response = await axios.post("https://server.pgbee.in/api/v1/auth/signup", {
+        email,
+        password,
+      }
+      );
+    } catch (error) {
+      console.error("Error fetching details:", error);
+      alert("Something went wrong. Please try again.");
+    }
+  }
+
   return (
     <div className="relative min-h-screen bg-[#f9f9f9] flex flex-col items-center justify-center overflow-hidden">
       {/* Background Hexagons */}
-                 {/*<img src="/Group2.png" alt="hexagon" className="absolute top-0 left-240 w-376.5px h-75 
+      {/*<img src="/Group2.png" alt="hexagon" className="absolute top-0 left-240 w-376.5px h-75 
            "></img>
             <img src="/Group 3.png" alt="hexagon" className="absolute top-100 left-0 w-500.5px h-200 "></img>*/}
 
@@ -95,11 +141,9 @@ export default function SignupPage() {
           <input
             type="email"
             placeholder="Enter your email address"
-            className={`w-full px-4 py-2 border ${
-              emailValid === false ? "border-red-500" : "border-gray-300"
-            } rounded-md focus:outline-none focus:ring-2 ${
-              emailValid === false ? "focus:ring-red-500" : "focus:ring-black"
-            }`}
+            className={`w-full px-4 py-2 border ${emailValid === false ? "border-red-500" : "border-gray-300"
+              } rounded-md focus:outline-none focus:ring-2 ${emailValid === false ? "focus:ring-red-500" : "focus:ring-black"
+              }`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -118,17 +162,11 @@ export default function SignupPage() {
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md pr-10 focus:outline-none focus:ring-2 focus:ring-black"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md pr-4 focus:outline-none focus:ring-2 focus:ring-black"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button
-              type="button"
-              className="absolute right-3 top-2 text-gray-500 text-sm"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? "Hide" : "Show"}
-            </button>
+            
           </div>
         </div>
 
@@ -149,6 +187,7 @@ export default function SignupPage() {
 
         {/* Submit Button */}
         <button
+          onClick={handleSignup}
           className="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-gray-800"
           disabled={!agreeTerms}
         >
