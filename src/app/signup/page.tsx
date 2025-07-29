@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Image from "next/image";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -82,10 +83,9 @@ export default function SignupPage() {
             <img src="/Group 3.png" alt="hexagon" className="absolute top-100 left-0 w-500.5px h-200 "></img>*/}
 
       {/* Logo Heading */}
-      <h1 className="absolute top-6 left-1/2 transform -translate-x-1/2 text-5xl font-extrabold text-center z-20">
-        <span className="text-yellow-400">Pg</span>
-        <span className="text-black">Bee</span>
-      </h1>
+      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 z-20 mt-4">
+        <Image src="/PgBee.png" alt="PgBee Logo" width= {120} height={50} />
+      </div>
 
       {/* Signup Form */}
       <div className="w-full max-w-md p-6 bg-white rounded-xl shadow-xl z-10">
