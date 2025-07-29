@@ -1,5 +1,4 @@
 "use client";
-
 import { FcGoogle } from "react-icons/fc";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -44,7 +43,7 @@ export default function SignupPage() {
     }
 
     try {
-      await fetchDetails();
+    await fetchDetails();
       alert("Signup successful!");
       router.push("/"); 
     } catch (error) {
@@ -65,6 +64,7 @@ export default function SignupPage() {
   const fetchDetails = async () => {
     try {
       const response = await axios.post("https://server.pgbee.in/auth/signup", {
+        name: `${firstName} ${lastName}`,
         email,
         password,
       }

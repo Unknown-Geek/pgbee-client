@@ -93,7 +93,10 @@ function DesktopProfileView() {
     return (
         <div>
             <h1 className="text-3xl font-bold text-gray-800 mb-8">My Profile</h1>
-            <div className="bg-white p-8 rounded-2xl shadow-lg w-full">
+            <div className="bg-white p-8 rounded-2xl shadow-lg w-full ">
+                <button className='mb-4 text-gray-600 hover:text-gray-800 hover:cursor-pointer' onClick={() => router.push('/profile')}>
+                    <Image src="/back.svg" alt="Back" width={16} height={16} className="inline-block mr-2" />
+                </button>
                 <h2 className="text-xl font-bold text-yellow-500 mb-6">Personal Info</h2>
                 <div className="flex flex-col md:flex-row gap-8">
                     <div className="flex-shrink-0">

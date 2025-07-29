@@ -77,7 +77,7 @@ function DesktopProfile() {
     const menuItems = [
         { icon: <Person2 />, text: 'Profile', onClick: () => router.push('/userProfile/profileView') },
         { icon: <Settings />, text: 'Settings and Privacy', onClick: () => router.push('/settings') },
-        { icon: <HelpOutline />, text: 'Get Support', onClick: () => {} },
+        { icon: <HelpOutline />, text: 'Get Support', onClick: () => {router.push("/userProfile/support")} },
         { icon: <Description />, text: 'Terms and Conditions', onClick: () => {router.push("/terms")} },
         { icon: <LockPerson />, text: 'Privacy Policy', onClick: () => {router.push("/privacy")} },
         
@@ -93,7 +93,7 @@ function DesktopProfile() {
                     <h1 className="text-2xl font-bold text-gray-800">Sravan Pandala</h1>
                     <p className="text-sm text-gray-500">Owner</p>
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-1 ">
                     {menuItems.map((item, index) => (
                         <ProfileMenuItem key={index} icon={item.icon} text={item.text} onClick={item.onClick} />
                     ))}
