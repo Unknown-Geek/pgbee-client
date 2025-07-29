@@ -54,7 +54,7 @@ export default function Sidebar1() {
 
         <div>
           <Link
-            href="/logout"
+            href="/signup"
             className="flex items-center px-4 py-3 text-gray-700 transition-colors duration-300 transform rounded-md hover:bg-gray-100"
           >
             <Logout />
