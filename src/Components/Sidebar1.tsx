@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Home, Article, Person, Mail, Logout } from '@mui/icons-material';
 
 const navItems = [
-  { href: '/userDashboard', icon: <Home />, label: 'Home' },
+  { href: '/#', icon: <Home />, label: 'Home' },
   { href: '/userDashboard', icon: <Article />, label: 'PG Details' },
   { href: '/inbox', icon: <Mail />, label: 'Inbox' },
   { href: '/profile', icon: <Person />, label: 'Profile' }, // Changed href to the main profile page
