@@ -130,21 +130,17 @@ const amenities: string[] = [
   "24/7 Security"
 ];
 
-// First, define the correct prop types for Next.js App Router
 interface PageProps {
   params: {
-    details: number;
+    details: string;
   };
- 
 }
 
-// Then update your component to use these props
 export default function Page({ params }: PageProps) {
-  const id = params.details;
-  const [location, setLocation] = useState<string>('');
-  const router = useRouter();
+  const id = Number(params.details);
 
-  // For now, just select the first hostel
+  const [location, setLocation] = useState('');
+  const router = useRouter();
   const selectedHostel = hostelDetails.find(h => h.id === id);
 
   if (!selectedHostel) {
