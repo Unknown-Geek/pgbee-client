@@ -17,13 +17,14 @@ export default function DashBoard() {
         <div className="flex flex-col min-h-screen bg-white">
             
             {/* --- DESKTOP NAVIGATION --- */}
-            {/* This Navbar is only visible on desktop screens (md and larger) */}
+            {/* The 'hidden md:block' classes handle visibility without needing JS */}
             <div className="hidden md:block">
                 <Navbar />
             </div>
 
             {/* --- MOBILE SEARCH BAR --- */}
-            {/* This search bar is only visible on mobile when the filter is closed */}
+            {/* The 'md:hidden' class ensures this only shows on mobile.
+                Its visibility is then toggled with the isFilterSidebarOpen state. */}
             <div className={`md:hidden p-4 border-b ${isFilterSidebarOpen ? 'hidden' : 'block'}`}>
                 <div className="flex flex-col items-center">
                     <Image src="/PgBee.png" alt="PgBee Logo" width={100} height={40} />
@@ -73,7 +74,7 @@ export default function DashBoard() {
             <Footer />
             
             {/* --- MOBILE BOTTOM NAVIGATION --- */}
-            {/* This BottomNav is only visible on mobile screens */}
+            {/* The 'md:hidden' class handles visibility without needing JS */}
             <div className="block md:hidden">
                 <BottomNav />
             </div>
