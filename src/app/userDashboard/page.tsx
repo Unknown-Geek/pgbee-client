@@ -2,76 +2,41 @@
 
 import LandingPage from "@/Components/LandingPage";
 import Sidebar from "@/Components/Sidebar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from 'next/image';
 import { FilterList } from "@mui/icons-material";
 import Navbar from "./navbar/page";
 import Footer from "./footer/page";
 import BottomNav from "@/Components/BottomNav";
 
-// Custom hook to detect if the screen is mobile.
-const useIsMobile = () => {
-    const [isMobile, setIsMobile] = useState(false);
-    const [mounted, setMounted] = useState(false);
-    
-    useEffect(() => {
-        setMounted(true);
-        
-        // This function runs on the client side after the component mounts
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-
-        handleResize(); // Set the initial value
-        window.addEventListener("resize", handleResize);
-        
-        // Cleanup the event listener when the component unmounts
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    // Return false during SSR to prevent hydration mismatch
-    if (!mounted) {
-        return false;
-    }
-
-    return isMobile;
-};
-
-
 export default function DashBoard() {
-    const isMobile = useIsMobile();
-    // This state will control the visibility of the filter sidebar on mobile
+    // This state now ONLY controls the filter visibility on mobile
     const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
-
-    // Show the filter sidebar on mobile, hide the main content
-    const showMobileFilter = () => setIsFilterSidebarOpen(true);
-    // Hide the filter sidebar on mobile, show the main content
-    const hideMobileFilter = () => setIsFilterSidebarOpen(false);
 
     return (
         <div className="flex flex-col min-h-screen bg-white">
             
             {/* --- DESKTOP NAVIGATION --- */}
-            {/* This Navbar is only visible on desktop screens */}
+            {/* This Navbar is only visible on desktop screens (md and larger) */}
             <div className="hidden md:block">
                 <Navbar />
             </div>
 
             {/* --- MOBILE SEARCH BAR --- */}
-            {/* This search bar is only visible on mobile when the filter sidebar is closed */}
-            {!isFilterSidebarOpen && (
-                 <div className="flex md:hidden flex-col items-center p-4 border-b">
+            {/* This search bar is only visible on mobile when the filter is closed */}
+            <div className={`md:hidden p-4 border-b ${isFilterSidebarOpen ? 'hidden' : 'block'}`}>
+                <div className="flex flex-col items-center">
                     <Image src="/PgBee.png" alt="PgBee Logo" width={100} height={40} />
                     <div className="flex items-center w-full mt-4 gap-2">
                         <div className="relative flex-grow">
                             <input
                                 className="w-full h-12 px-4 pr-12 text-gray-800 border border-gray-300 rounded-lg"
                                 value="Bangalore, India"
-                                placeholder="Type a location..."
                                 readOnly
+                                placeholder="Type a location..."
                             />
                             <button
-                                onClick={showMobileFilter}
+                                onClick={() => setIsFilterSidebarOpen(true)}
                                 className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-gray-100 rounded-full"
                                 aria-label="Show filters"
                             >
@@ -83,17 +48,24 @@ export default function DashBoard() {
                         </button>
                     </div>
                 </div>
-            )}
+            </div>
             
             {/* --- MAIN CONTENT AREA --- */}
             <div className="flex flex-grow">
-                {/* Sidebar: Always visible on desktop, conditionally on mobile */}
-                <div className={`${isMobile && !isFilterSidebarOpen ? 'hidden' : 'block'}`}>
+                {/* SIDEBAR:
+                  - Hidden on mobile by default.
+                  - Appears on desktop (md:block).
+                  - On mobile, it appears as a full-screen filter view when isFilterSidebarOpen is true.
+                */}
+                <div className={`md:block ${isFilterSidebarOpen ? 'block w-full' : 'hidden'}`}>
                      <Sidebar toggle={isFilterSidebarOpen} setToggle={setIsFilterSidebarOpen} />
                 </div>
                 
-                {/* Landing Page: Always visible on desktop, hidden on mobile when filter is open */}
-                 <div className={`${isMobile && isFilterSidebarOpen ? 'hidden' : 'block w-full'}`}>
+                {/* LANDING PAGE:
+                  - Hidden on mobile ONLY when the filter sidebar is open.
+                  - Always visible on desktop.
+                */}
+                 <div className={`w-full ${isFilterSidebarOpen ? 'hidden' : 'block'} md:block`}>
                     <LandingPage />
                 </div>
             </div>
