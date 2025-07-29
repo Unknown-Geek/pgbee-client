@@ -1,77 +1,101 @@
 // components/Navbar.tsx
 'use client';
+
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Modal from '../[details]/modal'
+import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
+import Modal from '../[details]/modal';
 import Wishlist from '../wishlists/page';
+import Sidebar1 from '../../../Components/Sidebar1'; // Ensure this path is correct
 
 const Navbar = () => {
-  const [location, setLocation] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const router = useRouter();
+    const [location, setLocation] = useState('');
+    const [showModal, setShowModal] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const router = useRouter();
 
-  const handleSearch = () => {
-    console.log('Search for:', location);
-  };
+    const handleSearch = () => console.log('Search for:', location);
+    const login = () => router.push(`/login`);
 
-        const login = () => {
-        router.push(`/login`);};
+    return (
+        <>
+            {/* The entire Navbar is now a single component */}
+            <nav className="flex items-center justify-between p-4 shadow-md bg-white relative z-20">
+                {/* Left side: Logo */}
+                <div className="flex items-center gap-4">
+                    <Image src="/PgBee.png" alt="PgBee Logo" width={100} height={40} />
+                </div>
 
-  return (
-    <nav className="flex flex-row gap-32 items-center pl-12 p-4 shadow-md bg-white">
-        <Image src="/PgBee.png" alt="PgBee Logo" width={100} height={100} />
+                {/* Center: Search Bar */}
+                <div className="flex-1 justify-center px-8 hidden lg:flex">
+                    <div className="flex w-full max-w-md space-x-2">
+                        <input
+                            type="text"
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                            placeholder="Type a location..."
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+                        />
+                        <button onClick={handleSearch} className="px-6 bg-black hover:bg-gray-800 text-white py-2 rounded-md transition">
+                            Search
+                        </button>
+                    </div>
+                </div>
 
-        <div className="flex flex-row absolute left-1/4 w-full max-w-md  space-x-4">
-          
+                {/* Right side: Actions */}
+                <div className="flex items-center gap-4">
+                    <div className="hidden lg:flex items-center gap-8">
+                        <div className="flex items-center gap-2">
+                            <Image src='/Globe_icon.svg' alt="Globe" width={20} height={20} />
+                            <span>EN</span>
+                        </div>
+                        <Image src="/Currency.svg" alt="currency" width={30} height={20} />
+                    </div>
+                    
+                    <button onClick={() => setShowModal(true)} className="hidden md:flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md">
+                        <Image src='/heart.png' alt="heart" width={20} height={20} />
+                        Wishlist
+                    </button>
+                    
+                    <button onClick={login} className="hidden md:flex items-center gap-2 px-4 py-2">
+                        <span>Login / Signup</span>
+                    </button>
 
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder="Type a location..."
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-          />
+                    {/* Hamburger Menu Icon for Desktop */}
+                   <button
+    onClick={() => setIsSidebarOpen(true)}
+    className="p-2 border rounded-md"
+    aria-label="Open menu" // Add this aria-label
+>
+    <MenuIcon />
+</button>
+                </div>
+            </nav>
 
-          <button
-            onClick={handleSearch}
-            className="w-50 bg-black hover:bg-gray-800 text-white py-2 rounded-md transition hover:cursor-pointer"
-          >
-            Search
-          </button>
-        </div>  
-        <div className='absolute right-1/4 mr-16  flex items-center gap-16'>
-            <div className="flex items-center gap-4">
-            <Image
-                src='/Globe_icon.svg'
-                alt="Globe"
-                width={20}
-                height={20}
+            {/* Sidebar with Overlay */}
+            <div 
+                onClick={() => setIsSidebarOpen(false)}
+                className={`fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
             />
-            <p className="text-lg">EN</p>
+            <div className={`fixed top-0 left-0 h-full bg-white z-40 transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+                <div className="flex justify-end p-2">
+                   <button
+    onClick={() => setIsSidebarOpen(false)}
+    aria-label="Close menu" // Add this aria-label
+>
+    <CloseIcon />
+</button>
+                </div>
+                <Sidebar1 />
             </div>
-            <Image src="/Currency.svg" alt="currency" width={40} height={30} />
 
-        </div>
-
-        <div className='flex flex-row ml-auto'>
-          <button onClick={() => setShowModal(true)} className="flex items-center gap-2 mr-12  px-4 py-2 border border-gray-300 rounded-md hover:cursor-pointer">
-            <Image src='/heart.png' alt="heart" width={24} height={24} />
-            Wishlist
-            </button>
-
-      <Modal show={showModal} onClose={() => setShowModal(false)}>
-        <Wishlist />
-      </Modal>
-        <Image src="/user.png" alt="user" width={40} height={30} />
-        <button onClick={login}
-          className="flex items-center gap-2  text-black px-4 py-2 rounded-md  transition hover:cursor-pointer"
-        >
-          <span>Login / Signup</span>
-        </button>
-        </div>
-      </nav>
-  );
+            {/* Wishlist Modal */}
+            <Modal show={showModal} onClose={() => setShowModal(false)}>
+                <Wishlist />
+            </Modal>
+        </>
+    );
 };
 
 export default Navbar;
