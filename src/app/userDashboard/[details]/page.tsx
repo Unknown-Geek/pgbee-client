@@ -130,13 +130,16 @@ const amenities: string[] = [
   "24/7 Security"
 ];
 
+// First, define the correct prop types for Next.js App Router
 interface PageProps {
   params: {
     details: string;
-};
+  };
+  searchParams: Record<string, string | string[] | undefined>;
 }
 
-export default function Page({ params }: PageProps) {
+// Then update your component to use these props
+export default function Page({ params, searchParams }: PageProps) {
   const id = parseInt(params.details);
   const [location, setLocation] = useState<string>('');
   const router = useRouter();
