@@ -130,11 +130,13 @@ const amenities: string[] = [
   "24/7 Security"
 ];
 
-interface Params {
-  id: number;
+interface PageProps {
+  params: {
+    details: string;
+};
 }
 
-export default function Page({ params }: { params: { details: string } }) {
+export default function Page({ params }: PageProps) {
   const id = parseInt(params.details);
   const [location, setLocation] = useState<string>('');
   const router = useRouter();
