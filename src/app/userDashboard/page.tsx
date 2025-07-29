@@ -2,97 +2,91 @@
 
 import LandingPage from "@/Components/LandingPage";
 import Sidebar from "@/Components/Sidebar";
-import { useEffect, useState } from "react";
-import { Range } from "react-range";
+import { useState, useEffect } from "react";
 import Image from 'next/image';
-import Image1 from './../../../public/PgBee.png';
-import Image2 from './../../../public/user.png';
-import Image3 from './../../../public/Globe_icon.svg';
 import { FilterList } from "@mui/icons-material";
 import Navbar from "./navbar/page";
 import Footer from "./footer/page";
-
-
-const useIsMobile = () => {
-    const [isMobile, setIsMobile] = useState(false);
-    const [isHydrated, setIsHydrated] = useState(false);
-
-    useEffect(() => {
-        setIsHydrated(true);
-    }, []);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    return { isMobile, isHydrated };
-};
+import BottomNav from "@/Components/BottomNav";
+import { useMediaQuery } from 'react-responsive'; // 1. Import the hook
 
 export default function DashBoard() {
+    const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
+    
+    // 2. Use the hook to detect screen size
+    const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+    
+    // This state prevents hydration errors by delaying render until the client has mounted
+    const [isClient, setIsClient] = useState(false);
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
-    const [location, setLocation] = useState<string>('');
-    const { isMobile, isHydrated } = useIsMobile();
-    const [toggle, setToggle] = useState(false);
-
-    const handleToggle = () => {
-        setToggle(!toggle);
+    // Render nothing on the server to avoid mismatch
+    if (!isClient) {
+        return null;
     }
 
-    const handleSearch = () => {
-        if (!location.trim()) {
-            alert('Please enter a location.');
-            return;
-        }
-        console.log('Searching for:', location);
-        alert(`Searching for: ${location}`);
-    };
-
     return (
-        <div className="flex flex-col bg-white ">
-            <div className="hidden sm:block">
-            <Navbar />
-                </div>
-                
-            {!toggle &&
-                <nav className="flex md:hidden flex-col items-center justify-center p-[20px]">
-                    <Image src={Image1} alt="PgBee Logo" className="" width={100} height={100} />
-                    <div className="flex flex-row mt-[20px] gap-2">
-                        {/* Input field */}
-                        <div className="relative flex items-center flex-grow"> 
-                            <input
-                                className="p-[15px] pr-10 rounded-lg border h-[38px] w-full border-gray-400 text-gray-800" // Added pr-10 for icon space, text-gray-800 for explicit color
-                                placeholder="Bangalore, India" 
-                                value="Bangalore, India" 
-                                readOnly 
-                            />
-                            <button
-                                onClick={() => handleToggle()}
-                                className="absolute right-2 bg-gray-100 text-gray-700 p-2 rounded-full cursor-pointer flex items-center justify-center" 
-                                aria-label="Filter options"
-                            >
-                                <FilterList fontSize="small" />
-                            </button>
+        <div className="flex flex-col min-h-screen bg-white">
+            
+            {/* --- NAVIGATION --- */}
+            {/* 3. Conditionally render based on the hook's return value */}
+            {isMobile ? (
+                // --- MOBILE SEARCH BAR ---
+                !isFilterSidebarOpen && (
+                    <div className="p-4 border-b">
+                        <div className="flex flex-col items-center">
+                            <Image src="/PgBee.png" alt="PgBee Logo" width={100} height={40} />
+                            <div className="flex items-center w-full mt-4 gap-2">
+                                <div className="relative flex-grow">
+                                    <input
+                                        className="w-full h-12 px-4 pr-12 text-gray-800 border border-gray-300 rounded-lg"
+                                        value="Bangalore, India"
+                                        readOnly
+                                        placeholder="Type a location..."
+                                    />
+                                    <button
+                                        onClick={() => setIsFilterSidebarOpen(true)}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-gray-100 rounded-full"
+                                        aria-label="Show filters"
+                                    >
+                                        <FilterList />
+                                    </button>
+                                </div>
+                                <button className="bg-black text-white px-6 h-12 rounded-lg font-semibold">
+                                    Search
+                                </button>
+                            </div>
                         </div>
-                        <button className=" bg-black text-white px-5 py-1.5 rounded-lg cursor-pointer">
-                            Search
-                        </button>
                     </div>
-                </nav>
-            }
-            {!isHydrated ? null : (
-                <div className="flex flex-row lg:pt-16">
-                    {(toggle || !isMobile) && <Sidebar toggle={toggle} setToggle={setToggle} />}
-                    {(!toggle || !isMobile) && <LandingPage />}
-                </div>
+                )
+            ) : (
+                // --- DESKTOP NAVIGATION ---
+                <Navbar />
             )}
             
+            {/* --- MAIN CONTENT AREA --- */}
+            <div className="flex flex-grow">
+                {/* SIDEBAR */}
+                {(!isMobile || isFilterSidebarOpen) && (
+                    <div className={isMobile ? 'w-full' : ''}>
+                        <Sidebar toggle={isFilterSidebarOpen} setToggle={setIsFilterSidebarOpen} />
+                    </div>
+                )}
+                
+                {/* LANDING PAGE */}
+                {(!isMobile || !isFilterSidebarOpen) && (
+                    <div className="w-full">
+                        <LandingPage />
+                    </div>
+                )}
+            </div>
+            
             <Footer />
+            
+            {/* --- MOBILE BOTTOM NAVIGATION --- */}
+            {isMobile && <BottomNav />}
         </div>
-    )
+    );
 }
