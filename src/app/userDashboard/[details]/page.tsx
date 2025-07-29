@@ -2,11 +2,12 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { FaWhatsapp, FaInstagram, FaFacebookF, FaXTwitter } from "react-icons/fa6";
 import Navbar from '@/Components/Navbar';
 import Footer from '../footer/page';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
+import { api } from '../../../services/api';
+
 
 const hostelDetails = [
   {
@@ -119,7 +120,7 @@ const reviews = [
   },
 ];
 
-const amenities: string[] = [
+const amenities = [
   "Free Wi-Fi",
   "Air Conditioning",
   "Kitchen",
@@ -131,10 +132,25 @@ const amenities: string[] = [
   "24/7 Security"
 ];
 
-interface PageProps {
-  // Pretend it's not a promise, for compatibility
-  params: Awaited<ReturnType<() => Promise<{ details: string }>>>;
+interface ApiError extends Error {
+  statusCode: number;
+  message: string;
 }
+
+async () => {
+try {
+  const res = await api.get('/hostel/id'); // token sent via cookie
+  console.log("Fetched details:", res.data);
+} catch (error) {
+    if ((error as ApiError).statusCode === 401) {
+        await api.post('/auth/token/refresh');
+        // const res = await api({ method, url, data });
+        const res = await api.get('/hostel/id');
+        console.log("Fetched PGs:", res.data);
+    }
+}}
+
+
 
 
 export default function Page() {

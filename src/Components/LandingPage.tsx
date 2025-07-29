@@ -1,8 +1,8 @@
+'use client';
+
 import { CheckCircleOutline, Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-
 import { useRouter } from 'next/navigation';
-
 interface LandingPageProps {
     searchQuery?: string;
     onClearSearch?: () => void;
@@ -15,20 +15,25 @@ export default function LandingPage({ searchQuery = '', onClearSearch }: Landing
     // ====================================================================
     // TODO: Replace this dummy data with your actual API call or database fetch
     // Expected data structure for each hostel object:
+                           // Number of rooms
+                                      // Whether deposit is required
+
+
     const pgs = [
         {
-            id: 1,                                    // Unique identifier for the hostel
-            name: "Ideal Hostel",                     // Hostel name
-            location: "Opposite College Gate",        // Distance/location from college
-            rating: 4.6,                             // Rating out of 5
-            reviews: 100,                            // Number of reviews
-            price: 4000,                             // Original price
-            discountedPrice: 3400,                   // Discounted price (optional)
-            amenities: ["Free Wifi", "Balcony", "Kitchen", "Terrace"], // Array of amenities
-            images: ["/ideal_1.webp", "/ideal 2.webp", "/ideal_3.webp", "/pg.png", "/pg.png"], // Array of image URLs
-            rooms: 15,                               // Number of rooms
-            bathrooms: 12,                           // Number of bathrooms
-            deposit: true                            // Whether deposit is required
+            id:1,
+            name: "Ideal Hostel",
+            location: "Opposite College Gate",
+            rating: 4.6,
+            reviews: 100,
+            price: 4000,
+            discountedPrice: 3400,
+            amenities: ["Free Wifi", "Balcony", "Kitchen", "Terrace"],
+            images: ["/ideal_1.webp", "/ideal 2.webp", "/ideal_3.webp", "/pg.png", "/pg.png"],
+            rooms: 15,
+            bathrooms:12,
+            deposit: true,
+            gender:"Male"
         },
         {
             id: 2,
@@ -41,8 +46,9 @@ export default function LandingPage({ searchQuery = '', onClearSearch }: Landing
             amenities: ["Free Wifi", "Kitchen", "Balcony"],
             images: ["/mithram_1.webp", "/mithram_2.jpg", "/mithram_3.avif", "/pg.png", "/pg.png"],
             rooms: 10,
-            bathrooms: 10,
-            deposit: true
+            bathrooms:10,
+            deposit: true,
+            gender:"Female"
         },
         {
             id: 3,
@@ -55,8 +61,10 @@ export default function LandingPage({ searchQuery = '', onClearSearch }: Landing
             amenities: ["Free Wifi", "Balcony", "Kitchen", "Washing Machine"],
             images: ["/shelter_1.webp", "/shelter_2.webp", "/shelter_3.webp", "/shelter_4.avif", "/pg.png"],
             rooms: 25,
-            bathrooms: 22,
-            deposit: true
+            bathrooms:22,
+            deposit: true,
+            gender:"Male"
+
         },
         {
             id: 4,
@@ -69,8 +77,9 @@ export default function LandingPage({ searchQuery = '', onClearSearch }: Landing
             amenities: ["Free Wifi", "Gym", "Balcony"],
             images: ["/sunflower_1.jpg", "/sunflower_2.webp", "/sunflower_3.jpeg", "/pg.png", "/pg.png"],
             rooms: 15,
-            bathrooms: 15,
-            deposit: true
+            bathrooms:15,
+            deposit: true,
+            gender:"Female"
         },
         // 📝 ADD MORE HOSTEL OBJECTS HERE
         // Follow the same structure as above for additional hostels
