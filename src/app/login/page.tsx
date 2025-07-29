@@ -57,7 +57,7 @@ export default function LoginPage() {
   // fetching details 
   const fetchDetails = async () => {
     try {
-      const response = await axios.post("https://server.pgbee.in/api/v1/auth/login", {
+      const response = await axios.post("https://server.pgbee.in/auth/login", {
         withCredentials: true,
         email,
         password,

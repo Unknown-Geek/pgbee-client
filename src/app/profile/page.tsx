@@ -80,7 +80,7 @@ function DesktopProfile() {
         { icon: <HelpOutline />, text: 'Get Support', onClick: () => {} },
         { icon: <Description />, text: 'Terms and Conditions', onClick: () => {router.push("/terms")} },
         { icon: <LockPerson />, text: 'Privacy Policy', onClick: () => {router.push("/privacy")} },
-        { icon: <DoorBack />, text: 'Logout', onClick: () => {router.push("/signup")} },
+        
     ];
 
     return (

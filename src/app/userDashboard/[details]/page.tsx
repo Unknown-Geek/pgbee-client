@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { FaWhatsapp, FaInstagram, FaFacebookF, FaXTwitter } from "react-icons/fa6";
-import Navbar from '../navbar/page';
+import Navbar from '@/Components/Navbar';
 import Footer from '../footer/page';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
@@ -141,7 +141,7 @@ export default function Page() {
   const params = useParams();
   const id = Number(params.details);
 
-  const [location, setLocation] = useState('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const router = useRouter();
   const selectedHostel = hostelDetails.find(h => h.id === id);
 
@@ -149,13 +149,25 @@ export default function Page() {
     return <div className="p-8 text-xl text-red-600">Hostel not found.</div>;
   }
 
-  const handleSearch = () => {
-    if (!location.trim()) {
+  const handleSearch = (query?: string) => {
+    const searchTerm = query !== undefined ? query : '';
+    
+    // If it's an explicit empty search (clearing), allow it
+    if (query === '') {
+      setSearchQuery('');
+      return;
+    }
+    
+    // Only show alert if user manually searches with empty input
+    if (!searchTerm.trim()) {
       alert('Please enter a location.');
       return;
     }
-    console.log('Searching for:', location);
-    alert(`Searching for: ${location}`);
+    
+    setSearchQuery(searchTerm);
+    console.log('Searching for:', searchTerm);
+    // You can add navigation logic here if needed
+    // router.push(`/search?q=${encodeURIComponent(searchTerm)}`);
   };
 
   const handleBackClick = () => {
@@ -167,7 +179,7 @@ export default function Page() {
 
       {/* Navbar */}
       <div className="hidden lg:block w-full">
-        <Navbar />
+        <Navbar onSearch={handleSearch} searchQuery={searchQuery} />
       </div>
 
       {/* Header Bar */}

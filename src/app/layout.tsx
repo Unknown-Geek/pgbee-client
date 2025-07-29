@@ -35,6 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable}`}
         style={{ fontFamily: "var(--font-poppins)" }}
+        suppressHydrationWarning
       >
         {children}
       </body>

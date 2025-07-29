@@ -4,16 +4,25 @@ import LandingPage from "@/Components/LandingPage";
 import Sidebar from "@/Components/Sidebar";
 import { useState, useEffect } from "react";
 import Image from 'next/image';
-import { FilterList } from "@mui/icons-material";
-import Navbar from "./navbar/page";
+import { FilterList, LocationOn, Search } from "@mui/icons-material";
+import Navbar from "@/Components/Navbar";
 import Footer from "./footer/page";
 import BottomNav from "@/Components/BottomNav";
-import { useMediaQuery } from 'react-responsive'; // 1. Import the hook
+import { useMediaQuery } from 'react-responsive';
+
+interface SuggestionItem {
+    text: string;
+    type: 'hostel' | 'location' | 'amenity';
+}
 
 export default function DashBoard() {
     const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
+    const [location, setLocation] = useState<string>('');
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
     
-    // 2. Use the hook to detect screen size
+    // Use the hook to detect screen size
     const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
     
     // This state prevents hydration errors by delaying render until the client has mounted
@@ -21,6 +30,93 @@ export default function DashBoard() {
     useEffect(() => {
         setIsClient(true);
     }, []);
+
+    // ====================================================================
+    // 🔍 MOBILE SEARCH SUGGESTIONS - REPLACE WITH YOUR ACTUAL DATA
+    // ====================================================================
+    // TODO: This should match the data in @/Components/Navbar.tsx
+    // Keep this synchronized with your actual hostel data
+    const dummyData: SuggestionItem[] = [
+        // HOSTEL NAMES - Extract from your hostel objects
+        { text: "Ideal Hostel", type: "hostel" },
+        { text: "Vanitha Mithram", type: "hostel" }, 
+        { text: "Shelter", type: "hostel" },
+        { text: "Sunflower", type: "hostel" },
+        
+        // LOCATIONS - Extract from hostel.location field
+        { text: "Opposite College Gate", type: "location" },
+        { text: "50m from College", type: "location" },
+        { text: "200m from College", type: "location" }, 
+        { text: "300m from College", type: "location" },
+        
+        // AMENITIES - Extract from hostel.amenities arrays
+        { text: "Free Wifi", type: "amenity" },
+        { text: "Kitchen", type: "amenity" },
+        { text: "Balcony", type: "amenity" },
+        { text: "Terrace", type: "amenity" },
+        { text: "Gym", type: "amenity" },
+        { text: "Washing Machine", type: "amenity" }
+        
+        // 📝 NOTE: Keep this data synchronized with navbar component
+        // Consider moving this to a shared data file or context
+    ];
+
+    // Handle input change and generate suggestions for mobile
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setLocation(value);
+        
+        if (value.trim().length > 0) {
+            const filtered = dummyData.filter(item => 
+                item.text.toLowerCase().includes(value.toLowerCase())
+            );
+            setSuggestions(filtered.slice(0, 5)); // Show max 5 suggestions
+            setShowSuggestions(true);
+        } else {
+            setSuggestions([]);
+            setShowSuggestions(false);
+        }
+    };
+
+    const handleSuggestionClick = (suggestion: SuggestionItem) => {
+        console.log('Suggestion clicked:', suggestion.text);
+        setLocation(suggestion.text);
+        setShowSuggestions(false);
+        handleSearch(suggestion.text);
+    };
+
+    const handleSearch = (query?: string) => {
+        const searchTerm = query !== undefined ? query : location;
+        
+        // If it's an explicit empty search (clearing), allow it
+        if (query === '') {
+            setSearchQuery('');
+            setLocation('');
+            setShowSuggestions(false);
+            return;
+        }
+        
+        // Only show alert if user manually searches with empty input
+        if (!searchTerm.trim()) {
+            alert('Please enter a location.');
+            return;
+        }
+        
+        setSearchQuery(searchTerm);
+        setShowSuggestions(false);
+        console.log('Searching for:', searchTerm);
+    };
+
+    const handleClearSearch = () => {
+        setSearchQuery('');
+        setLocation('');
+        setShowSuggestions(false);
+    };
+
+    const handleInputBlur = () => {
+        // Delay hiding suggestions to allow click on suggestion
+        setTimeout(() => setShowSuggestions(false), 200);
+    };
 
     // Render nothing on the server to avoid mismatch
     if (!isClient) {
@@ -31,7 +127,7 @@ export default function DashBoard() {
         <div className="flex flex-col min-h-screen bg-white">
             
             {/* --- NAVIGATION --- */}
-            {/* 3. Conditionally render based on the hook's return value */}
+            {/* Conditionally render based on the hook's return value */}
             {isMobile ? (
                 // --- MOBILE SEARCH BAR ---
                 !isFilterSidebarOpen && (
@@ -42,10 +138,21 @@ export default function DashBoard() {
                                 <div className="relative flex-grow">
                                     <input
                                         className="w-full h-12 px-4 pr-12 text-gray-800 border border-gray-300 rounded-lg"
-                                        value="Bangalore, India"
-                                        readOnly
+                                        value={location}
+                                        onChange={handleInputChange}
+                                        onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                                        onBlur={handleInputBlur}
+                                        onFocus={() => location.trim().length > 0 && setShowSuggestions(true)}
                                         placeholder="Type a location..."
                                     />
+                                    {location && (
+                                        <button
+                                            onClick={() => handleSearch('')}
+                                            className="absolute right-14 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 z-10"
+                                        >
+                                            ✕
+                                        </button>
+                                    )}
                                     <button
                                         onClick={() => setIsFilterSidebarOpen(true)}
                                         className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-gray-100 rounded-full"
@@ -53,8 +160,35 @@ export default function DashBoard() {
                                     >
                                         <FilterList />
                                     </button>
+                                    
+                                    {/* Search Suggestions Dropdown for Mobile */}
+                                    {showSuggestions && suggestions.length > 0 && (
+                                        <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-md shadow-lg mt-1 z-20 max-h-60 overflow-y-auto">
+                                            {suggestions.map((suggestion, index) => (
+                                                <div
+                                                    key={index}
+                                                    onMouseDown={(e) => {
+                                                        e.preventDefault(); // Prevent blur from firing
+                                                        handleSuggestionClick(suggestion);
+                                                    }}
+                                                    className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0 flex items-center gap-3"
+                                                >
+                                                    {suggestion.type === 'hostel' && <Search className="text-blue-500 text-sm" />}
+                                                    {suggestion.type === 'location' && <LocationOn className="text-green-500 text-sm" />}
+                                                    {suggestion.type === 'amenity' && <span className="text-orange-500 text-xs">★</span>}
+                                                    <div className="flex flex-col">
+                                                        <span className="text-sm text-gray-700">{suggestion.text}</span>
+                                                        <span className="text-xs text-gray-400 capitalize">{suggestion.type}</span>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
-                                <button className="bg-black text-white px-6 h-12 rounded-lg font-semibold">
+                                <button 
+                                    onClick={() => handleSearch()}
+                                    className="bg-black text-white px-6 h-12 rounded-lg font-semibold"
+                                >
                                     Search
                                 </button>
                             </div>
@@ -63,9 +197,9 @@ export default function DashBoard() {
                 )
             ) : (
                 // --- DESKTOP NAVIGATION ---
-                <Navbar />
+                <Navbar onSearch={handleSearch} searchQuery={searchQuery} />
             )}
-            
+
             {/* --- MAIN CONTENT AREA --- */}
             <div className="flex flex-grow">
                 {/* SIDEBAR */}
@@ -78,7 +212,7 @@ export default function DashBoard() {
                 {/* LANDING PAGE */}
                 {(!isMobile || !isFilterSidebarOpen) && (
                     <div className="w-full">
-                        <LandingPage />
+                        <LandingPage searchQuery={searchQuery} onClearSearch={handleClearSearch} />
                     </div>
                 )}
             </div>

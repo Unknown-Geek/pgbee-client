@@ -63,7 +63,7 @@ export default function SignupPage() {
   // fetch details
   const fetchDetails = async () => {
     try {
-      const response = await axios.post("https://server.pgbee.in/api/v1/auth/signup", {
+      const response = await axios.post("https://server.pgbee.in/auth/signup", {
         email,
         password,
       }

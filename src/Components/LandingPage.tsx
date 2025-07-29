@@ -3,26 +3,35 @@ import { useEffect, useState } from "react";
 
 import { useRouter } from 'next/navigation';
 
+interface LandingPageProps {
+    searchQuery?: string;
+    onClearSearch?: () => void;
+}
 
-
-export default function LandingPage() {
+export default function LandingPage({ searchQuery = '', onClearSearch }: LandingPageProps) {
+    
+    // ====================================================================
+    // 🏠 HOSTEL/PG DATA STRUCTURE - REPLACE THIS WITH YOUR ACTUAL DATA
+    // ====================================================================
+    // TODO: Replace this dummy data with your actual API call or database fetch
+    // Expected data structure for each hostel object:
     const pgs = [
         {
-            id:1,
-            name: "Ideal Hostel",
-            location: "Opposite College Gate",
-            rating: 4.6,
-            reviews: 100,
-            price: 4000,
-            discountedPrice: 3400,
-            amenities: ["Free Wifi", "Balcony", "Kitchen", "Terrace"],
-            images: ["/ideal_1.webp", "/ideal 2.webp", "/ideal_3.webp", "/pg.png", "/pg.png"],
-            rooms: 15,
-            bathrooms:12,
-            deposit: true
+            id: 1,                                    // Unique identifier for the hostel
+            name: "Ideal Hostel",                     // Hostel name
+            location: "Opposite College Gate",        // Distance/location from college
+            rating: 4.6,                             // Rating out of 5
+            reviews: 100,                            // Number of reviews
+            price: 4000,                             // Original price
+            discountedPrice: 3400,                   // Discounted price (optional)
+            amenities: ["Free Wifi", "Balcony", "Kitchen", "Terrace"], // Array of amenities
+            images: ["/ideal_1.webp", "/ideal 2.webp", "/ideal_3.webp", "/pg.png", "/pg.png"], // Array of image URLs
+            rooms: 15,                               // Number of rooms
+            bathrooms: 12,                           // Number of bathrooms
+            deposit: true                            // Whether deposit is required
         },
         {
-            id:2,
+            id: 2,
             name: "Vanitha Mithram",
             location: "50m from College",
             rating: 4.2,
@@ -32,11 +41,11 @@ export default function LandingPage() {
             amenities: ["Free Wifi", "Kitchen", "Balcony"],
             images: ["/mithram_1.webp", "/mithram_2.jpg", "/mithram_3.avif", "/pg.png", "/pg.png"],
             rooms: 10,
-            bathrooms:10,
+            bathrooms: 10,
             deposit: true
         },
         {
-            id:3,
+            id: 3,
             name: "Shelter",
             location: "200m from College",
             rating: 3.6,
@@ -46,11 +55,11 @@ export default function LandingPage() {
             amenities: ["Free Wifi", "Balcony", "Kitchen", "Washing Machine"],
             images: ["/shelter_1.webp", "/shelter_2.webp", "/shelter_3.webp", "/shelter_4.avif", "/pg.png"],
             rooms: 25,
-            bathrooms:22,
+            bathrooms: 22,
             deposit: true
         },
         {
-            id:4,
+            id: 4,
             name: "Sunflower",
             location: "300m from College",
             rating: 4.2,
@@ -60,10 +69,28 @@ export default function LandingPage() {
             amenities: ["Free Wifi", "Gym", "Balcony"],
             images: ["/sunflower_1.jpg", "/sunflower_2.webp", "/sunflower_3.jpeg", "/pg.png", "/pg.png"],
             rooms: 15,
-            bathrooms:15,
+            bathrooms: 15,
             deposit: true
         },
+        // 📝 ADD MORE HOSTEL OBJECTS HERE
+        // Follow the same structure as above for additional hostels
     ];
+
+    // ====================================================================
+    // 🔍 SEARCH FUNCTIONALITY - This filters the hostels based on search query
+    // ====================================================================
+
+    // Filter PGs based on search query
+    const filteredPgs = pgs.filter(pg => {
+        if (!searchQuery.trim()) return true;
+        
+        const query = searchQuery.toLowerCase();
+        return (
+            pg.name.toLowerCase().includes(query) ||
+            pg.location.toLowerCase().includes(query) ||
+            pg.amenities.some(amenity => amenity.toLowerCase().includes(query))
+        );
+    });
 
     const [likedPgs, setLikedPgs] = useState<boolean[]>(pgs.map(() => false));
     const toggleLike = (index: number) => {
@@ -101,10 +128,12 @@ const handleViewDetails = (id: number) => {
         <div className="w-full lg:basis-4/5">
             {/* searchbar */}
             <div className="p-[15px] lg:p-[25px] border-b border-transparent sm:border-gray-400 flex flex-col lg:flex-row lg:items-center">
-                <span className="text-2xl lg:text-xl font-bold lg:font-semibold px-[3px] lg:pl-[20px] py-[5px] lg:py-[30px]">
-                    Hostels in College Of Engineering,Trivandrum
-                </span>
-                <span>(422 search results)</span>
+                <div className="flex items-center gap-4">
+                    <span className="text-2xl lg:text-xl font-bold lg:font-semibold px-[3px] lg:pl-[20px] py-[5px] lg:py-[30px]">
+                        {searchQuery ? `Search results for "${searchQuery}"` : 'Hostels in College Of Engineering,Trivandrum'}
+                    </span>
+                </div>
+                <span>({filteredPgs.length} search results)</span>
                 <span className="ml-[170px] mr-[15px] font-semibold hidden sm:block ">Sort By:</span>
 
                 <select className="hidden sm:block p-[8px] cursor-pointer rounded-lg border h-[40px] w-[300px] border-gray-400 appearance-none bg-white pr-10">
@@ -116,7 +145,13 @@ const handleViewDetails = (id: number) => {
             </div>
 
             {/* landing page */}
-            {pgs.map((pg, i) => {
+            {filteredPgs.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-16">
+                    <p className="text-xl text-gray-500 mb-2">No PGs found</p>
+                    <p className="text-gray-400">Try adjusting your search criteria</p>
+                </div>
+            ) : (
+                filteredPgs.map((pg, i) => {
                 const maxDisplay = 4;
                 const remainingCount = pg.images.length - maxDisplay;
 
@@ -216,7 +251,7 @@ const handleViewDetails = (id: number) => {
                         </div>
                     </div>
                 );
-            })}
+            }))}
         </div>
     );
 }
