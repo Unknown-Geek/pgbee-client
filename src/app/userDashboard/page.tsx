@@ -12,8 +12,11 @@ import BottomNav from "@/Components/BottomNav";
 // Custom hook to detect if the screen is mobile.
 const useIsMobile = () => {
     const [isMobile, setIsMobile] = useState(false);
+    const [mounted, setMounted] = useState(false);
     
     useEffect(() => {
+        setMounted(true);
+        
         // This function runs on the client side after the component mounts
         const handleResize = () => {
             setIsMobile(window.innerWidth < 768);
@@ -25,6 +28,11 @@ const useIsMobile = () => {
         // Cleanup the event listener when the component unmounts
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+    // Return false during SSR to prevent hydration mismatch
+    if (!mounted) {
+        return false;
+    }
 
     return isMobile;
 };
