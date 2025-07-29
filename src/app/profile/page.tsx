@@ -51,17 +51,17 @@ function MobileProfile() {
                     <span className="text-[15px] ml-3 flex-grow text-left">Get Support</span>
                     <div className='text-gray-500'><KeyboardArrowRight /></div>
                 </button>
-                 <button className="flex w-full items-center py-2">
+                 <button className="flex w-full items-center py-2" onClick={() => router.push("/terms")}>
                     <div className='text-gray-600'><Description /></div>
                     <span className="text-[15px] ml-3 flex-grow text-left">Terms and Conditions</span>
                     <div className='text-gray-500'><KeyboardArrowRight /></div>
                 </button>
-                 <button className="flex w-full items-center py-2">
+                 <button className="flex w-full items-center py-2" onClick={() => router.push("/privacy")}>
                     <div className='text-gray-600'><LockPerson /></div>
                     <span className="text-[15px] ml-3 flex-grow text-left">Privacy Policy</span>
                     <div className='text-gray-500'><KeyboardArrowRight /></div>
                 </button>
-                 <button className="flex w-full items-center py-2">
+                 <button className="flex w-full items-center py-2" onClick={() => router.push("/signup")}>
                     <div className='text-gray-600'><DoorBack /></div>
                     <span className="text-[15px] ml-3 flex-grow text-left">Logout</span>
                     <div className='text-gray-500'><KeyboardArrowRight /></div>
@@ -78,9 +78,9 @@ function DesktopProfile() {
         { icon: <Person2 />, text: 'Profile', onClick: () => router.push('/userProfile/profileView') },
         { icon: <Settings />, text: 'Settings and Privacy', onClick: () => router.push('/settings') },
         { icon: <HelpOutline />, text: 'Get Support', onClick: () => {} },
-        { icon: <Description />, text: 'Terms and Conditions', onClick: () => {} },
-        { icon: <LockPerson />, text: 'Privacy Policy', onClick: () => {} },
-        { icon: <DoorBack />, text: 'Logout', onClick: () => {} },
+        { icon: <Description />, text: 'Terms and Conditions', onClick: () => {router.push("/terms")} },
+        { icon: <LockPerson />, text: 'Privacy Policy', onClick: () => {router.push("/privacy")} },
+        { icon: <DoorBack />, text: 'Logout', onClick: () => {router.push("/signup")} },
     ];
 
     return (
