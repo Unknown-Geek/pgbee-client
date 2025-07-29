@@ -8,6 +8,7 @@ import { FilterList } from "@mui/icons-material";
 import Navbar from "./navbar/page";
 import Footer from "./footer/page";
 import BottomNav from "@/Components/BottomNav";
+import Sidebar1 from "@/Components/Sidebar1"; // Ensure this path is correct
 
 export default function DashBoard() {
     // This state now ONLY controls the filter visibility on mobile
@@ -75,7 +76,7 @@ export default function DashBoard() {
             {/* --- MOBILE BOTTOM NAVIGATION --- */}
             {/* This BottomNav is only visible on mobile screens */}
             <div className="block md:hidden">
-                
+
                 <BottomNav />
             </div>
         </div>
