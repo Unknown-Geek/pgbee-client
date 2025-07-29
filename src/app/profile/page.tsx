@@ -7,7 +7,13 @@ import Sidebar1 from '../../Components/Sidebar1';
 import BottomNav from '../../Components/BottomNav';
 
 // Reusable menu item component for the desktop view
-const ProfileMenuItem = ({ icon, text, onClick }) => (
+type ProfileMenuItemProps = {
+    icon: React.ReactNode;
+    text: string;
+    onClick: () => void;
+};
+
+const ProfileMenuItem = ({ icon, text, onClick }: ProfileMenuItemProps) => (
     <button onClick={onClick} className="flex items-center w-full text-left p-4 hover:bg-gray-50 rounded-lg transition-colors">
         <div className='text-gray-600'>{icon}</div>
         <span className="flex-grow text-[15px] ml-4 text-gray-800">{text}</span>

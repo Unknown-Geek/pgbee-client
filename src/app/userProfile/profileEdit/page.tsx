@@ -57,6 +57,8 @@ function MobileProfileEdit({
           <button
             onClick={onIconClick}
             className="absolute bottom-3 right-3 bg-black text-white rounded-full p-2 hover:bg-gray-800 transition-colors"
+            title="Edit profile picture"
+            aria-label="Edit profile picture"
           >
             <Edit fontSize="small" />
           </button>
@@ -145,6 +147,8 @@ function DesktopProfileEdit({
               <button
                 onClick={onIconClick}
                 className="absolute bottom-0 right-0 bg-black text-white rounded-full p-1.5 hover:bg-gray-800 transition-colors"
+                title="Edit profile picture"
+                aria-label="Edit profile picture"
               >
                 <Edit style={{ fontSize: '1rem' }} />
               </button>
