@@ -102,7 +102,7 @@ const handleViewDetails = (id: number) => {
             {/* searchbar */}
             <div className="p-[15px] lg:p-[25px] border-b border-transparent sm:border-gray-400 flex flex-col lg:flex-row lg:items-center">
                 <span className="text-2xl lg:text-xl font-bold lg:font-semibold px-[3px] lg:pl-[20px] py-[5px] lg:py-[30px]">
-                    Hotels in Bangalore
+                    Hostels in College Of Engineering,Trivandrum
                 </span>
                 <span>(422 search results)</span>
                 <span className="ml-[170px] mr-[15px] font-semibold hidden sm:block ">Sort By:</span>

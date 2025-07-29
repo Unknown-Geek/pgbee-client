@@ -34,9 +34,7 @@ const useIsMobile = () => {
     return { isMobile, isHydrated };
 };
 
-
 export default function DashBoard() {
-
 
     const [location, setLocation] = useState<string>('');
     const { isMobile, isHydrated } = useIsMobile();
@@ -60,7 +58,7 @@ export default function DashBoard() {
             <div className="hidden sm:block">
             <Navbar />
                 </div>
-
+                
             {!toggle &&
                 <nav className="flex md:hidden flex-col items-center justify-center p-[20px]">
                     <Image src={Image1} alt="PgBee Logo" className="" width={100} height={100} />
