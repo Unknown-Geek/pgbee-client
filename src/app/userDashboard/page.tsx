@@ -34,7 +34,7 @@ export default function DashBoard() {
     // ====================================================================
     // 🔍 MOBILE SEARCH SUGGESTIONS - REPLACE WITH YOUR ACTUAL DATA
     // ====================================================================
-    // TODO: This should match the data in navbar/page.tsx
+    // TODO: This should match the data in @/Components/Navbar.tsx
     // Keep this synchronized with your actual hostel data
     const dummyData: SuggestionItem[] = [
         // HOSTEL NAMES - Extract from your hostel objects
