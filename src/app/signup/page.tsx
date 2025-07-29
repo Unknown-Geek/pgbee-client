@@ -119,6 +119,7 @@ export default function SignupPage() {
             <label className="block text-sm mb-1 text-gray-700">First name</label>
             <input
               type="text"
+              placeholder="Enter your first name"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
@@ -128,6 +129,8 @@ export default function SignupPage() {
             <label className="block text-sm mb-1 text-gray-700">Last name</label>
             <input
               type="text"
+              placeholder="Enter your last name"
+              title="Last name"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
@@ -177,6 +180,8 @@ export default function SignupPage() {
             checked={agreeTerms}
             onChange={() => setAgreeTerms(!agreeTerms)}
             className="mt-1"
+            title="Agree to terms and conditions"
+            placeholder="Agree to terms and conditions"
           />
           <p className="text-gray-700">
             By creating an account, I agree to the{" "}

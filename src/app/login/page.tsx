@@ -140,7 +140,7 @@ export default function LoginPage() {
         <div className="mb-6">
           <label className="block text-sm mb-1 text-gray-700">Verify Captcha</label>
           <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 gap-2">
-            <input type="checkbox" checked={captchaChecked} onChange={() => setCaptchaChecked(!captchaChecked)} />
+            <input type="checkbox" checked={captchaChecked} placeholder="I’m not a robot" onChange={() => setCaptchaChecked(!captchaChecked)} />
             <span className="text-sm">I’m not a robot</span>
             <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" className="h-6 ml-auto" />
           </div>
