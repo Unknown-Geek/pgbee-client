@@ -25,7 +25,17 @@ const messages = [
 
 
 // --- Reusable Message Card for Mobile View ---
-function MessageCard({ msg }) {
+type Message = {
+    id: number;
+    name: string;
+    time: string;
+    isNew: boolean;
+    message: string;
+    type: string;
+    fullContent?: string[];
+};
+
+function MessageCard({ msg }: { msg: Message }) {
     const [isExpanded, setIsExpanded] = useState(false);
     return (
         <div className="bg-white p-4 rounded-xl shadow-md border border-gray-100 overflow-hidden">
@@ -63,7 +73,7 @@ function MessageCard({ msg }) {
 }
 
 // --- Mobile Layout Component ---
-function MobileInbox({ activeFilter, setActiveFilter }) {
+function MobileInbox({ activeFilter, setActiveFilter }: { activeFilter: string; setActiveFilter: (filter: string) => void }) {
     const filteredMessages = messages.filter(msg => activeFilter === 'All' || msg.type === activeFilter);
     return (
         <div className="flex flex-col">
@@ -89,7 +99,7 @@ function MobileInbox({ activeFilter, setActiveFilter }) {
 }
 
 // --- Desktop Grid Layout Component ---
-function DesktopInbox({ activeFilter, setActiveFilter }) {
+function DesktopInbox({ activeFilter, setActiveFilter }: { activeFilter: string; setActiveFilter: (filter: string) => void }) {
     const filteredMessages = messages.filter(msg => activeFilter === 'All' || msg.type === activeFilter);
     const [selectedMessage, setSelectedMessage] = useState(filteredMessages[0]);
     return (

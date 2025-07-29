@@ -4,12 +4,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Article, Person, Mail, Logout } from '@mui/icons-material';
 
-// The navItems array has been reordered
 const navItems = [
   { href: '/userDashboard', icon: <Home />, label: 'Home' },
   { href: '/pg-details', icon: <Article />, label: 'PG Details' },
   { href: '/inbox', icon: <Mail />, label: 'Inbox' },
-  { href: '/userProfile/profileView', icon: <Person />, label: 'Profile' },
+  { href: '/profile', icon: <Person />, label: 'Profile' }, // Changed href to the main profile page
 ];
 
 export default function Sidebar1() {
@@ -26,9 +25,10 @@ export default function Sidebar1() {
         <nav>
           <ul>
             {navItems.map((item) => {
+              // **FIX:** This logic now highlights "Profile" for all related pages.
               let isActive = false;
               if (item.label === 'Profile') {
-                isActive = pathname.startsWith('/userProfile');
+                isActive = pathname.startsWith('/profile') || pathname.startsWith('/userProfile');
               } else {
                 isActive = pathname === item.href;
               }
@@ -54,7 +54,7 @@ export default function Sidebar1() {
 
         <div>
           <Link
-            href="/signup"
+            href="/logout"
             className="flex items-center px-4 py-3 text-gray-700 transition-colors duration-300 transform rounded-md hover:bg-gray-100"
           >
             <Logout />
