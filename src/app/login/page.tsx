@@ -3,6 +3,7 @@
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function LoginPage() {
     return regex.test(email);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     let valid = true;
 
     if (!validateEmail(email)) {
@@ -41,13 +42,39 @@ export default function LoginPage() {
 
     if (valid) {
       alert("Login successful!");
+
+      try {
+        await fetchDetails(); 
+        alert("Login successful!");
+        router.push("/"); 
+      }catch (error) {
+        console.error("Error during login fetch:", error);
+        alert("Something went wrong. Please try again.");
+      }
     }
   };
+
+  // fetching details 
+  const fetchDetails = async () => {
+    try {
+      const response = await axios.post("https://server.pgbee.in/api/v1/auth/login", {
+        withCredentials: true,
+        email,
+        password,
+      });
+
+      console.log("Fetched details:", response.data);
+    } catch (error) {
+      console.error("Error fetching details:", error);
+      alert("Something went wrong. Please try again.");
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-[#f9f9f9] flex items-center justify-center relative">
       {/* Background Hexagons */}
-                 {/*<img src="/Group2.png" alt="hexagon" className="absolute top-0 left-240 w-376.5px h-75 
+      {/*<img src="/Group2.png" alt="hexagon" className="absolute top-0 left-240 w-376.5px h-75 
            "></img>
             <img src="/Group 3.png" alt="hexagon" className="absolute top-100 left-0 w-500.5px h-200 "></img>*/}
 
