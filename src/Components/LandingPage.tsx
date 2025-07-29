@@ -2,51 +2,66 @@ import { CheckCircleOutline, Favorite, FavoriteBorder } from "@mui/icons-materia
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 
-
 export default function LandingPage() {
     const pgs = [
         {
-            name: "Golden Turtles Homestay",
-            location: "Vattappara, India",
-            rating: 3.6,
+            id:1,
+            name: "Ideal Hostel",
+            location: "Opposite College Gate",
+            rating: 4.6,
             reviews: 100,
-            price: 5000,
-            discountedPrice: 5400,
+            price: 4000,
+            discountedPrice: 3400,
             amenities: ["Free Wifi", "Balcony", "Kitchen", "Terrace"],
-            images: ["/pg.png", "/pg.png", "/pg.png", "/pg.png", "/pg.png"]
+            images: ["/ideal_1.webp", "/ideal 2.webp", "/ideal_3.webp", "/pg.png", "/pg.png"],
+            rooms: 15,
+            bathrooms:12,
+            deposit: true
         },
         {
-            name: "Sunrise Villa",
-            location: "Bangalore, India",
+            id:2,
+            name: "Vanitha Mithram",
+            location: "50m from College",
+            rating: 4.2,
+            reviews: 89,
+            price: 5000,
+            discountedPrice: 4500,
+            amenities: ["Free Wifi", "Kitchen", "Balcony"],
+            images: ["/mithram_1.webp", "/mithram_2.jpg", "/mithram_3.avif", "/pg.png", "/pg.png"],
+            rooms: 10,
+            bathrooms:10,
+            deposit: true
+        },
+        {
+            id:3,
+            name: "Shelter",
+            location: "200m from College",
+            rating: 3.6,
+            reviews: 20,
+            price: 5000,
+            discountedPrice: 4800,
+            amenities: ["Free Wifi", "Balcony", "Kitchen", "Washing Machine"],
+            images: ["/shelter_1.webp", "/shelter_2.webp", "/shelter_3.webp", "/shelter_4.avif", "/pg.png"],
+            rooms: 25,
+            bathrooms:22,
+            deposit: true
+        },
+        {
+            id:4,
+            name: "Sunflower",
+            location: "300m from College",
             rating: 4.2,
             reviews: 89,
             price: 6000,
             discountedPrice: 5500,
             amenities: ["Free Wifi", "Gym", "Balcony"],
-            images: ["/pg.png", "/pg.png", "/pg.png", "/pg.png", "/pg.png"]
+            images: ["/sunflower_1.jpg", "/sunflower_2.webp", "/sunflower_3.jpeg", "/pg.png", "/pg.png"],
+            rooms: 15,
+            bathrooms:15,
+            deposit: true
         },
-        {
-            name: "Golden Turtles Homestay",
-            location: "Vattappara, India",
-            rating: 3.6,
-            reviews: 100,
-            price: 5000,
-            discountedPrice: 5000,
-            amenities: ["Free Wifi", "Balcony", "Kitchen", "Terrace"],
-            images: ["/pg.png", "/pg.png", "/pg.png", "/pg.png", "/pg.png"]
-        },
-        {
-            name: "Sunrise Villa",
-            location: "Bangalore, India",
-            rating: 4.2,
-            reviews: 89,
-            price: 6000,
-            discountedPrice: 5500,
-            amenities: ["Free Wifi", "Gym", "Balcony"],
-            images: ["/pg.png", "/pg.png", "/pg.png", "/pg.png", "/pg.png"]
-        },
-
     ];
+
     const [likedPgs, setLikedPgs] = useState<boolean[]>(pgs.map(() => false));
     const toggleLike = (index: number) => {
         setLikedPgs((prev) => {
@@ -73,10 +88,11 @@ export default function LandingPage() {
     const isMobile = useIsMobile();
 
     const router = useRouter();
-      const detailId = ""; // Replace with your dynamic value
-    
-      const handleClick = () => {
-        router.push(`/userDashboard/page`);};
+
+    // Navigate to detail page with the selected PG id
+const handleViewDetails = (id: number) => {
+  router.push(`/userDashboard/${id}`);
+};
 
     return (
         <div className="w-full lg:basis-4/5">
@@ -102,10 +118,9 @@ export default function LandingPage() {
                 const remainingCount = pg.images.length - maxDisplay;
 
                 return (
-                    <div key={i} className="m-[15px] lg:m-[30px] flex pb-6 ">
+                    <div key={pg.id} className="m-[15px] lg:m-[30px] flex pb-6 ">
                         {/* Main image */}
                         <div className="relative w-[220px] lg:w-[400px] h-[170px] lg:h-[260px] rounded-2xl overflow-hidden flex-shrink-0">
-
                             <img
                                 src={pg.images[0]}
                                 alt={pg.name}
@@ -113,11 +128,13 @@ export default function LandingPage() {
                             />
 
                             {/* Heart icon: top-right on mobile, hidden on larger screens */}
-                            <div onClick={() => toggleLike(i)} className="absolute top-2 right-2 sm:hidden text-gray-500 bg-white border border-gray-300 rounded-full p-2 w-[30px] h-[30px] flex items-center justify-center">
+                            <div
+                                onClick={() => toggleLike(i)}
+                                className="absolute top-2 right-2 sm:hidden text-gray-500 bg-white border border-gray-300 rounded-full p-2 w-[30px] h-[30px] flex items-center justify-center"
+                            >
                                 {likedPgs[i] ? <Favorite className="text-red-500" /> : <FavoriteBorder />}
                             </div>
                         </div>
-
 
                         {/* Side images */}
                         <div className="flex flex-col gap-3 ml-[10px] hidden sm:block">
@@ -176,7 +193,10 @@ export default function LandingPage() {
 
                             {/* Buttons */}
                             <div className="flex items-center justify-center ">
-                                <button onClick={handleClick} className="hidden sm:block bg-white text-black px-5 py-2 rounded-xl mt-4 mr-2 border cursor-pointer">
+                                <button
+                                    onClick={() => handleViewDetails(pg.id)}
+                                    className="hidden sm:block bg-white text-black px-5 py-2 rounded-xl mt-4 mr-2 border cursor-pointer"
+                                >
                                     View Details
                                 </button>
                                 <button className="hidden sm:block bg-black text-white px-5 py-2 rounded-xl mt-4  cursor-pointer">
@@ -189,14 +209,11 @@ export default function LandingPage() {
                                 >
                                     {likedPgs[i] ? <Favorite className="text-red-500" /> : <FavoriteBorder />}
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
                 );
             })}
-
         </div>
-    )
+    );
 }
