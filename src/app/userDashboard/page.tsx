@@ -3,43 +3,34 @@
 import LandingPage from "@/Components/LandingPage";
 import Sidebar from "@/Components/Sidebar";
 import { useEffect, useState } from "react";
-import { Range } from "react-range";
 import Image from 'next/image';
-import Image1 from './../../../public/PgBee.png';
-import Image2 from './../../../public/user.png';
-import Image3 from './../../../public/Globe_icon.svg';
 import { FilterList } from "@mui/icons-material";
 import Navbar from "./navbar/page";
 import Footer from "./footer/page";
+import BottomNav from "@/Components/BottomNav"; // 1. Import BottomNav
 
-
+// Custom hook to detect mobile screen size
 const useIsMobile = () => {
     const [isMobile, setIsMobile] = useState(false);
-    const [isHydrated, setIsHydrated] = useState(false);
-
-    useEffect(() => {
-        setIsHydrated(true);
-    }, []);
-
+    
+    // This effect runs only on the client after hydration
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth < 768);
         };
 
-        handleResize();
+        handleResize(); // Set initial value
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    return { isMobile, isHydrated };
+    return isMobile;
 };
 
 
 export default function DashBoard() {
-
-
     const [location, setLocation] = useState<string>('');
-    const { isMobile, isHydrated } = useIsMobile();
+    const isMobile = useIsMobile(); // Use the hook
     const [toggle, setToggle] = useState(false);
 
     const handleToggle = () => {
@@ -56,26 +47,27 @@ export default function DashBoard() {
     };
 
     return (
-        <div className="flex flex-col bg-white ">
+        <div className="flex flex-col bg-white min-h-screen">
+            {/* Desktop Navbar */}
             <div className="hidden sm:block">
-            <Navbar />
-                </div>
+                <Navbar />
+            </div>
 
+            {/* Mobile Navbar */}
             {!toggle &&
                 <nav className="flex md:hidden flex-col items-center justify-center p-[20px]">
-                    <Image src={Image1} alt="PgBee Logo" className="" width={100} height={100} />
+                    <Image src="/PgBee.png" alt="PgBee Logo" width={100} height={100} />
                     <div className="flex flex-row mt-[20px] gap-2">
-                        {/* Input field */}
-                        <div className="relative flex items-center flex-grow"> 
+                        <div className="relative flex items-center flex-grow">
                             <input
-                                className="p-[15px] pr-10 rounded-lg border h-[38px] w-full border-gray-400 text-gray-800" // Added pr-10 for icon space, text-gray-800 for explicit color
-                                placeholder="Bangalore, India" 
-                                value="Bangalore, India" 
-                                readOnly 
+                                className="p-[15px] pr-10 rounded-lg border h-[38px] w-full border-gray-400 text-gray-800"
+                                placeholder="Bangalore, India"
+                                value="Bangalore, India"
+                                readOnly
                             />
                             <button
                                 onClick={() => handleToggle()}
-                                className="absolute right-2 bg-gray-100 text-gray-700 p-2 rounded-full cursor-pointer flex items-center justify-center" 
+                                className="absolute right-2 bg-gray-100 text-gray-700 p-2 rounded-full cursor-pointer flex items-center justify-center"
                                 aria-label="Filter options"
                             >
                                 <FilterList fontSize="small" />
@@ -87,14 +79,16 @@ export default function DashBoard() {
                     </div>
                 </nav>
             }
-            {!isHydrated ? null : (
-                <div className="flex flex-row lg:pt-16">
-                    {(toggle || !isMobile) && <Sidebar toggle={toggle} setToggle={setToggle} />}
-                    {(!toggle || !isMobile) && <LandingPage />}
-                </div>
-            )}
+            
+            <div className="flex flex-row flex-grow lg:pt-16">
+                {(toggle || !isMobile) && <Sidebar toggle={toggle} setToggle={setToggle} />}
+                {(!toggle || !isMobile) && <LandingPage />}
+            </div>
             
             <Footer />
+            
+            {/* 2. Conditionally render BottomNav on mobile */}
+            {isMobile && <BottomNav />}
         </div>
     )
 }
