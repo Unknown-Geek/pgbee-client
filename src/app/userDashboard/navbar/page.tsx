@@ -35,7 +35,7 @@ const Navbar = () => {
 
           <button
             onClick={handleSearch}
-            className="w-50 bg-black hover:bg-gray-800 text-white py-2 rounded-md transition"
+            className="w-50 bg-black hover:bg-gray-800 text-white py-2 rounded-md transition hover:cursor-pointer"
           >
             Search
           </button>
@@ -55,7 +55,7 @@ const Navbar = () => {
         </div>
 
         <div className='flex flex-row ml-auto'>
-          <button onClick={() => setShowModal(true)} className="flex items-center gap-2 mr-12  px-4 py-2 border border-gray-300 rounded-md">
+          <button onClick={() => setShowModal(true)} className="flex items-center gap-2 mr-12  px-4 py-2 border border-gray-300 rounded-md hover:cursor-pointer">
             <Image src='/heart.png' alt="heart" width={24} height={24} />
             Wishlist
             </button>
@@ -65,7 +65,7 @@ const Navbar = () => {
       </Modal>
         <Image src="/user.png" alt="user" width={40} height={30} />
         <button onClick={login}
-          className="flex items-center gap-2  text-black px-4 py-2 rounded-md  transition"
+          className="flex items-center gap-2  text-black px-4 py-2 rounded-md  transition hover:cursor-pointer"
         >
           <span>Login / Signup</span>
         </button>

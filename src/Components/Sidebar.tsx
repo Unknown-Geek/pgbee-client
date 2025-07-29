@@ -211,7 +211,6 @@ export default function Sidebar({toggle, setToggle }: SidebarProps) {
                     </div>
 
                 </div>
-
             </div>
 
         </div>
