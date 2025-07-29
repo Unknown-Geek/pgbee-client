@@ -132,10 +132,10 @@ const handleViewDetails = (id: number) => {
 
                             {/* Heart icon: top-right on mobile, hidden on larger screens */}
                             <div
-                                onClick={() => toggleLike(i)}
+                                onClick={() => toggleLike(pg.id)}
                                 className="absolute top-2 right-2 sm:hidden text-gray-500 bg-white border border-gray-300 rounded-full p-2 w-[30px] h-[30px] flex items-center justify-center"
                             >
-                                {likedPgs[i] ? <Favorite className="text-red-500" /> : <FavoriteBorder />}
+                                {likedPgs[pg.id] ? <Favorite className="text-red-500" /> : <FavoriteBorder />}
                             </div>
                         </div>
 
