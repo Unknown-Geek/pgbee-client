@@ -5,7 +5,7 @@ import Sidebar from "@/Components/Sidebar";
 import { useState, useEffect } from "react";
 import Image from 'next/image';
 import { FilterList, LocationOn, Search } from "@mui/icons-material";
-import Navbar from "./navbar/page";
+import Navbar from "@/Components/Navbar";
 import Footer from "./footer/page";
 import BottomNav from "@/Components/BottomNav";
 import { useMediaQuery } from 'react-responsive';

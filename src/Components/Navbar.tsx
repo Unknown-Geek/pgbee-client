@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { LocationOn, Search, Clear, Menu as MenuIcon, Close as CloseIcon } from "@mui/icons-material";
-import Modal from '../[details]/modal'
-import Wishlist from '../wishlists/page';
-import Sidebar1 from '../../../Components/Sidebar1'; // Ensure this path is correct
+import Modal from '../app/userDashboard/[details]/modal'
+import Wishlist from '../app/userDashboard/wishlists/page';
+import Sidebar1 from './Sidebar1';
 
 interface NavbarProps {
   onSearch: (query?: string) => void;
