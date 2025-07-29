@@ -5,8 +5,8 @@ import { usePathname } from 'next/navigation';
 import { Home, Article, Mail, Person, HomeOutlined, ArticleOutlined, MailOutlined, PersonOutline } from '@mui/icons-material';
 
 const navItems = [
-  { href: '/#', icon: <HomeOutlined />, activeIcon: <Home />, label: 'Home' },
-  { href: '/userDashboard', icon: <ArticleOutlined />, activeIcon: <Article />, label: 'PG Details' },
+  { href: '/Dashboard', icon: <HomeOutlined />, activeIcon: <Home />, label: 'Home' },
+  { href: '/pg-details', icon: <ArticleOutlined />, activeIcon: <Article />, label: 'PG Details' },
   { href: '/inbox', icon: <MailOutlined />, activeIcon: <Mail />, label: 'Inbox' },
   { href: '/profile', icon: <PersonOutline />, activeIcon: <Person />, label: 'Profile' },
 ];
@@ -19,11 +19,9 @@ export default function BottomNav() {
       <div className="bg-black text-gray-400 rounded-xl shadow-lg">
         <div className="flex justify-around">
           {navItems.map((item) => {
+            // **FIX:** This logic now highlights "Profile" for all related pages.
             let isActive = false;
-            // **FIX:** Added a check for the home page
-            if (item.label === 'Home') {
-              isActive = pathname === '/' || pathname === '/home';
-            } else if (item.label === 'Profile') {
+            if (item.label === 'Profile') {
               isActive = pathname.startsWith('/profile') || pathname.startsWith('/userProfile');
             } else {
               isActive = pathname === item.href;

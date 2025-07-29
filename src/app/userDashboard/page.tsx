@@ -2,81 +2,97 @@
 
 import LandingPage from "@/Components/LandingPage";
 import Sidebar from "@/Components/Sidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Range } from "react-range";
 import Image from 'next/image';
+import Image1 from './../../../public/PgBee.png';
+import Image2 from './../../../public/user.png';
+import Image3 from './../../../public/Globe_icon.svg';
 import { FilterList } from "@mui/icons-material";
 import Navbar from "./navbar/page";
 import Footer from "./footer/page";
-import BottomNav from "@/Components/BottomNav";
+
+
+const useIsMobile = () => {
+    const [isMobile, setIsMobile] = useState(false);
+    const [isHydrated, setIsHydrated] = useState(false);
+
+    useEffect(() => {
+        setIsHydrated(true);
+    }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    return { isMobile, isHydrated };
+};
 
 export default function DashBoard() {
-    // This state now ONLY controls the filter visibility on mobile
-    const [isFilterSidebarOpen, setIsFilterSidebarOpen] = useState(false);
+
+    const [location, setLocation] = useState<string>('');
+    const { isMobile, isHydrated } = useIsMobile();
+    const [toggle, setToggle] = useState(false);
+
+    const handleToggle = () => {
+        setToggle(!toggle);
+    }
+
+    const handleSearch = () => {
+        if (!location.trim()) {
+            alert('Please enter a location.');
+            return;
+        }
+        console.log('Searching for:', location);
+        alert(`Searching for: ${location}`);
+    };
 
     return (
-        <div className="flex flex-col min-h-screen bg-white">
-            
-            {/* --- DESKTOP NAVIGATION --- */}
-            {/* This Navbar is only visible on desktop screens (md and larger) */}
-            <div className="hidden md:block">
-                <Navbar />
-            </div>
-
-            {/* --- MOBILE SEARCH BAR --- */}
-            {/* This search bar is only visible on mobile when the filter is closed */}
-            <div className={`md:hidden p-4 border-b ${isFilterSidebarOpen ? 'hidden' : 'block'}`}>
-                <div className="flex flex-col items-center">
-                    <Image src="/PgBee.png" alt="PgBee Logo" width={100} height={40} />
-                    <div className="flex items-center w-full mt-4 gap-2">
-                        <div className="relative flex-grow">
+        <div className="flex flex-col bg-white ">
+            <div className="hidden sm:block">
+            <Navbar />
+                </div>
+                
+            {!toggle &&
+                <nav className="flex md:hidden flex-col items-center justify-center p-[20px]">
+                    <Image src={Image1} alt="PgBee Logo" className="" width={100} height={100} />
+                    <div className="flex flex-row mt-[20px] gap-2">
+                        {/* Input field */}
+                        <div className="relative flex items-center flex-grow"> 
                             <input
-                                className="w-full h-12 px-4 pr-12 text-gray-800 border border-gray-300 rounded-lg"
-                                value="Bangalore, India"
-                                readOnly
-                                placeholder="Type a location..."
+                                className="p-[15px] pr-10 rounded-lg border h-[38px] w-full border-gray-400 text-gray-800" // Added pr-10 for icon space, text-gray-800 for explicit color
+                                placeholder="Bangalore, India" 
+                                value="Bangalore, India" 
+                                readOnly 
                             />
                             <button
-                                onClick={() => setIsFilterSidebarOpen(true)}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-gray-100 rounded-full"
-                                aria-label="Show filters"
+                                onClick={() => handleToggle()}
+                                className="absolute right-2 bg-gray-100 text-gray-700 p-2 rounded-full cursor-pointer flex items-center justify-center" 
+                                aria-label="Filter options"
                             >
-                                <FilterList />
+                                <FilterList fontSize="small" />
                             </button>
                         </div>
-                        <button className="bg-black text-white px-6 h-12 rounded-lg font-semibold">
+                        <button className=" bg-black text-white px-5 py-1.5 rounded-lg cursor-pointer">
                             Search
                         </button>
                     </div>
+                </nav>
+            }
+            {!isHydrated ? null : (
+                <div className="flex flex-row lg:pt-16">
+                    {(toggle || !isMobile) && <Sidebar toggle={toggle} setToggle={setToggle} />}
+                    {(!toggle || !isMobile) && <LandingPage />}
                 </div>
-            </div>
-            
-            {/* --- MAIN CONTENT AREA --- */}
-            <div className="flex flex-grow">
-                {/* SIDEBAR:
-                  - Hidden on mobile by default.
-                  - Appears on desktop (md:block).
-                  - On mobile, it appears as a full-screen filter view when isFilterSidebarOpen is true.
-                */}
-                <div className={`md:block ${isFilterSidebarOpen ? 'block w-full' : 'hidden'}`}>
-                     <Sidebar toggle={isFilterSidebarOpen} setToggle={setIsFilterSidebarOpen} />
-                </div>
-                
-                {/* LANDING PAGE:
-                  - Hidden on mobile ONLY when the filter sidebar is open.
-                  - Always visible on desktop.
-                */}
-                 <div className={`w-full ${isFilterSidebarOpen ? 'hidden' : 'block'} md:block`}>
-                    <LandingPage />
-                </div>
-            </div>
+            )}
             
             <Footer />
-            
-            {/* --- MOBILE BOTTOM NAVIGATION --- */}
-            {/* This BottomNav is only visible on mobile screens */}
-            <div className="block md:hidden">
-                <BottomNav />
-            </div>
         </div>
-    );
+    )
 }
