@@ -8,7 +8,7 @@ const navItems = [
   { href: '/#', icon: <Home />, label: 'Home' },
   { href: '/userDashboard', icon: <Article />, label: 'PG Details' },
   { href: '/inbox', icon: <Mail />, label: 'Inbox' },
-  { href: '/profile', icon: <Person />, label: 'Profile' }, // Changed href to the main profile page
+  { href: '/profile', icon: <Person />, label: 'Profile' },
 ];
 
 export default function Sidebar1() {
@@ -20,14 +20,15 @@ export default function Sidebar1() {
         <span className="text-3xl font-bold text-yellow-500">Pg</span>
         <span className="text-3xl font-bold text-gray-800">Bee</span>
       </div>
-
       <div className="flex flex-col justify-between flex-1 mt-6">
         <nav>
           <ul>
             {navItems.map((item) => {
-              // **FIX:** This logic now highlights "Profile" for all related pages.
               let isActive = false;
-              if (item.label === 'Profile') {
+              // **FIX:** Added a check for the home page
+              if (item.label === 'Home') {
+                isActive = pathname === '/' || pathname === '/home';
+              } else if (item.label === 'Profile') {
                 isActive = pathname.startsWith('/profile') || pathname.startsWith('/userProfile');
               } else {
                 isActive = pathname === item.href;
@@ -38,9 +39,7 @@ export default function Sidebar1() {
                   <Link
                     href={item.href}
                     className={`flex items-center px-4 py-3 rounded-md transition-colors duration-300 transform ${
-                      isActive
-                        ? 'bg-black text-white'
-                        : 'text-gray-700 hover:bg-gray-100'
+                      isActive ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'
                     }`}
                   >
                     {item.icon}
@@ -51,7 +50,6 @@ export default function Sidebar1() {
             })}
           </ul>
         </nav>
-
         <div>
           <Link
             href="/signup"

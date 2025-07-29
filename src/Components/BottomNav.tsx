@@ -19,9 +19,11 @@ export default function BottomNav() {
       <div className="bg-black text-gray-400 rounded-xl shadow-lg">
         <div className="flex justify-around">
           {navItems.map((item) => {
-            // **FIX:** This logic now highlights "Profile" for all related pages.
             let isActive = false;
-            if (item.label === 'Profile') {
+            // **FIX:** Added a check for the home page
+            if (item.label === 'Home') {
+              isActive = pathname === '/' || pathname === '/home';
+            } else if (item.label === 'Profile') {
               isActive = pathname.startsWith('/profile') || pathname.startsWith('/userProfile');
             } else {
               isActive = pathname === item.href;
