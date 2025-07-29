@@ -5,10 +5,10 @@ import { usePathname } from 'next/navigation';
 import { Home, Article, Person, Mail, Logout } from '@mui/icons-material';
 
 const navItems = [
-  { href: '/userDashboard', icon: <Home />, label: 'Home' },
+  { href: '/', icon: <Home />, label: 'Home' }, // 1. Corrected href
   { href: '/userDashboard', icon: <Article />, label: 'PG Details' },
   { href: '/inbox', icon: <Mail />, label: 'Inbox' },
-  { href: '/profile', icon: <Person />, label: 'Profile' }, // Changed href to the main profile page
+  { href: '/profile', icon: <Person />, label: 'Profile' },
 ];
 
 export default function Sidebar1() {
@@ -25,9 +25,11 @@ export default function Sidebar1() {
         <nav>
           <ul>
             {navItems.map((item) => {
-              // **FIX:** This logic now highlights "Profile" for all related pages.
               let isActive = false;
-              if (item.label === 'Profile') {
+              // 2. Added specific logic to highlight "Home" on the root path
+              if (item.label === 'Home') {
+                isActive = pathname === '/';
+              } else if (item.label === 'Profile') {
                 isActive = pathname.startsWith('/profile') || pathname.startsWith('/userProfile');
               } else {
                 isActive = pathname === item.href;
