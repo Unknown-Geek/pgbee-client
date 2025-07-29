@@ -131,10 +131,10 @@ const amenities: string[] = [
 ];
 
 interface PageProps {
-  params: {
-    details: string;
-  };
+  // Pretend it's not a promise, for compatibility
+  params: Awaited<ReturnType<() => Promise<{ details: string }>>>;
 }
+
 
 export default function Page({ params }: PageProps) {
   const id = Number(params.details);
