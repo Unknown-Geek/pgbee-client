@@ -75,7 +75,6 @@ export default function DashBoard() {
             {/* --- MOBILE BOTTOM NAVIGATION --- */}
             {/* This BottomNav is only visible on mobile screens */}
             <div className="block md:hidden">
-                
                 <BottomNav />
             </div>
         </div>
