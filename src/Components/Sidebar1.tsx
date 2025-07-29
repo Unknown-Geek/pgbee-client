@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Article, Person, Settings, Logout } from '@mui/icons-material';
+import { Home, Article, Person, Mail, Logout } from '@mui/icons-material';
 
-// 1. Correct the href for the Settings page.
+// The navItems array has been reordered
 const navItems = [
-  { href: '/userDashboard', icon: <Home />, label: 'Home' },
+  { href: '/home', icon: <Home />, label: 'Home' },
   { href: '/pg-details', icon: <Article />, label: 'PG Details' },
+  { href: '/inbox', icon: <Mail />, label: 'Inbox' },
   { href: '/userProfile/profileView', icon: <Person />, label: 'Profile' },
-  { href: '/#', icon: <Settings />, label: 'Settings' },
 ];
 
 export default function Sidebar1() {
@@ -26,13 +26,10 @@ export default function Sidebar1() {
         <nav>
           <ul>
             {navItems.map((item) => {
-              // 2. This logic is now more specific for each section.
               let isActive = false;
               if (item.label === 'Profile') {
-                // Only highlight if the URL is for profileView or profileEdit
-                isActive = pathname.startsWith('/userProfile/profileView') || pathname.startsWith('/userProfile/profileEdit');
+                isActive = pathname.startsWith('/userProfile');
               } else {
-                // For all other links, check for an exact match
                 isActive = pathname === item.href;
               }
 
@@ -42,8 +39,8 @@ export default function Sidebar1() {
                     href={item.href}
                     className={`flex items-center px-4 py-3 rounded-md transition-colors duration-300 transform ${
                       isActive
-                        ? 'bg-black text-white' // Active link style
-                        : 'text-gray-700 hover:bg-gray-100' // Inactive link style
+                        ? 'bg-black text-white'
+                        : 'text-gray-700 hover:bg-gray-100'
                     }`}
                   >
                     {item.icon}
@@ -57,7 +54,7 @@ export default function Sidebar1() {
 
         <div>
           <Link
-            href="/signup"
+            href="/logout"
             className="flex items-center px-4 py-3 text-gray-700 transition-colors duration-300 transform rounded-md hover:bg-gray-100"
           >
             <Logout />
