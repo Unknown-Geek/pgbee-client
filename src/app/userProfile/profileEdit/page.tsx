@@ -11,7 +11,7 @@ import BottomNav from '../../../Components/BottomNav';
 const Image1 = '/PgBee.png';
 const DefaultImage2 = '/Person.png';
 
-// Type definitions
+// Type definitions for props and form data
 type FormData = {
     name: string; email: string; dob: string; permanentAddress: string;
     city: string; username: string; password: string; country: string;
@@ -28,8 +28,11 @@ type ProfileEditProps = {
     handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-// Mobile View Component
-function MobileProfileEdit({ imagePreview, onIconClick, fileInputRef, onImageChange, onSave, formData, handleInputChange }: ProfileEditProps) {
+// --- Mobile View Component ---
+function MobileProfileEdit({
+    imagePreview, onIconClick, fileInputRef, onImageChange,
+    onSave, formData, handleInputChange
+}: ProfileEditProps) {
     return (
         <div className="flex flex-col mt-[30px]">
             <div className="flex items-center justify-center">
@@ -41,9 +44,9 @@ function MobileProfileEdit({ imagePreview, onIconClick, fileInputRef, onImageCha
             </div>
             <div className="flex flex-col items-center justify-center">
                 <div className="relative w-[130px] h-[130px]">
-                    <input type="file" ref={fileInputRef} onChange={onImageChange} className="hidden" accept="image/*" />
+                    <input type="file" ref={fileInputRef} onChange={onImageChange} className="hidden" placeholder='image' accept="image/*" />
                     <Image src={imagePreview || DefaultImage2} alt="Profile" className="rounded-full object-cover w-full h-full" width={130} height={130} />
-                    <button onClick={onIconClick} className="absolute bottom-3 right-3 bg-black text-white rounded-full p-2 hover:bg-gray-800">
+                    <button onClick={onIconClick} className="absolute bottom-3 right-3 bg-black text-white rounded-full p-2 hover:bg-gray-800 transition-colors" aria-label="Edit profile picture">
                         <Edit fontSize="small" />
                     </button>
                 </div>
@@ -52,12 +55,43 @@ function MobileProfileEdit({ imagePreview, onIconClick, fileInputRef, onImageCha
                 </button>
             </div>
             {/* Form Fields */}
-            <div className='flex flex-col mt-[30px]'>
-                <span className='text-gray-400 text-[14px] px-[15px]'>Your Name</span>
-                <input type="text" name="name" value={formData.name} onChange={handleInputChange} className='border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px]' placeholder='Enter your name' />
+            <div className="flex flex-col mt-[30px]">
+                <span className="text-gray-400 text-[14px] px-[15px]">Your Name</span>
+                <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px]" placeholder="Enter your name" />
             </div>
-            {/* ... other input fields ... */}
-             <div className="flex flex-col my-[30px]">
+            <div className="flex flex-col mt-[30px]">
+                <span className="text-gray-400 text-[14px] px-[15px]">Email</span>
+                <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px]" placeholder="Enter your email" />
+            </div>
+            <div className="flex flex-col mt-[30px]">
+                <span className="text-gray-400 text-[14px] px-[20px]">Date of Birth</span>
+                <input type="text" name="dob" value={formData.dob} onChange={handleInputChange} className="border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px]" placeholder="Enter your DOB" />
+            </div>
+            <div className="flex flex-col mt-[30px]">
+                <span className="text-gray-400 text-[14px] px-[20px]">Permanent address</span>
+                <input type="text" name="permanentAddress" value={formData.permanentAddress} onChange={handleInputChange} className="border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px]" placeholder="Enter your address" />
+            </div>
+            <div className="flex flex-col mt-[30px]">
+                <span className="text-gray-400 text-[14px] px-[20px]">City</span>
+                <input type="text" name="city" value={formData.city} onChange={handleInputChange} className="border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px]" placeholder="Enter your city" />
+            </div>
+            <div className="flex flex-col mt-[30px]">
+                <span className="text-gray-400 text-[14px] px-[20px]">Username</span>
+                <input type="text" name="username" value={formData.username} onChange={handleInputChange} className="border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px]" placeholder="Enter your username" />
+            </div>
+            <div className="flex flex-col mt-[30px]">
+                <span className="text-gray-400 text-[14px] px-[20px]">Password</span>
+                <input type="password" name="password" value={formData.password} onChange={handleInputChange} className="border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px]" placeholder="Enter your password" />
+            </div>
+            <div className="flex flex-col mt-[30px]">
+                <span className="text-gray-400 text-[14px] px-[20px]">Country</span>
+                <input type="text" name="country" value={formData.country} onChange={handleInputChange} className="border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px]" placeholder="Enter your country" />
+            </div>
+            <div className="flex flex-col mt-[30px]">
+                <span className="text-gray-400 text-[14px] px-[20px]">Present address</span>
+                <input type="text" name="presentAddress" value={formData.presentAddress} onChange={handleInputChange} className="border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px]" placeholder="Enter your present address" />
+            </div>
+            <div className="flex flex-col my-[30px]">
                 <span className="text-gray-400 text-[14px] px-[20px]">Postal code</span>
                 <input type="text" name="postalCode" value={formData.postalCode} onChange={handleInputChange} className="border border-gray-400 rounded-[7px] px-[10px] py-[10px] mt-[10px] mx-[20px]" placeholder="Enter your postal code" />
             </div>
@@ -65,8 +99,11 @@ function MobileProfileEdit({ imagePreview, onIconClick, fileInputRef, onImageCha
     );
 }
 
-// Desktop View Component
-function DesktopProfileEdit({ imagePreview, onIconClick, fileInputRef, onImageChange, onSave, formData, handleInputChange }: ProfileEditProps) {
+// --- Desktop View Component ---
+function DesktopProfileEdit({
+    imagePreview, onIconClick, fileInputRef, onImageChange,
+    onSave, formData, handleInputChange
+}: ProfileEditProps) {
     return (
         <div>
             <h1 className="text-3xl font-bold text-gray-800 mb-8">Edit Profile</h1>
@@ -75,9 +112,9 @@ function DesktopProfileEdit({ imagePreview, onIconClick, fileInputRef, onImageCh
                 <div className="flex flex-col md:flex-row gap-8">
                     <div className="flex-shrink-0">
                         <div className="relative w-[100px] h-[100px]">
-                            <input type="file" ref={fileInputRef} onChange={onImageChange} className="hidden" accept="image/*" />
+                            <input type="file" ref={fileInputRef} onChange={onImageChange} className="hidden" placeholder='image' accept="image/*" />
                             <Image src={imagePreview || DefaultImage2} alt="Profile" className="rounded-full object-cover w-full h-full" width={100} height={100} />
-                            <button onClick={onIconClick} className="absolute bottom-0 right-0 bg-black text-white rounded-full p-1.5 hover:bg-gray-800">
+                            <button onClick={onIconClick} className="absolute bottom-0 right-0 bg-black text-white rounded-full p-1.5 hover:bg-gray-800" aria-label="Edit profile picture">
                                 <Edit style={{ fontSize: '1rem' }} />
                             </button>
                         </div>
@@ -85,12 +122,43 @@ function DesktopProfileEdit({ imagePreview, onIconClick, fileInputRef, onImageCh
                     <form className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                         <div>
                             <label className="block text-sm text-gray-500 mb-1">Your Name</label>
-                            <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="w-full font-semibold text-gray-800 border border-gray-300 rounded-md p-3" />
+                            <input type="text" name="name" placeholder='Enter your name' value={formData.name} onChange={handleInputChange} className="w-full font-semibold text-gray-800 border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-yellow-500 outline-none" />
                         </div>
-                        {/* ... other input fields ... */}
+                        <div>
+                            <label className="block text-sm text-gray-500 mb-1">User Name</label>
+                            <input type="text" name="username" placeholder='Enter your username' value={formData.username} onChange={handleInputChange} className="w-full font-semibold text-gray-800 border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-yellow-500 outline-none" />
+                        </div>
+                        <div>
+                            <label className="block text-sm text-gray-500 mb-1">Email</label>
+                            <input type="email" name="email" placeholder='Enter your email' value={formData.email} onChange={handleInputChange} className="w-full font-semibold text-gray-800 border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-yellow-500 outline-none" />
+                        </div>
+                        <div>
+                            <label className="block text-sm text-gray-500 mb-1">Password</label>
+                            <input type="password" name="password" placeholder='Enter new password' value={formData.password} onChange={handleInputChange} className="w-full font-semibold text-gray-800 border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-yellow-500 outline-none" />
+                        </div>
+                        <div>
+                            <label className="block text-sm text-gray-500 mb-1">Date of Birth</label>
+                            <input type="text" name="dob" placeholder='Enter your date of birth' value={formData.dob} onChange={handleInputChange} className="w-full font-semibold text-gray-800 border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-yellow-500 outline-none" />
+                        </div>
+                        <div>
+                            <label className="block text-sm text-gray-500 mb-1">Country</label>
+                            <input type="text" name="country" placeholder='Enter your country' value={formData.country} onChange={handleInputChange} className="w-full font-semibold text-gray-800 border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-yellow-500 outline-none" />
+                        </div>
+                        <div className="md:col-span-2">
+                            <label className="block text-sm text-gray-500 mb-1">Permanent Address</label>
+                            <input type="text" name="permanentAddress" placeholder='Enter your permanent address' value={formData.permanentAddress} onChange={handleInputChange} className="w-full font-semibold text-gray-800 border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-yellow-500 outline-none" />
+                        </div>
+                        <div className="md:col-span-2">
+                            <label className="block text-sm text-gray-500 mb-1">Present Address</label>
+                            <input type="text" name="presentAddress" placeholder='Enter your present address' value={formData.presentAddress} onChange={handleInputChange} className="w-full font-semibold text-gray-800 border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-yellow-500 outline-none" />
+                        </div>
+                        <div>
+                            <label className="block text-sm text-gray-500 mb-1">City</label>
+                            <input type="text" name="city" placeholder='Enter your city' value={formData.city} onChange={handleInputChange} className="w-full font-semibold text-gray-800 border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-yellow-500 outline-none" />
+                        </div>
                         <div>
                             <label className="block text-sm text-gray-500 mb-1">Postal Code</label>
-                            <input type="text" name="postalCode" value={formData.postalCode} onChange={handleInputChange} className="w-full font-semibold text-gray-800 border border-gray-300 rounded-md p-3" />
+                            <input type="text" name="postalCode" placeholder='Enter your postal code' value={formData.postalCode} onChange={handleInputChange} className="w-full font-semibold text-gray-800 border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-yellow-500 outline-none" />
                         </div>
                     </form>
                 </div>
@@ -104,15 +172,23 @@ function DesktopProfileEdit({ imagePreview, onIconClick, fileInputRef, onImageCh
     );
 }
 
-// --- Main Page Component ---
+
+// --- Main Page Component that handles state and logic ---
 export default function ProfileEditPage() {
     const router = useRouter();
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [formData, setFormData] = useState<FormData>({
-        name: 'Charlene Reed', email: 'charlenereed@gmail.com', dob: '25 January 1990',
-        permanentAddress: 'San Jose, California, USA', city: 'San Jose', username: 'Charlene Reed',
-        password: '', country: 'USA', presentAddress: 'San Jose, California, USA', postalCode: '45962'
+        name: 'Charlene Reed',
+        email: 'charlenereed@gmail.com',
+        dob: '25 January 1990',
+        permanentAddress: 'San Jose, California, USA',
+        city: 'San Jose',
+        username: 'Charlene Reed',
+        password: '',
+        country: 'USA',
+        presentAddress: 'San Jose, California, USA',
+        postalCode: '45962'
     });
 
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -125,21 +201,26 @@ export default function ProfileEditPage() {
     const handleIconClick = () => {
         fileInputRef.current?.click();
     };
-    
+
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSave = () => {
-        console.log('Saving data:', formData);
-        // Add API call logic here
+        console.log('Saving Form Data:', formData);
+        // You would typically send this data to your backend API here
         router.push('/userProfile/profileView');
     };
 
     const props = {
-        imagePreview, onIconClick: handleIconClick, fileInputRef, onImageChange: handleImageChange,
-        onSave: handleSave, formData, handleInputChange
+        imagePreview,
+        onIconClick: handleIconClick,
+        fileInputRef,
+        onImageChange: handleImageChange,
+        onSave: handleSave,
+        formData,
+        handleInputChange,
     };
 
     return (
