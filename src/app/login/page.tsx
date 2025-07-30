@@ -22,6 +22,16 @@ export default function LoginPage() {
     return regex.test(email);
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      // Redirect to Google OAuth endpoint
+      window.location.href = 'https://server.pgbee.in/auth/google';
+    } catch (error) {
+      console.error("Google login error:", error);
+      alert("Failed to initiate Google login. Please try again.");
+    }
+  };
+
   const handleLogin = async () => {
     let valid = true;
 
@@ -92,7 +102,10 @@ export default function LoginPage() {
           <button className="w-1/2 py-2 bg-black text-white font-medium">Log in</button>
         </div>
 
-        <button className="w-full flex items-center justify-center gap-2 border border-gray-400 py-2 rounded-xl mb-6 hover:bg-gray-100">
+        <button 
+          onClick={handleGoogleLogin}
+          className="w-full flex items-center justify-center gap-2 border border-gray-400 py-2 rounded-xl mb-6 hover:bg-gray-100"
+        >
           <FcGoogle size={24} />
           Log In with Google
         </button>
