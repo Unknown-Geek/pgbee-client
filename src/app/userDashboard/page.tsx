@@ -1,7 +1,7 @@
 "use client";
 
 import LandingPage from "@/Components/LandingPage";
-import Sidebar from "@/Components/Sidebar";
+import Sidebar, { FilterState } from "@/Components/Sidebar";
 import { useState, useEffect } from "react";
 import Image from 'next/image';
 import { FilterList, LocationOn, Search } from "@mui/icons-material";
@@ -21,6 +21,7 @@ export default function DashBoard() {
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [suggestions, setSuggestions] = useState<SuggestionItem[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [filters, setFilters] = useState<FilterState | null>(null);
     
     // Use the hook to detect screen size
     const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
@@ -30,6 +31,11 @@ export default function DashBoard() {
     useEffect(() => {
         setIsClient(true);
     }, []);
+
+    // Handle filter changes from Sidebar
+    const handleFiltersChange = (newFilters: FilterState) => {
+        setFilters(newFilters);
+    };
 
     // ====================================================================
     // 🔍 MOBILE SEARCH SUGGESTIONS - REPLACE WITH YOUR ACTUAL DATA
@@ -105,12 +111,6 @@ export default function DashBoard() {
         setSearchQuery(searchTerm);
         setShowSuggestions(false);
         console.log('Searching for:', searchTerm);
-    };
-
-    const handleClearSearch = () => {
-        setSearchQuery('');
-        setLocation('');
-        setShowSuggestions(false);
     };
 
     const handleInputBlur = () => {
@@ -205,14 +205,21 @@ export default function DashBoard() {
                 {/* SIDEBAR */}
                 {(!isMobile || isFilterSidebarOpen) && (
                     <div className={isMobile ? 'w-full' : ''}>
-                        <Sidebar toggle={isFilterSidebarOpen} setToggle={setIsFilterSidebarOpen} />
+                        <Sidebar 
+                            toggle={isFilterSidebarOpen} 
+                            setToggle={setIsFilterSidebarOpen}
+                            onFiltersChange={handleFiltersChange}
+                        />
                     </div>
                 )}
                 
                 {/* LANDING PAGE */}
                 {(!isMobile || !isFilterSidebarOpen) && (
                     <div className="w-full">
-                        <LandingPage searchQuery={searchQuery} onClearSearch={handleClearSearch} />
+                        <LandingPage 
+                            searchQuery={searchQuery} 
+                            filters={filters}
+                        />
                     </div>
                 )}
             </div>

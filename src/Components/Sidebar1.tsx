@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Article, Person, Mail, Logout } from '@mui/icons-material';
+import { Home, Person, Mail, Logout } from '@mui/icons-material';
 import Image from "next/image";
 
 const navItems = [
