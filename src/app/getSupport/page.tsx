@@ -63,10 +63,10 @@ export default function GetSupportPage() {
           reach out to our support team.
         </p>
         <p className="text-sm sm:text-base text-gray-700">
-          <strong>Email:</strong> support@pgbee.com
+          <strong>Email:</strong>  pgbeecompany@gmail.com
         </p>
         <p className="text-sm sm:text-base text-gray-700">
-          <strong>Phone:</strong> +91 12345 67890 (Mon-Fri, 9am-6pm IST)
+          <strong>Phone:</strong> +91 82814 80448 (Mon-Fri, 9am-6pm IST)
         </p>
 
         <div className="mt-8 text-center">
