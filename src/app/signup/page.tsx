@@ -2,7 +2,6 @@
 import { FcGoogle } from "react-icons/fc";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import Image from "next/image";
 
 export default function SignupPage() {
