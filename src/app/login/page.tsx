@@ -62,6 +62,7 @@ export default function LoginPage() {
         withCredentials: true,
         email,
         password,
+        "student"
       });
 
       console.log("Fetched details:", response.data);
