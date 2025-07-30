@@ -59,7 +59,7 @@ export default function SignupPage() {
       setEmailValid(validateEmail(email));
     }
   }, [email]);
-
+  const role="student"
   // fetch details
   const fetchDetails = async () => {
     try {
@@ -67,7 +67,7 @@ export default function SignupPage() {
         name: `${firstName} ${lastName}`,
         email,
         password,
-        student
+        role
       }
       );
     } catch (error) {
