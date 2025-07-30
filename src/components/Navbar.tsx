@@ -204,7 +204,7 @@ const Navbar = ({ onSearch, searchQuery }: NavbarProps) => {
           
           {user && (
             <span className="hidden md:block text-sm text-gray-600">
-              Hello, {user.name.split(' ')[0]}
+              Hello, {user.name ? user.name.split(' ')[0] : 'User'}
             </span>
           )}
 

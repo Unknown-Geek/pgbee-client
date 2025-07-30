@@ -22,6 +22,16 @@ export default function LoginPage() {
     return regex.test(email);
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      // Redirect to Google OAuth endpoint
+      window.location.href = 'https://server.pgbee.in/auth/google';
+    } catch (error) {
+      console.error("Google login error:", error);
+      alert("Failed to initiate Google login. Please try again.");
+    }
+  };
+
   const handleLogin = async () => {
     let valid = true;
 
@@ -78,12 +88,9 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[#f9f9f9] flex flex-col items-center justify-center relative">
       {/* Logo Heading */}
-      <div className="flex justify-center mt-6 mb-8 z-20">
-        <h1 className="text-5xl font-poppins text-center">
-          <span className="text-yellow-400">Pg</span>
-          <span className="text-black">Bee</span>
-        </h1>
-      </div>
+       <div className="absolute top-6 left-1/2 transform -translate-x-1/2 z-20 mt-4">
+             <Image src="/PgBee.png" alt="PgBee Logo" width={120} height={50} />
+           </div>
 
       {/* Login Card */}
       <div className="w-full max-w-md p-6 bg-white rounded-xl shadow-xl z-10">
@@ -92,7 +99,10 @@ export default function LoginPage() {
           <button className="w-1/2 py-2 bg-black text-white font-medium">Log in</button>
         </div>
 
-        <button className="w-full flex items-center justify-center gap-2 border border-gray-400 py-2 rounded-xl mb-6 hover:bg-gray-100">
+        <button 
+          onClick={handleGoogleLogin}
+          className="w-full flex items-center justify-center gap-2 border border-gray-400 py-2 rounded-xl mb-6 hover:bg-gray-100"
+        >
           <FcGoogle size={24} />
           Log In with Google
         </button>
