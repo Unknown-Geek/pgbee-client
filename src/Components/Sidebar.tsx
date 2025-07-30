@@ -128,6 +128,8 @@ export default function Sidebar({ setToggle, onFiltersChange }: SidebarProps) {
                             <div onClick={()=>setToggle(false)} className="text-gray-500 flex md:hidden cursor-pointer"><Close/></div>
                         </div>
                     </div>
+                    {/* TODO: Sort dropdown for mobile - COMMENTED OUT FOR NOW */}
+                    {/*
                     <div className="block md:hidden flex flex-col">
                         <span className="text-xl font-semibold ">Sort By</span>
                         <label htmlFor="sortBy" className="sr-only">Sort By</label>
@@ -146,6 +148,7 @@ export default function Sidebar({ setToggle, onFiltersChange }: SidebarProps) {
                         </select>
                         <hr className="mt-[30px] h-px text-gray-400 " />
                     </div>
+                    */}
                     <span className="text-xl font-semibold ">Amenities</span>
                     <input 
                         className="p-[15px] rounded-lg border h-[36px] w-[300px] border-gray-400 " 

@@ -195,7 +195,8 @@ export default function LandingPage({ searchQuery = '', filters }: LandingPagePr
                 filtered = filtered.filter(pg => pg.deposit === hasDeposit);
             }
 
-            // Apply sorting
+            // TODO: Apply sorting - COMMENTED OUT FOR NOW
+            /*
             switch (filters.sortBy) {
                 case 'Price: Low to High':
                     filtered.sort((a, b) => a.discountedPrice - b.discountedPrice);
@@ -215,6 +216,7 @@ export default function LandingPage({ searchQuery = '', filters }: LandingPagePr
                     filtered.sort((a, b) => (b.rating * b.reviews) - (a.rating * a.reviews));
                     break;
             }
+            */
         }
 
         return filtered;
@@ -268,6 +270,8 @@ const handleViewDetails = (id: number) => {
                     </span>
                 </div>
                 <span>({filteredPgs.length} search results)</span>
+                {/* TODO: Sort dropdown - COMMENTED OUT FOR NOW */}
+                {/*
                 <span className="ml-[170px] mr-[15px] font-semibold hidden sm:block ">Sort By:</span>
 
                 <select className="hidden sm:block p-[8px] cursor-pointer rounded-lg border h-[40px] w-[300px] border-gray-400 appearance-none bg-white pr-10">
@@ -276,6 +280,7 @@ const handleViewDetails = (id: number) => {
                     <option>Price: High to Low</option>
                     <option>Rating</option>
                 </select>
+                */}
             </div>
 
             {/* landing page */}
