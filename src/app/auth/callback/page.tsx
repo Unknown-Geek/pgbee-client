@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 
 export default function AuthCallback() {
   const router = useRouter();
-  const { user, loading } = useAuth();
+  const { } = useAuth();
 
   useEffect(() => {
     const handleCallback = async () => {
