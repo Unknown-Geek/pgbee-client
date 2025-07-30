@@ -5,28 +5,28 @@ import { useEffect, useState, useMemo } from "react";
 import { Range } from "react-range";
 
 type SidebarProps = {
-    toggle: boolean;
-    setToggle: (value: boolean) => void;
-    onFiltersChange?: (filters: FilterState) => void;
+  toggle: boolean;
+  setToggle: (value: boolean) => void;
+  onFiltersChange?: (filters: FilterState) => void;
 };
 
 export interface FilterState {
-    sortBy: string;
-    amenities: string[];
-    amenitySearch: string;
-    priceRange: number[];
-    placeType: 'Hostel' | 'PG';
-    rooms: string;
-    bathrooms: string;
-    curfew: 'mandatory' | 'none' | 'any';
-    roomType: string[];
-    bathroomAttached: 'attached' | 'not-attached' | 'any';
-    cautionDeposit: 'yes' | 'no' | 'any';
+  sortBy: string;
+  amenities: string[];
+  amenitySearch: string;
+  priceRange: number[];
+  placeType: 'Hostel' | 'PG';
+  rooms: string;
+  bathrooms: string;
+  curfew: 'mandatory' | 'none' | 'any';
+  roomType: string[];
+  bathroomAttached: 'attached' | 'not-attached' | 'any';
+  cautionDeposit: 'yes' | 'no' | 'any';
 }
 
 export default function Sidebar({ setToggle, onFiltersChange }: SidebarProps) {
-    const allAmenities = useMemo(() =>
-        ["Free Wi-Fi", "Kitchen", "Balcony", "Mess available", "Gym", "Free Wifi", "Terrace", "Washing Machine"],
+    const allAmenities = useMemo(() => 
+        ["Free Wi-Fi", "Kitchen", "Balcony", "Mess available", "Gym", "Free Wifi", "Terrace", "Washing Machine"], 
         []
     );
     const [filteredAmenities, setFilteredAmenities] = useState(allAmenities);
@@ -78,7 +78,7 @@ export default function Sidebar({ setToggle, onFiltersChange }: SidebarProps) {
     };
 
     const toggleAmenity = (amenity: string) => {
-        updateFilter('amenities',
+        updateFilter('amenities', 
             filters.amenities.includes(amenity)
                 ? filters.amenities.filter(a => a !== amenity)
                 : [...filters.amenities, amenity]
@@ -110,8 +110,8 @@ export default function Sidebar({ setToggle, onFiltersChange }: SidebarProps) {
             cautionDeposit: 'any'
         });
     };
-
-
+    
+    
     return (
         <div className="flex-1">
             <div className="flex flex-col py-[20px] px-[25px] lg:px-[40px] border-r border-gray-400 ">
@@ -119,32 +119,53 @@ export default function Sidebar({ setToggle, onFiltersChange }: SidebarProps) {
                     <div className="flex flex-row justify-between items-center">
                         <span className="text-3xl font-bold ">Filters</span>
                         <div className="flex gap-2">
-                            <button
+                            <button 
                                 onClick={clearAllFilters}
                                 className="text-sm text-gray-600 hover:text-black underline"
                             >
                                 Clear All
                             </button>
-                            <div onClick={() => setToggle(false)} className="text-gray-500 flex md:hidden cursor-pointer"><Close /></div>
+                            <div onClick={()=>setToggle(false)} className="text-gray-500 flex md:hidden cursor-pointer"><Close/></div>
                         </div>
                     </div>
-                    
+                    {/* TODO: Sort dropdown for mobile - COMMENTED OUT FOR NOW */}
+                    {/*
+                    <div className="block md:hidden flex flex-col">
+                        <span className="text-xl font-semibold ">Sort By</span>
+                        <label htmlFor="sortBy" className="sr-only">Sort By</label>
+                        <select
+                            id="sortBy"
+                            aria-label="Sort By"
+                            value={filters.sortBy}
+                            onChange={(e) => updateFilter('sortBy', e.target.value)}
+                            className="p-[8px] cursor-pointer rounded-lg border h-[40px] mt-[15px] w-[300px] border-gray-400 appearance-none bg-white pr-10"
+                        >
+                            <option value="Popularity">Popularity</option>
+                            <option value="Price: Low to High">Price: Low to High</option>
+                            <option value="Price: High to Low">Price: High to Low</option>
+                            <option value="Rating">Rating</option>
+                            <option value="Reviews">Most Reviewed</option>
+                        </select>
+                        <hr className="mt-[30px] h-px text-gray-400 " />
+                    </div>
+                    */}
                     <span className="text-xl font-semibold ">Amenities</span>
-                    <input
-                        className="p-[15px] rounded-lg border h-[36px] w-[300px] border-gray-400 "
-                        placeholder="Search amenities..."
+                    <input 
+                        className="p-[15px] rounded-lg border h-[36px] w-[300px] border-gray-400 " 
+                        placeholder="Search amenities..." 
                         value={filters.amenitySearch}
                         onChange={(e) => updateFilter('amenitySearch', e.target.value)}
                     />
                     <div className="flex flex-row gap-2 flex-wrap mt-[20px] w-[350px] ">
                         {displayedAmenities.map((amenity, index) => (
-                            <div
-                                key={index}
+                            <div 
+                                key={index} 
                                 onClick={() => toggleAmenity(amenity)}
-                                className={`flex flex-row items-center justify-center rounded-lg gap-2 min-w-[100px] h-auto max-h-[40px] p-[6px] cursor-pointer transition-colors ${filters.amenities.includes(amenity)
-                                        ? 'bg-black text-white'
+                                className={`flex flex-row items-center justify-center rounded-lg gap-2 min-w-[100px] h-auto max-h-[40px] p-[6px] cursor-pointer transition-colors ${
+                                    filters.amenities.includes(amenity) 
+                                        ? 'bg-black text-white' 
                                         : 'bg-gray-200 hover:bg-gray-300'
-                                    }`}
+                                }`}
                             >
                                 <span className="text-[12px] ">{amenity} </span>
                             </div>
@@ -160,70 +181,68 @@ export default function Sidebar({ setToggle, onFiltersChange }: SidebarProps) {
                     <hr className="mt-[30px] h-px text-gray-400 " />
                 </div>
 
-               {/* price */}
-<div className="flex flex-col gap-3 mt-[30px]">
-    <span className="font-bold text-[22px] mb-[10px] ">Price</span>
-    {/* Slider */}
-    <Range
-        step={STEP}
-        min={MIN}
-        max={MAX}
-        values={filters.priceRange}
-        onChange={(values) => updateFilter('priceRange', values)}
-        renderTrack={({ props, children }) => (
-            <div
-                {...props}
-                className="h-1 w-full bg-gray-200 rounded relative"
-                style={{ ...props.style }}
-            >
-                <div
-                    className="absolute h-1 bg-black rounded"
-                    style={{
-                        left: `${((filters.priceRange[0] - MIN) / (MAX - MIN)) * 100}%`,
-                        width: `${((filters.priceRange[1] - filters.priceRange[0]) / (MAX - MIN)) * 100}%`,
-                    }}
-                />
-                {children}
-            </div>
-        )}
-        renderThumb={({ props }) => {
-            const { key, ...restProps } = props;
-            return (
-                <div
-                    key={key}
-                    {...restProps}
-                    className="h-5 w-5 bg-white border-2 border-black rounded-full shadow"
-                />
-            );
-        }}
-    />
+                {/* price */}
+                <div className="flex flex-col gap-3 mt-[30px]">
+                    <span className="font-bold text-[22px] mb-[10px] ">Price</span>
+                    {/* Slider */}
+                    <Range
+                        step={STEP}
+                        min={MIN}
+                        max={MAX}
+                        values={filters.priceRange}
+                        onChange={(values) => updateFilter('priceRange', values)}
+                        renderTrack={({ props, children }) => (
+                            <div
+                                {...props}
+                                className="h-1 w-full bg-gray-200 rounded relative"
+                                style={{ ...props.style }}
+                            >
+                                <div
+                                    className="absolute h-1 bg-black rounded"
+                                    style={{
+                                        left: `${((filters.priceRange[0] - MIN) / (MAX - MIN)) * 100}%`,
+                                        width: `${((filters.priceRange[1] - filters.priceRange[0]) / (MAX - MIN)) * 100}%`,
+                                    }}
+                                />
+                                {children}
+                            </div>
+                        )}
+                        renderThumb={({ props }) => (
+                            <div
+                                {...props}
+                                className="h-5 w-5 bg-white border-2 border-black rounded-full shadow"
+                            />
+                        )}
+                    />
 
-    <div className="flex justify-between mt-2 text-sm font-semibold">
-        <span className="bg-gray-100 px-2 py-1 rounded">₹{filters.priceRange[0]}</span>
-        <span className="bg-gray-100 px-2 py-1 rounded">₹{filters.priceRange[1]}</span>
-    </div>
+                    <div className="flex justify-between mt-2 text-sm font-semibold">
+                        <span className="bg-gray-100 px-2 py-1 rounded">₹{filters.priceRange[0]}</span>
+                        <span className="bg-gray-100 px-2 py-1 rounded">₹{filters.priceRange[1]}</span>
+                    </div>
 
-    <hr className="mt-[30px] h-px text-gray-400 " />
+                    <hr className="mt-[30px] h-px text-gray-400 " />
 
                     {/* Type of place */}
                     <span className="mt-[15px] lg:mt-[25px] font-bold text-[22px] ">Type of Place</span>
                     <div className="flex border border-black rounded-xl overflow-hidden w-[300px] lg:w-[250px] mt-[10px] lg:mt-[20px] ">
-                        <div
+                        <div 
                             onClick={() => updateFilter('placeType', 'Hostel')}
-                            className={`px-6 py-3 text-center flex-1 cursor-pointer transition-colors ${filters.placeType === 'Hostel'
+                            className={`px-6 py-3 text-center flex-1 cursor-pointer transition-colors ${
+                                filters.placeType === 'Hostel'
                                     ? 'bg-black text-white'
                                     : 'bg-white text-black hover:bg-gray-100'
-                                }`}
+                            }`}
                         >
                             <div className="font-bold">Hostel</div>
                             <div className="text-sm">₹3000 Avg</div>
                         </div>
-                        <div
+                        <div 
                             onClick={() => updateFilter('placeType', 'PG')}
-                            className={`px-6 py-3 text-center border-l border-black flex-1 cursor-pointer transition-colors ${filters.placeType === 'PG'
+                            className={`px-6 py-3 text-center border-l border-black flex-1 cursor-pointer transition-colors ${
+                                filters.placeType === 'PG'
                                     ? 'bg-black text-white'
                                     : 'bg-white text-black hover:bg-gray-100'
-                                }`}
+                            }`}
                         >
                             <div className="font-bold">PG</div>
                             <div className="text-sm">₹8000 Avg</div>
@@ -237,9 +256,9 @@ export default function Sidebar({ setToggle, onFiltersChange }: SidebarProps) {
                         <span className="mt-[25px] font-bold text-[20px] ">Rooms</span>
                         <div className="flex flex-row gap-2 flex-wrap mt-[20px] ">
                             {rooms.map((room, index) => (
-                                <div
-                                    onClick={() => updateFilter('rooms', room)}
-                                    key={index}
+                                <div 
+                                    onClick={() => updateFilter('rooms', room)} 
+                                    key={index} 
                                     className={`${filters.rooms === room ? "bg-black text-white" : "hover:bg-gray-100"} flex flex-row items-center border justify-center cursor-pointer rounded-xl gap-2 w-[50px] p-[6px] transition-colors`}
                                 >
                                     <span className={`text-[15px] font-semibold `}>{room} </span>
@@ -250,9 +269,9 @@ export default function Sidebar({ setToggle, onFiltersChange }: SidebarProps) {
                         <span className="mt-[20px] font-bold text-[20px] ">BathRooms</span>
                         <div className="flex flex-row gap-2 flex-wrap mt-[20px] ">
                             {rooms.map((room, index) => (
-                                <div
-                                    onClick={() => updateFilter('bathrooms', room)}
-                                    key={index}
+                                <div 
+                                    onClick={() => updateFilter('bathrooms', room)} 
+                                    key={index} 
                                     className={`${filters.bathrooms === room ? "bg-black text-white" : "hover:bg-gray-100"} flex flex-row items-center border justify-center cursor-pointer rounded-xl gap-2 w-[50px] p-[6px] transition-colors`}
                                 >
                                     <span className={`text-[15px] font-semibold `}>{room} </span>
@@ -408,6 +427,6 @@ export default function Sidebar({ setToggle, onFiltersChange }: SidebarProps) {
             </div>
 
         </div>
-    )
+    ) 
 
 }
