@@ -1,14 +1,15 @@
 "use client";
 
-import LandingPage from "@/Components/LandingPage";
-import Sidebar, { FilterState } from "@/Components/Sidebar";
+import LandingPage from "@/components/LandingPage";
+import Sidebar, { FilterState } from "@/components/Sidebar";
 import { useState, useEffect } from "react";
 import Image from 'next/image';
 import { FilterList, LocationOn, Search } from "@mui/icons-material";
-import Navbar from "@/Components/Navbar";
+import Navbar from "@/components/Navbar";
 import Footer from "./footer/page";
-import BottomNav from "@/Components/BottomNav";
+import BottomNav from "@/components/BottomNav";
 import { useMediaQuery } from 'react-responsive';
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 interface SuggestionItem {
     text: string;
@@ -124,9 +125,10 @@ export default function DashBoard() {
     }
 
     return (
-        <div className="flex flex-col min-h-screen bg-white">
-            
-            {/* --- NAVIGATION --- */}
+        <ProtectedRoute>
+            <div className="flex flex-col min-h-screen bg-white">
+                
+                {/* --- NAVIGATION --- */}
             {/* Conditionally render based on the hook's return value */}
             {isMobile ? (
                 // --- MOBILE SEARCH BAR ---
@@ -228,6 +230,7 @@ export default function DashBoard() {
             
             {/* --- MOBILE BOTTOM NAVIGATION --- */}
             {isMobile && <BottomNav />}
-        </div>
+            </div>
+        </ProtectedRoute>
     );
 }

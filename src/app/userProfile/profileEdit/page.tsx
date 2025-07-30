@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Edit, KeyboardArrowLeft } from '@mui/icons-material';
 import { useState, useRef, ChangeEvent, RefObject } from 'react';
-import Sidebar1 from '../../../Components/Sidebar1';
-import BottomNav from '../../../Components/BottomNav';
+import Sidebar1 from '../../../components/Sidebar1';
+import BottomNav from '../../../components/BottomNav';
 
 // Constants
 const Image1 = '/PgBee.png';

@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { KeyboardArrowLeft } from '@mui/icons-material';
-import Sidebar1 from '../../../Components/Sidebar1';
-import BottomNav from '../../../Components/BottomNav';
+import Sidebar1 from '../../../components/Sidebar1';
+import BottomNav from '../../../components/BottomNav';
 
 const Image1 = '/PgBee.png';
 const Image2 = '/Person.png';

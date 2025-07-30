@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
 import Modal from '../[details]/modal';
 import Wishlist from '../wishlists/page';
-import Sidebar1 from '../../../Components/Sidebar1'; // Ensure this path is correct
+import Sidebar1 from '../../../components/Sidebar1'; // Ensure this path is correct
 
 const Navbar = () => {
     const [location, setLocation] = useState('');
