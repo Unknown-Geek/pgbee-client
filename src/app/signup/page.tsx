@@ -78,7 +78,7 @@ export default function SignupPage() {
         role
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         setShowModal(true);
         setFirstName("");
         setLastName("");
