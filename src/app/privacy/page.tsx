@@ -15,8 +15,8 @@ export default function PrivacyPolicyPage() {
                 </button>
 
         <div className="flex-1 text-center">
-          <span className="text-2xl font-extrabold text-yellow-400">Pg</span>
-          <span className="text-2xl font-extrabold text-black">Bee</span>
+          <span className="text-5xl font-poppins text-yellow-400">Pg</span>
+          <span className="text-5xl font-poppins text-black">Bee</span>
         </div>
         {/* Placeholder to center the logo */}
         <div className="w-8" />
