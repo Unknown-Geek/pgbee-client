@@ -67,6 +67,7 @@ export default function SignupPage() {
         name: `${firstName} ${lastName}`,
         email,
         password,
+        student
       }
       );
     } catch (error) {
