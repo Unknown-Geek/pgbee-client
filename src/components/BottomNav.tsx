@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Article, Mail, Person, HomeOutlined, ArticleOutlined, MailOutlined, PersonOutline } from '@mui/icons-material';
+import { Home, Mail, Person, HomeOutlined, MailOutlined, PersonOutline } from '@mui/icons-material';
 
 const navItems = [
     { href: '/', icon: <HomeOutlined />, activeIcon: <Home />, label: 'Home' },

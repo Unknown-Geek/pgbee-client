@@ -4,6 +4,7 @@ import { CheckCircleOutline, Favorite, FavoriteBorder } from "@mui/icons-materia
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { FilterState } from "./Sidebar";
+import Image from "next/image";
 
 interface LandingPageProps {
     searchQuery?: string;
@@ -295,10 +296,10 @@ const handleViewDetails = (id: number) => {
                 const remainingCount = pg.images.length - maxDisplay;
 
                 return (
-                    <div key={pg.id} className="m-[15px] lg:m-[30px] flex pb-6 ">
+                    <div key={pg.id} className="m-[15px] lg:m-[30px] flex pb-6 " onClick={() => handleViewDetails(pg.id)}>
                         {/* Main image */}
                         <div className="relative w-[220px] lg:w-[400px] h-[170px] lg:h-[260px] rounded-2xl overflow-hidden flex-shrink-0">
-                            <img
+                            <Image
                                 src={pg.images[0]}
                                 alt={pg.name}
                                 className="block w-full h-full object-cover rounded-2xl"
@@ -316,7 +317,7 @@ const handleViewDetails = (id: number) => {
                         {/* Side images */}
                         <div className="flex flex-col gap-3 ml-[10px] hidden sm:block">
                             {pg.images.slice(1, maxDisplay + 1).map((img, idx) => (
-                                <img
+                                <Image
                                     key={idx}
                                     src={img}
                                     alt={`img-${idx}`}
@@ -326,7 +327,7 @@ const handleViewDetails = (id: number) => {
 
                             {remainingCount > 0 && (
                                 <div className="relative rounded-xl w-20 h-12 overflow-hidden">
-                                    <img
+                                    <Image
                                         src={pg.images[maxDisplay]}
                                         alt="more"
                                         className="w-full h-full object-cover mt-[4px] opacity-70"
