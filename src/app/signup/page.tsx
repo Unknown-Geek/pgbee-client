@@ -59,18 +59,40 @@ export default function SignupPage() {
     }
   }, [email]);
   const role="student"
+  
+  // ============================================================================
+  // 🚨 MOCK SIGNUP - REPLACE WITH REAL API CALL WHEN BACKEND IS READY
+  // ============================================================================
   // fetch details
   const fetchDetails = async () => {
     try {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Mock successful signup
+      console.log('🚨 MOCK: Signup successful for:', {
+        name: `${firstName} ${lastName}`,
+        email,
+        role
+      });
+      
+      alert("Account created successfully! Please login with your credentials.\n\nDemo credentials available:\n• demo@pgbee.com / demo123\n• john@example.com / password123");
+      router.push("/login");
+      
+      // ============================================================================
+      // END MOCK - Replace above with real backend call
+      // ============================================================================
+      
+      /* REAL CODE TO RESTORE:
       await axios.post("https://server.pgbee.in/auth/signup", {
         name: `${firstName} ${lastName}`,
         email,
         password,
         role
-      }
-      );
+      });
       alert("Account created successfully! Please login.");
       router.push("/login");
+      */
     } catch (error) {
       console.error("Error fetching details:", error);
       alert("Something went wrong. Please try again.");
@@ -91,6 +113,8 @@ export default function SignupPage() {
 
       {/* Signup Form */}
       <div className="w-full max-w-md p-6 bg-white rounded-xl shadow-xl z-10">
+
+        
         {/* Tabs */}
         <div className="flex mb-6 rounded-lg overflow-hidden border border-gray-300">
           <button className="w-1/2 py-2 bg-black text-white font-medium">Sign up</button>

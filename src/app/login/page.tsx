@@ -76,6 +76,22 @@ export default function LoginPage() {
 
       {/* Login Card */}
       <div className="w-full max-w-md p-6 bg-white rounded-xl shadow-xl z-10">
+        
+        {/* ============================================================================ */}
+        {/* 🚨 DEMO MODE INDICATOR - REMOVE WHEN BACKEND IS READY */}
+        {/* ============================================================================ */}
+        {/* <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="flex items-center gap-2">
+            <span className="text-blue-600 text-sm font-medium">🚨 DEMO MODE</span>
+          </div>
+          <p className="text-xs text-blue-600 mt-1">
+            Use: <strong>demo@pgbee.com</strong> / <strong>demo123</strong>
+          </p>
+        </div> */}
+        {/* ============================================================================ */}
+        {/* END DEMO INDICATOR */}
+        {/* ============================================================================ */}
+        
         {/* Tabs */}
         <div className="flex mb-6 rounded-lg overflow-hidden border border-gray-300">
           <button onClick={() => router.push("/signup")} className="w-1/2 py-2 bg-white text-black font-medium">Sign up</button>
