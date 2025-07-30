@@ -2,6 +2,7 @@
 import { FcGoogle } from "react-icons/fc";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 import Image from "next/image";
 
 export default function SignupPage() {
@@ -61,7 +62,7 @@ export default function SignupPage() {
   const handleGoogleSignup = async () => {
     try {
       // Redirect to Google OAuth endpoint
-      window.location.href = 'http://192.168.73.1/auth/google';
+      window.location.href = 'http://server.pgbee.in/auth/google';
     } catch (error) {
       console.error("Google signup error:", error);
       alert("Failed to initiate Google signup. Please try again.");
@@ -70,7 +71,7 @@ export default function SignupPage() {
   
   const fetchDetails = async () => {
     try {
-      const response = await axios.post("http://192.168.73.1/auth/signup", {
+      const response = await axios.post("http://server.pgbee.in/auth/signup", {
         name: `${firstName} ${lastName}`,
         email,
         password,
