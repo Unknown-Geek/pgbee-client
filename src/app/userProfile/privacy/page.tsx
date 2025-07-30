@@ -9,7 +9,7 @@ export default function PrivacyPolicyPage() {
       {/* Header */}
       <div className="w-full max-w-2xl flex items-center mb-6">
         <Link
-          href="/"
+          href="/userDashboard/userProfile"
           className="p-2 rounded-full hover:bg-gray-200"
           aria-label="Back"
         >

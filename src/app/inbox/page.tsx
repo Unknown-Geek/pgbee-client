@@ -104,6 +104,7 @@ function DesktopInbox({ activeFilter, setActiveFilter }: { activeFilter: string;
     const [selectedMessage, setSelectedMessage] = useState(filteredMessages[0]);
     return (
         <div>
+
             <h1 className="text-3xl font-bold text-gray-800 mb-8">Inbox</h1>
             <div className="flex bg-white rounded-2xl shadow-lg h-[calc(100vh-120px)]">
                 <div className="w-1/3 border-r">

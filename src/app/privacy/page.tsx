@@ -1,20 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronLeftIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function PrivacyPolicyPage() {
+  const router = useRouter();
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center py-6 px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="w-full max-w-2xl flex items-center mb-6">
-        <Link
-          href="/"
-          className="p-2 rounded-full hover:bg-gray-200"
-          aria-label="Back"
-        >
-          <ChevronLeftIcon className="h-6 w-6 text-gray-700" />
-        </Link>
+                <button className='mb-4 text-gray-600 hover:text-gray-800 hover:cursor-pointer' onClick={() => router.push('/profile')}>
+                    <Image src="/back.svg" alt="Back" width={16} height={16} className="inline-block mr-2" />
+                </button>
+
         <div className="flex-1 text-center">
           <span className="text-2xl font-extrabold text-yellow-400">Pg</span>
           <span className="text-2xl font-extrabold text-black">Bee</span>

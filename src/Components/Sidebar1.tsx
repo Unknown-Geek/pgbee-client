@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Article, Person, Mail, Logout } from '@mui/icons-material';
+import { Home, Person, Mail, Logout } from '@mui/icons-material';
+import Image from "next/image";
 
 const navItems = [
   { href: '/', icon: <Home />, label: 'Home' }, // 1. Corrected href
-  { href: '/userDashboard', icon: <Article />, label: 'PG Details' },
   { href: '/inbox', icon: <Mail />, label: 'Inbox' },
   { href: '/profile', icon: <Person />, label: 'Profile' },
 ];
@@ -16,12 +16,11 @@ export default function Sidebar1() {
 
   return (
     <aside className="hidden md:flex flex-col w-64 h-screen px-4 py-8 bg-white border-r">
-      <div className="px-2 mb-10">
-        <span className="text-3xl font-bold text-yellow-500">Pg</span>
-        <span className="text-3xl font-bold text-gray-800">Bee</span>
+      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 z-20 mt-8">
+        <Image src="/PgBee.png" alt="PgBee Logo" width= {120} height={50} />
       </div>
 
-      <div className="flex flex-col justify-between flex-1 mt-6">
+      <div className="flex flex-col justify-between flex-1 mt-20">
         <nav>
           <ul>
             {navItems.map((item) => {

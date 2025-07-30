@@ -1,9 +1,9 @@
 "use client";
-
 import { FcGoogle } from "react-icons/fc";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Image from "next/image";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -13,7 +13,6 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [emailValid, setEmailValid] = useState<null | boolean>(null);
 
   const validateEmail = (email: string) => {
@@ -43,7 +42,7 @@ export default function SignupPage() {
     }
 
     try {
-      await fetchDetails();
+    await fetchDetails();
       alert("Signup successful!");
       router.push("/"); 
     } catch (error) {
@@ -59,13 +58,15 @@ export default function SignupPage() {
       setEmailValid(validateEmail(email));
     }
   }, [email]);
-
+  const role="student"
   // fetch details
   const fetchDetails = async () => {
     try {
-      const response = await axios.post("https://server.pgbee.in/api/v1/auth/signup", {
+      await axios.post("https://server.pgbee.in/auth/signup", {
+        name: `${firstName} ${lastName}`,
         email,
         password,
+        role
       }
       );
     } catch (error) {
@@ -82,10 +83,9 @@ export default function SignupPage() {
             <img src="/Group 3.png" alt="hexagon" className="absolute top-100 left-0 w-500.5px h-200 "></img>*/}
 
       {/* Logo Heading */}
-      <h1 className="absolute top-6 left-1/2 transform -translate-x-1/2 text-5xl font-extrabold text-center z-20">
-        <span className="text-yellow-400">Pg</span>
-        <span className="text-black">Bee</span>
-      </h1>
+      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 z-20 mt-4">
+        <Image src="/PgBee.png" alt="PgBee Logo" width= {120} height={50} />
+      </div>
 
       {/* Signup Form */}
       <div className="w-full max-w-md p-6 bg-white rounded-xl shadow-xl z-10">
@@ -163,7 +163,7 @@ export default function SignupPage() {
           <label className="block text-sm mb-1 text-gray-700">Password</label>
           <div className="relative">
             <input
-              type={showPassword ? "text" : "password"}
+              type="password"
               placeholder="Enter your password"
               className="w-full px-4 py-2 border border-gray-300 rounded-md pr-4 focus:outline-none focus:ring-2 focus:ring-black"
               value={password}

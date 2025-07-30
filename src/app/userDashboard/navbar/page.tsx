@@ -58,14 +58,14 @@ const Navbar = () => {
                         Wishlist
                     </button>
                     
-                    <button onClick={login} className="hidden md:flex items-center gap-2 px-4 py-2">
+                    <button onClick={login} className="hidden md:flex items-center gap-2 px-4 py-2 hover:cursor-pointer">
                         <span>Login / Signup</span>
                     </button>
 
                     {/* Hamburger Menu Icon for Desktop */}
                    <button
     onClick={() => setIsSidebarOpen(true)}
-    className="p-2 border rounded-md"
+    className="p-2 border rounded-md hover:cursor-pointer"
     aria-label="Open menu" // Add this aria-label
 >
     <MenuIcon />

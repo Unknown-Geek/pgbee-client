@@ -3,7 +3,6 @@ import { useRouter } from 'next/navigation';
 
 import Image from 'next/image';
 import Sidebar from '../../Components/ownerSideBar';
-import Edit from './edit/page'
 
 export default function OwnerProfile() {
 

@@ -2,9 +2,10 @@
 
 import Image from 'next/image';
 import Image1 from './../../../public/PgBee.png';
-import { KeyboardArrowLeft, ToggleOn, ToggleOff } from '@mui/icons-material';
+import { ToggleOn, ToggleOff } from '@mui/icons-material';
 import { useState } from 'react';
 import BottomNav from '../../Components/BottomNav';
+import { useRouter } from 'next/navigation';
 export default function SettingsPage() {
     const options = [
         "Push Notifications",
@@ -25,16 +26,17 @@ export default function SettingsPage() {
         setToggles(updated);
     };
 
+    const router=useRouter();
+
     return (
         <div>
             <div className='flex items-center justify-center mt-[30px]'>
                 <Image src={Image1} alt="Pgbee" className="w-[130px]" width={100} height={100} />
             </div>
 
-            <div className='flex items-center justify-start my-[30px]'>
-                <div className='ml-[10px]'><KeyboardArrowLeft /></div>
-                <button className='ml-[6px]' onClick={() => window.history.back()}>
-                     <span className='ml-[6px]'>Settings and Privacy</span>
+            <div className='flex items-center justify-start my-[30px] ml-10'>
+                <button className='mb-4 text-gray-600 hover:text-gray-800 hover:cursor-pointer' onClick={() => router.push('/profile')}>
+                    <Image src="/back.svg" alt="Back" width={16} height={16} className="inline-block mr-2" />
                 </button>
                
             </div>

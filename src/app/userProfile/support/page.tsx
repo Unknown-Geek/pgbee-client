@@ -26,7 +26,7 @@ export default function TermsPage() {
 
       {/* Content Card */}
       <div className="w-full max-w-2xl bg-white rounded-2xl shadow-md p-6 overflow-auto">
-        <h1 className="text-xl sm:text-2xl font-bold mb-4">Terms &amp; Conditions</h1>
+        <h1 className="text-xl sm:text-2xl font-bold mb-4">Get Support</h1>
         <p className="text-sm sm:text-base text-gray-700 mb-4">
           Please read these terms and conditions carefully before using our service.
         </p>

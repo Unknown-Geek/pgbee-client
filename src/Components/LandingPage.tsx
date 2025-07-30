@@ -1,14 +1,46 @@
+'use client';
+
 import { CheckCircleOutline, Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-
 import { useRouter } from 'next/navigation';
+import { FilterState } from "./Sidebar";
 
+interface LandingPageProps {
+    searchQuery?: string;
+    filters?: FilterState | null;
+}
 
+export default function LandingPage({ searchQuery = '', filters }: LandingPageProps) {
+    
+    // ====================================================================
+    // 🏠 HOSTEL/PG DATA STRUCTURE - REPLACE THIS WITH YOUR ACTUAL DATA
+    // ====================================================================
+    // TODO: Replace this dummy data with your actual API call or database fetch
+    // Enhanced data structure for each hostel object to support filters:
 
-export default function LandingPage() {
-    const pgs = [
+    interface PgData {
+        id: number;
+        name: string;
+        location: string;
+        rating: number;
+        reviews: number;
+        price: number;
+        discountedPrice: number;
+        amenities: string[];
+        images: string[];
+        rooms: number;
+        bathrooms: number;
+        deposit: boolean;
+        gender: string;
+        type: 'Hostel' | 'PG';
+        curfew: 'mandatory' | 'none';
+        roomTypes: string[];
+        bathroomAttached: boolean;
+    }
+
+    const pgs: PgData[] = [
         {
-            id:1,
+            id: 1,
             name: "Ideal Hostel",
             location: "Opposite College Gate",
             rating: 4.6,
@@ -18,11 +50,16 @@ export default function LandingPage() {
             amenities: ["Free Wifi", "Balcony", "Kitchen", "Terrace"],
             images: ["/ideal_1.webp", "/ideal 2.webp", "/ideal_3.webp", "/pg.png", "/pg.png"],
             rooms: 15,
-            bathrooms:12,
-            deposit: true
+            bathrooms: 12,
+            deposit: true,
+            gender: "Male",
+            type: 'Hostel',
+            curfew: 'none',
+            roomTypes: ['Single Room', 'Shared Room'],
+            bathroomAttached: true
         },
         {
-            id:2,
+            id: 2,
             name: "Vanitha Mithram",
             location: "50m from College",
             rating: 4.2,
@@ -32,11 +69,16 @@ export default function LandingPage() {
             amenities: ["Free Wifi", "Kitchen", "Balcony"],
             images: ["/mithram_1.webp", "/mithram_2.jpg", "/mithram_3.avif", "/pg.png", "/pg.png"],
             rooms: 10,
-            bathrooms:10,
-            deposit: true
+            bathrooms: 10,
+            deposit: true,
+            gender: "Female",
+            type: 'PG',
+            curfew: 'mandatory',
+            roomTypes: ['Single Room'],
+            bathroomAttached: true
         },
         {
-            id:3,
+            id: 3,
             name: "Shelter",
             location: "200m from College",
             rating: 3.6,
@@ -46,11 +88,16 @@ export default function LandingPage() {
             amenities: ["Free Wifi", "Balcony", "Kitchen", "Washing Machine"],
             images: ["/shelter_1.webp", "/shelter_2.webp", "/shelter_3.webp", "/shelter_4.avif", "/pg.png"],
             rooms: 25,
-            bathrooms:22,
-            deposit: true
+            bathrooms: 22,
+            deposit: true,
+            gender: "Male",
+            type: 'Hostel',
+            curfew: 'none',
+            roomTypes: ['Shared Room'],
+            bathroomAttached: false
         },
         {
-            id:4,
+            id: 4,
             name: "Sunflower",
             location: "300m from College",
             rating: 4.2,
@@ -60,12 +107,128 @@ export default function LandingPage() {
             amenities: ["Free Wifi", "Gym", "Balcony"],
             images: ["/sunflower_1.jpg", "/sunflower_2.webp", "/sunflower_3.jpeg", "/pg.png", "/pg.png"],
             rooms: 15,
-            bathrooms:15,
-            deposit: true
+            bathrooms: 15,
+            deposit: true,
+            gender: "Female",
+            type: 'PG',
+            curfew: 'mandatory',
+            roomTypes: ['Single Room', 'Shared Room'],
+            bathroomAttached: true
         },
+        // Add more hostels here following the same structure
     ];
 
-    const [likedPgs, setLikedPgs] = useState<boolean[]>(pgs.map(() => false));
+    // ====================================================================
+    // 🔍 FILTERING AND SORTING FUNCTIONALITY
+    // ====================================================================
+
+    // Apply filters and search
+    const getFilteredAndSortedPgs = () => {
+        let filtered = [...pgs];
+
+        // Apply search query filter
+        if (searchQuery.trim()) {
+            const query = searchQuery.toLowerCase();
+            filtered = filtered.filter(pg => (
+                pg.name.toLowerCase().includes(query) ||
+                pg.location.toLowerCase().includes(query) ||
+                pg.amenities.some(amenity => amenity.toLowerCase().includes(query))
+            ));
+        }
+
+        // Apply filters if they exist
+        if (filters) {
+            // Amenities filter
+            if (filters.amenities.length > 0) {
+                filtered = filtered.filter(pg =>
+                    filters.amenities.every(amenity =>
+                        pg.amenities.some(pgAmenity => 
+                            pgAmenity.toLowerCase().includes(amenity.toLowerCase()) ||
+                            amenity.toLowerCase().includes(pgAmenity.toLowerCase())
+                        )
+                    )
+                );
+            }
+
+            // Price range filter
+            filtered = filtered.filter(pg =>
+                pg.discountedPrice >= filters.priceRange[0] &&
+                pg.discountedPrice <= filters.priceRange[1]
+            );
+
+            // Place type filter
+            filtered = filtered.filter(pg => pg.type === filters.placeType);
+
+            // Rooms filter
+            if (filters.rooms !== 'Any') {
+                const roomCount = parseInt(filters.rooms);
+                filtered = filtered.filter(pg => pg.rooms >= roomCount);
+            }
+
+            // Bathrooms filter
+            if (filters.bathrooms !== 'Any') {
+                const bathroomCount = parseInt(filters.bathrooms);
+                filtered = filtered.filter(pg => pg.bathrooms >= bathroomCount);
+            }
+
+            // Curfew filter
+            if (filters.curfew !== 'any') {
+                filtered = filtered.filter(pg => pg.curfew === filters.curfew);
+            }
+
+            // Room type filter
+            if (filters.roomType.length > 0) {
+                filtered = filtered.filter(pg =>
+                    filters.roomType.some(type => pg.roomTypes.includes(type))
+                );
+            }
+
+            // Bathroom attached filter
+            if (filters.bathroomAttached !== 'any') {
+                const isAttached = filters.bathroomAttached === 'attached';
+                filtered = filtered.filter(pg => pg.bathroomAttached === isAttached);
+            }
+
+            // Caution deposit filter
+            if (filters.cautionDeposit !== 'any') {
+                const hasDeposit = filters.cautionDeposit === 'yes';
+                filtered = filtered.filter(pg => pg.deposit === hasDeposit);
+            }
+
+            // TODO: Apply sorting - COMMENTED OUT FOR NOW
+            /*
+            switch (filters.sortBy) {
+                case 'Price: Low to High':
+                    filtered.sort((a, b) => a.discountedPrice - b.discountedPrice);
+                    break;
+                case 'Price: High to Low':
+                    filtered.sort((a, b) => b.discountedPrice - a.discountedPrice);
+                    break;
+                case 'Rating':
+                    filtered.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'Most Reviewed':
+                    filtered.sort((a, b) => b.reviews - a.reviews);
+                    break;
+                case 'Popularity':
+                default:
+                    // Keep original order or apply popularity logic
+                    filtered.sort((a, b) => (b.rating * b.reviews) - (a.rating * a.reviews));
+                    break;
+            }
+            */
+        }
+
+        return filtered;
+    };
+
+    const filteredPgs = getFilteredAndSortedPgs();
+
+    // ====================================================================
+    // 🎨 UI STATE AND HELPERS
+    // ====================================================================
+    
+    const [likedPgs, setLikedPgs] = useState<boolean[]>(filteredPgs.map(() => false));
     const toggleLike = (index: number) => {
         setLikedPgs((prev) => {
             const newLikes = [...prev];
@@ -101,10 +264,14 @@ const handleViewDetails = (id: number) => {
         <div className="w-full lg:basis-4/5">
             {/* searchbar */}
             <div className="p-[15px] lg:p-[25px] border-b border-transparent sm:border-gray-400 flex flex-col lg:flex-row lg:items-center">
-                <span className="text-2xl lg:text-xl font-bold lg:font-semibold px-[3px] lg:pl-[20px] py-[5px] lg:py-[30px]">
-                    Hostels in College Of Engineering,Trivandrum
-                </span>
-                <span>(422 search results)</span>
+                <div className="flex items-center gap-4">
+                    <span className="text-2xl lg:text-xl font-bold lg:font-semibold px-[3px] lg:pl-[20px] py-[5px] lg:py-[30px]">
+                        {searchQuery ? `Search results for "${searchQuery}"` : 'Hostels in College Of Engineering,Trivandrum'}
+                    </span>
+                </div>
+                <span>({filteredPgs.length} search results)</span>
+                {/* TODO: Sort dropdown - COMMENTED OUT FOR NOW */}
+                {/*
                 <span className="ml-[170px] mr-[15px] font-semibold hidden sm:block ">Sort By:</span>
 
                 <select className="hidden sm:block p-[8px] cursor-pointer rounded-lg border h-[40px] w-[300px] border-gray-400 appearance-none bg-white pr-10">
@@ -113,10 +280,17 @@ const handleViewDetails = (id: number) => {
                     <option>Price: High to Low</option>
                     <option>Rating</option>
                 </select>
+                */}
             </div>
 
             {/* landing page */}
-            {pgs.map((pg, i) => {
+            {filteredPgs.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-16">
+                    <p className="text-xl text-gray-500 mb-2">No PGs found</p>
+                    <p className="text-gray-400">Try adjusting your search criteria</p>
+                </div>
+            ) : (
+                filteredPgs.map((pg, i) => {
                 const maxDisplay = 4;
                 const remainingCount = pg.images.length - maxDisplay;
 
@@ -216,7 +390,7 @@ const handleViewDetails = (id: number) => {
                         </div>
                     </div>
                 );
-            })}
+            }))}
         </div>
     );
 }

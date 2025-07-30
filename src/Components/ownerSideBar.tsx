@@ -18,10 +18,6 @@ export default function Sidebar() {
 
   const router = useRouter();
 
-  const handleClick = () => {
-    router.push('/ownerSettings');
-  };
-
   return (
     <div className="h-screen w-64 bg-white flex flex-col justify-between border-r ">
       {/* Top Logo */}
