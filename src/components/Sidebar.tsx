@@ -101,7 +101,7 @@ export default function Sidebar({ setToggle, onFiltersChange }: SidebarProps) {
             amenities: [],
             amenitySearch: '',
             priceRange: [MIN, MAX],
-            placeType: 'Hostel',
+            placeType: 'PG',
             rooms: 'Any',
             bathrooms: 'Any',
             curfew: 'any',
