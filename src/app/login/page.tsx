@@ -3,16 +3,18 @@
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import Image from "next/image";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [captchaChecked, setCaptchaChecked] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -42,36 +44,23 @@ export default function LoginPage() {
     }
 
     if (valid) {
-      alert("Login successful!");
-
+      setIsLoading(true);
       try {
-        await fetchDetails(); 
-        alert("Login successful!");
-        router.push("/"); 
-      }catch (error) {
-        console.error("Error during login fetch:", error);
+        const success = await login(email, password);
+        if (success) {
+          alert("Login successful!");
+          router.push("/userDashboard"); 
+        } else {
+          alert("Invalid credentials. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
         alert("Something went wrong. Please try again.");
+      } finally {
+        setIsLoading(false);
       }
     }
   };
- const role="student";
-  // fetching details 
-  const fetchDetails = async () => {
-    try {
-      const response = await axios.post("https://server.pgbee.in/auth/login", {
-        withCredentials: true,
-        email,
-        password,
-        role 
-      });
-
-      console.log("Fetched details:", response.data);
-    } catch (error) {
-      console.error("Error fetching details:", error);
-      alert("Something went wrong. Please try again.");
-    }
-  };
-
 
   return (
     <div className="min-h-screen bg-[#f9f9f9] flex items-center justify-center relative">
@@ -148,8 +137,12 @@ export default function LoginPage() {
         </div>
 
         {/* Submit Button */}
-        <button onClick={handleLogin} className="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-gray-800">
-          Log In
+        <button 
+          onClick={handleLogin} 
+          disabled={isLoading}
+          className="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        >
+          {isLoading ? "Logging in..." : "Log In"}
         </button>
       </div>
     </div>

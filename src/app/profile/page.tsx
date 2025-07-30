@@ -3,8 +3,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Description, DoorBack, HelpOutline, KeyboardArrowRight, LockPerson, Person2, Settings } from '@mui/icons-material';
-import Sidebar1 from '../../Components/Sidebar1';
-import BottomNav from '../../Components/BottomNav';
+import Sidebar1 from '../../components/Sidebar1';
+import BottomNav from '../../components/BottomNav';
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 // Reusable menu item component for the desktop view
 type ProfileMenuItemProps = {
@@ -107,21 +108,23 @@ function DesktopProfile() {
 // --- Main Page Component ---
 export default function ProfilePage() {
     return (
-        <div className="flex h-screen bg-gray-100">
-            <Sidebar1 />
-            <div className="flex-1 flex flex-col w-full overflow-hidden">
-                <main className="flex-1 overflow-y-auto md:p-8 pb-24 md:pb-0">
-                    {/* Show original layout on mobile */}
-                    <div className="block md:hidden">
-                        <MobileProfile />
-                    </div>
-                    {/* Show new grid layout on desktop */}
-                    <div className="hidden md:block">
-                        <DesktopProfile />
-                    </div>
-                </main>
+        <ProtectedRoute>
+            <div className="flex h-screen bg-gray-100">
+                <Sidebar1 />
+                <div className="flex-1 flex flex-col w-full overflow-hidden">
+                    <main className="flex-1 overflow-y-auto md:p-8 pb-24 md:pb-0">
+                        {/* Show original layout on mobile */}
+                        <div className="block md:hidden">
+                            <MobileProfile />
+                        </div>
+                        {/* Show new grid layout on desktop */}
+                        <div className="hidden md:block">
+                            <DesktopProfile />
+                        </div>
+                    </main>
+                </div>
+                <BottomNav />
             </div>
-            <BottomNav />
-        </div>
+        </ProtectedRoute>
     );
 }

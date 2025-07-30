@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import Navbar from '@/Components/Navbar';
+import Navbar from '@/components/Navbar';
 import Footer from '../footer/page';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';

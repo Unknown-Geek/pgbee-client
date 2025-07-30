@@ -69,6 +69,8 @@ export default function SignupPage() {
         role
       }
       );
+      alert("Account created successfully! Please login.");
+      router.push("/login");
     } catch (error) {
       console.error("Error fetching details:", error);
       alert("Something went wrong. Please try again.");

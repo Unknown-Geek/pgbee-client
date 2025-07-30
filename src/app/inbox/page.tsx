@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { KeyboardArrowLeft, ArrowDropDown, FiberManualRecord } from '@mui/icons-material';
-import Sidebar1 from '../../Components/Sidebar1';
-import BottomNav from '../../Components/BottomNav';
+import Sidebar1 from '../../components/Sidebar1';
+import BottomNav from '../../components/BottomNav';
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const Image1 = '/PgBee.png';
 const ProfilePic = '/Person.png';
@@ -165,19 +166,21 @@ export default function InboxPage() {
     const [activeFilter, setActiveFilter] = useState('All');
     const props = { activeFilter, setActiveFilter };
     return (
-        <div className="flex h-screen bg-gray-100">
-            <Sidebar1 />
-            <div className="flex-1 flex flex-col w-full overflow-hidden">
-                <main className="flex-1 overflow-y-auto md:p-8 pb-24 md:pb-0">
-                    <div className="block md:hidden">
-                        <MobileInbox {...props} />
-                    </div>
-                    <div className="hidden md:block">
-                        <DesktopInbox {...props} />
-                    </div>
-                </main>
+        <ProtectedRoute>
+            <div className="flex h-screen bg-gray-100">
+                <Sidebar1 />
+                <div className="flex-1 flex flex-col w-full overflow-hidden">
+                    <main className="flex-1 overflow-y-auto md:p-8 pb-24 md:pb-0">
+                        <div className="block md:hidden">
+                            <MobileInbox {...props} />
+                        </div>
+                        <div className="hidden md:block">
+                            <DesktopInbox {...props} />
+                        </div>
+                    </main>
+                </div>
+                <BottomNav />
             </div>
-            <BottomNav />
-        </div>
+        </ProtectedRoute>
     );
 }
