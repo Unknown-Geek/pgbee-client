@@ -13,7 +13,6 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [emailValid, setEmailValid] = useState<null | boolean>(null);
 
   const validateEmail = (email: string) => {
@@ -63,7 +62,7 @@ export default function SignupPage() {
   // fetch details
   const fetchDetails = async () => {
     try {
-      const response = await axios.post("https://server.pgbee.in/auth/signup", {
+      await axios.post("https://server.pgbee.in/auth/signup", {
         name: `${firstName} ${lastName}`,
         email,
         password,
@@ -164,7 +163,7 @@ export default function SignupPage() {
           <label className="block text-sm mb-1 text-gray-700">Password</label>
           <div className="relative">
             <input
-              type={showPassword ? "text" : "password"}
+              type="password"
               placeholder="Enter your password"
               className="w-full px-4 py-2 border border-gray-300 rounded-md pr-4 focus:outline-none focus:ring-2 focus:ring-black"
               value={password}

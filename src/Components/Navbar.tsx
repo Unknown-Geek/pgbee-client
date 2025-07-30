@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { LocationOn, Search, Clear, Menu as MenuIcon, Close as CloseIcon } from "@mui/icons-material";
+import { LocationOn, Search, Menu as MenuIcon, Close as CloseIcon } from "@mui/icons-material";
 import Modal from '../app/userDashboard/[details]/modal'
 import Wishlist from '../app/userDashboard/wishlists/page';
 import Sidebar1 from './Sidebar1';
