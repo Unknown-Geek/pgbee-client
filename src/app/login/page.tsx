@@ -54,7 +54,7 @@ export default function LoginPage() {
       }
     }
   };
-
+ const role="student";
   // fetching details 
   const fetchDetails = async () => {
     try {
@@ -62,7 +62,7 @@ export default function LoginPage() {
         withCredentials: true,
         email,
         password,
-        "student"
+        role 
       });
 
       console.log("Fetched details:", response.data);
