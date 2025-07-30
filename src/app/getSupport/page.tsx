@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import React from "react";
 
 export default function GetSupportPage() {
   const router = useRouter();
@@ -24,9 +26,8 @@ export default function GetSupportPage() {
             className="inline-block mr-2"
           />
         </button>
-        <div className="flex-1 text-center">
-          <span className="text-5xl font-poppins text-yellow-400">Pg</span>
-          <span className="text-5xl font-poppins text-black">Bee</span>
+        <div className="flex-1 px-60 text-center">
+          <Image src="/PgBee.png" alt="PgBee Logo"  width={120} height={50} />
         </div>
         {/* Placeholder to center the logo */}
         <div className="w-8" />

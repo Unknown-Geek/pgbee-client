@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 
 
+
 export default function TermsPage() {
 
   const router = useRouter();
@@ -16,10 +17,9 @@ export default function TermsPage() {
                 <button  aria-label="Go back to profile" className='mb-4 text-gray-600 hover:text-gray-800 hover:cursor-pointer' onClick={() => router.push('/profile')}>
                     <Image src="/back.svg" alt="Back" width={16} height={16} className="inline-block mr-2" />
                 </button>
-        <div className="flex-1 text-center">
-          <span className="text-2xl font-extrabold text-yellow-400">Pg</span>
-          <span className="text-2xl font-extrabold text-black">Bee</span>
-        </div>
+    <div className="flex-1 px-60 text-center">
+              <Image src="/PgBee.png" alt="PgBee Logo"  width={120} height={50} />
+            </div>
         {/* Placeholder to center the logo */}
         <div className="w-8" />
       </div>

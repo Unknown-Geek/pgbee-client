@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '../footer/page';
 import { useRouter, useParams } from 'next/navigation';
 import { Close as CloseIcon } from '@mui/icons-material';
+import BottomNav from '@/components/BottomNav';
 
 const hostelDetails = [
     { id: 1, name: "Golden Turtles Homestay", images: ["/house1.png", "/house2.png", "/house3.png", "/house4.png", "/house5.png"], location: "Vattappara, Kerala, India", facilities: { bedrooms: 1, beds: 1, bathrooms: 1 }, host: { name: "John", yearsOfHosting: 11 } },
@@ -22,8 +23,14 @@ const reviews = [
 
 const amenities = ["Free Wi-Fi", "Air Conditioning", "Kitchen", "Free Parking", "Washing Machine", "TV", "First Aid Kit", "Workspace", "24/7 Security"];
 
+// --- **FIX:** Define types for the modal's props ---
+interface ImageGalleryModalProps {
+    images: string[];
+    onClose: () => void;
+}
+
 // --- Image Gallery Modal Component ---
-const ImageGalleryModal = ({ images, onClose }) => (
+const ImageGalleryModal = ({ images, onClose }: ImageGalleryModalProps) => (
     <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col p-4">
         <button onClick={onClose} className="self-end text-white mb-4" aria-label="Close gallery">
             <CloseIcon fontSize="large" />
@@ -47,7 +54,7 @@ export default function Page() {
     const router = useRouter();
     
     const [searchQuery, setSearchQuery] = useState('');
-    const [showGallery, setShowGallery] = useState(false); // State for the modal
+    const [showGallery, setShowGallery] = useState(false);
     const selectedHostel = hostelDetails.find(h => h.id === id);
 
     if (!selectedHostel) {
