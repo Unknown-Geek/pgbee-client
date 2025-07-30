@@ -8,6 +8,7 @@ interface User {
   name: string | null;
   email: string;
   role: string;
+  profileCompleted?: boolean;
 }
 
 interface AuthContextType {
