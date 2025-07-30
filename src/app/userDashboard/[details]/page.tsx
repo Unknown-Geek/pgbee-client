@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '../footer/page';
 import { useRouter, useParams } from 'next/navigation';
+import { Close as CloseIcon } from '@mui/icons-material';
 
 const hostelDetails = [
     { id: 1, name: "Golden Turtles Homestay", images: ["/house1.png", "/house2.png", "/house3.png", "/house4.png", "/house5.png"], location: "Vattappara, Kerala, India", facilities: { bedrooms: 1, beds: 1, bathrooms: 1 }, host: { name: "John", yearsOfHosting: 11 } },
@@ -21,12 +22,32 @@ const reviews = [
 
 const amenities = ["Free Wi-Fi", "Air Conditioning", "Kitchen", "Free Parking", "Washing Machine", "TV", "First Aid Kit", "Workspace", "24/7 Security"];
 
+// --- Image Gallery Modal Component ---
+const ImageGalleryModal = ({ images, onClose }) => (
+    <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col p-4">
+        <button onClick={onClose} className="self-end text-white mb-4" aria-label="Close gallery">
+            <CloseIcon fontSize="large" />
+        </button>
+        <div className="flex-grow overflow-y-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+                {images.map((img, index) => (
+                    <div key={index} className="relative w-full aspect-video rounded-lg overflow-hidden">
+                        <Image src={img} alt={`Gallery view ${index + 1}`} layout="fill" className="object-cover" />
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+);
+
+
 export default function Page() {
     const params = useParams();
     const id = Number(params.details);
     const router = useRouter();
     
     const [searchQuery, setSearchQuery] = useState('');
+    const [showGallery, setShowGallery] = useState(false); // State for the modal
     const selectedHostel = hostelDetails.find(h => h.id === id);
 
     if (!selectedHostel) {
@@ -45,11 +66,11 @@ export default function Page() {
         <div className='min-h-screen bg-gray-50'>
             <Navbar onSearch={handleSearch} searchQuery={searchQuery} />
 
-            <div className="max-w-6xl mx-auto p-4 md:p-8">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* --- HEADER --- */}
                 <div className='flex justify-between items-center mb-4'>
                     <div className="flex items-center gap-2">
-                         <button aria-label="Go back" onClick={() => router.back()} className="p-1">
+                         <button onClick={() => router.back()} className="p-1" aria-label="Go back">
                             <Image src="/back.svg" alt="back" width={24} height={24} />
                         </button>
                         <h1 className="text-xl md:text-3xl font-bold">{selectedHostel.name}</h1>
@@ -67,27 +88,25 @@ export default function Page() {
                 </div>
 
                 {/* --- IMAGE GALLERY --- */}
-                {/* Desktop Gallery */}
                 <div className="hidden md:grid grid-cols-4 grid-rows-2 gap-2 h-[400px] rounded-2xl overflow-hidden">
-                    <div className="col-span-2 row-span-2">
-                        <Image src={selectedHostel.images[0]} alt="Main view" width={800} height={800} className="w-full h-full object-cover" />
-                    </div>
+                    <div className="col-span-2 row-span-2"><Image src={selectedHostel.images[0]} alt="Main view" width={800} height={800} className="w-full h-full object-cover" /></div>
                     <div><Image src={selectedHostel.images[1]} alt="View 2" width={400} height={400} className="w-full h-full object-cover" /></div>
                     <div><Image src={selectedHostel.images[2]} alt="View 3" width={400} height={400} className="w-full h-full object-cover" /></div>
                     <div><Image src={selectedHostel.images[3]} alt="View 4" width={400} height={400} className="w-full h-full object-cover" /></div>
                     <div className="relative"><Image src={selectedHostel.images[4]} alt="View 5" width={400} height={400} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                             <button className="bg-white text-black px-4 py-2 rounded-lg text-sm font-semibold">Show all photos</button>
+                             <button onClick={() => setShowGallery(true)} className="bg-white text-black px-4 py-2 rounded-lg text-sm font-semibold">Show all photos</button>
                         </div>
                     </div>
                 </div>
                 {/* Mobile Gallery */}
-                <div className="md:hidden">
+                <div className="md:hidden relative cursor-pointer" onClick={() => setShowGallery(true)}>
                     <Image src={selectedHostel.images[0]} alt="Main view" width={600} height={400} className="w-full h-auto rounded-lg" />
+                     <div className="absolute bottom-4 right-4 bg-white text-black px-4 py-2 rounded-lg text-sm font-semibold">Show all photos</div>
                 </div>
 
 
-                {/* --- MAIN CONTENT (Desktop: 2-column, Mobile: 1-column) --- */}
+                {/* --- MAIN CONTENT --- */}
                 <div className="flex flex-col md:flex-row gap-12 mt-8">
                     {/* Left Column */}
                     <div className="w-full md:w-2/3">
@@ -125,7 +144,7 @@ export default function Page() {
                     </div>
                 </div>
 
-                {/* Reviews and Location (Full width on both mobile and desktop) */}
+                {/* Reviews and Location */}
                 <hr className="my-8" />
                 <div className="mt-8">
                     <h2 className="text-2xl font-bold mb-4">Reviews</h2>
@@ -168,6 +187,9 @@ export default function Page() {
             </div>
             
             <Footer />
+
+            {/* Render the modal conditionally */}
+            {showGallery && <ImageGalleryModal images={selectedHostel.images} onClose={() => setShowGallery(false)} />}
         </div>
     );
 };
