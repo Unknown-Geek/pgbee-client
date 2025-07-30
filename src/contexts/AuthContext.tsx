@@ -77,7 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response = await axios.post('http://server.pgbee.in/auth/login', {
         email,
         password,
-        role: 'student'
+        
       }, {
         withCredentials: true,
       });
