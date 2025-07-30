@@ -62,7 +62,7 @@ export default function SignupPage() {
   const handleGoogleSignup = async () => {
     try {
       // Redirect to Google OAuth endpoint
-      window.location.href = 'http://server.pgbee.in/auth/google';
+      window.location.href = 'https://server.pgbee.in/auth/google';
     } catch (error) {
       console.error("Google signup error:", error);
       alert("Failed to initiate Google signup. Please try again.");
@@ -71,7 +71,7 @@ export default function SignupPage() {
   
   const fetchDetails = async () => {
     try {
-      const response = await axios.post("http://server.pgbee.in/auth/signup", {
+      const response = await axios.post("https://server.pgbee.in/auth/signup", {
         name: `${firstName} ${lastName}`,
         email,
         password,

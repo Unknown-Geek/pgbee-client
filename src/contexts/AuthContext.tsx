@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const checkAuth = async () => {
     try {
-      const response = await axios.get('http://server.pgbee.in/auth/login', {
+      const response = await axios.get('https://server.pgbee.in/auth/login', {
         withCredentials: true,
       });
       
@@ -74,10 +74,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      const response = await axios.post('http://server.pgbee.in/auth/login', {
+      const response = await axios.post('https://server.pgbee.in/auth/login', {
         email,
         password,
-        role: 'student'
+        
       }, {
         withCredentials: true,
       });
@@ -97,7 +97,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = async () => {
     try {
-      await axios.post('http://server.pgbee.in/auth/logout', {}, {
+      await axios.post('https://server.pgbee.in/auth/logout', {}, {
         withCredentials: true,
       });
     } catch (error) {
