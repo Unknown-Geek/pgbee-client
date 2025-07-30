@@ -3,16 +3,18 @@
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import Image from "next/image";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [captchaChecked, setCaptchaChecked] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -42,36 +44,23 @@ export default function LoginPage() {
     }
 
     if (valid) {
-      alert("Login successful!");
-
+      setIsLoading(true);
       try {
-        await fetchDetails(); 
-        alert("Login successful!");
-        router.push("/"); 
-      }catch (error) {
-        console.error("Error during login fetch:", error);
+        const success = await login(email, password);
+        if (success) {
+          alert("Login successful!");
+          router.push("/userDashboard"); 
+        } else {
+          alert("Invalid credentials. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
         alert("Something went wrong. Please try again.");
+      } finally {
+        setIsLoading(false);
       }
     }
   };
- const role="student";
-  // fetching details 
-  const fetchDetails = async () => {
-    try {
-      const response = await axios.post("https://server.pgbee.in/auth/login", {
-        withCredentials: true,
-        email,
-        password,
-        role 
-      });
-
-      console.log("Fetched details:", response.data);
-    } catch (error) {
-      console.error("Error fetching details:", error);
-      alert("Something went wrong. Please try again.");
-    }
-  };
-
 
   return (
     <div className="min-h-screen bg-[#f9f9f9] flex items-center justify-center relative">
@@ -87,6 +76,22 @@ export default function LoginPage() {
 
       {/* Login Card */}
       <div className="w-full max-w-md p-6 bg-white rounded-xl shadow-xl z-10">
+        
+        {/* ============================================================================ */}
+        {/* 🚨 DEMO MODE INDICATOR - REMOVE WHEN BACKEND IS READY */}
+        {/* ============================================================================ */}
+        {/* <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="flex items-center gap-2">
+            <span className="text-blue-600 text-sm font-medium">🚨 DEMO MODE</span>
+          </div>
+          <p className="text-xs text-blue-600 mt-1">
+            Use: <strong>demo@pgbee.com</strong> / <strong>demo123</strong>
+          </p>
+        </div> */}
+        {/* ============================================================================ */}
+        {/* END DEMO INDICATOR */}
+        {/* ============================================================================ */}
+        
         {/* Tabs */}
         <div className="flex mb-6 rounded-lg overflow-hidden border border-gray-300">
           <button onClick={() => router.push("/signup")} className="w-1/2 py-2 bg-white text-black font-medium">Sign up</button>
@@ -148,8 +153,12 @@ export default function LoginPage() {
         </div>
 
         {/* Submit Button */}
-        <button onClick={handleLogin} className="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-gray-800">
-          Log In
+        <button 
+          onClick={handleLogin} 
+          disabled={isLoading}
+          className="w-full bg-black text-white py-3 rounded-xl font-medium hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        >
+          {isLoading ? "Logging in..." : "Log In"}
         </button>
       </div>
     </div>

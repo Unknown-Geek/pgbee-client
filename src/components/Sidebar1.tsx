@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Person, Mail, Logout } from '@mui/icons-material';
 import Image from "next/image";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navItems = [
   { href: '/', icon: <Home />, label: 'Home' }, // 1. Corrected href
@@ -13,6 +14,7 @@ const navItems = [
 
 export default function Sidebar1() {
   const pathname = usePathname();
+  const { logout } = useAuth();
 
   return (
     <aside className="hidden md:flex flex-col w-64 h-screen px-4 py-8 bg-white border-r">
@@ -54,13 +56,13 @@ export default function Sidebar1() {
         </nav>
 
         <div>
-          <Link
-            href="/signup"
-            className="flex items-center px-4 py-3 text-gray-700 transition-colors duration-300 transform rounded-md hover:bg-gray-100"
+          <button
+            onClick={logout}
+            className="flex items-center px-4 py-3 text-gray-700 transition-colors duration-300 transform rounded-md hover:bg-gray-100 w-full text-left"
           >
             <Logout />
             <span className="mx-4 font-medium">Logout</span>
-          </Link>
+          </button>
         </div>
       </div>
     </aside>

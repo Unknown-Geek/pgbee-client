@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useState } from 'react';
-import Sidebar from '../../../Components/ownerSideBar';
+import Sidebar from '../../../components/ownerSideBar';
 
 export default function OwnerProfile() {
   const [formData, setFormData] = useState({

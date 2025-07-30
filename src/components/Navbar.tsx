@@ -7,6 +7,7 @@ import { LocationOn, Search, Menu as MenuIcon, Close as CloseIcon } from "@mui/i
 import Modal from '../app/userDashboard/[details]/modal'
 import Wishlist from '../app/userDashboard/wishlists/page';
 import Sidebar1 from './Sidebar1';
+import { useAuth } from "@/contexts/AuthContext";
 
 interface NavbarProps {
   onSearch: (query?: string) => void;
@@ -25,6 +26,7 @@ const Navbar = ({ onSearch, searchQuery }: NavbarProps) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
+  const { user } = useAuth();
 
   // ====================================================================
   // 🔍 SEARCH SUGGESTIONS DATA - REPLACE WITH YOUR ACTUAL DATA
@@ -194,9 +196,17 @@ const Navbar = ({ onSearch, searchQuery }: NavbarProps) => {
             Wishlist
           </button>
           
-          <button onClick={login} className="hidden md:flex items-center gap-2 px-4 py-2">
-            <span>Login / Signup</span>
-          </button>
+          {!user && (
+            <button onClick={login} className="hidden md:flex items-center gap-2 px-4 py-2">
+              <span>Login / Signup</span>
+            </button>
+          )}
+          
+          {user && (
+            <span className="hidden md:block text-sm text-gray-600">
+              Hello, {user.name.split(' ')[0]}
+            </span>
+          )}
 
           {/* Hamburger Menu Icon for Desktop */}
           <button
