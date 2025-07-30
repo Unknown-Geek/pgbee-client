@@ -13,7 +13,7 @@ export default function TermsPage() {
     <div className="min-h-screen bg-gray-100 flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="w-full max-w-2xl flex items-center mb-6">
-                <button className='mb-4 text-gray-600 hover:text-gray-800 hover:cursor-pointer' onClick={() => router.push('/profile')}>
+                <button  aria-label="Go back to profile" className='mb-4 text-gray-600 hover:text-gray-800 hover:cursor-pointer' onClick={() => router.push('/profile')}>
                     <Image src="/back.svg" alt="Back" width={16} height={16} className="inline-block mr-2" />
                 </button>
         <div className="flex-1 text-center">

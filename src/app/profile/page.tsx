@@ -47,7 +47,7 @@ function MobileProfile() {
                     <span className="text-[15px] ml-3 flex-grow text-left">Settings and Privacy</span>
                     <div className='text-gray-500'><KeyboardArrowRight /></div>
                 </button>
-                <button className="flex w-full items-center py-2">
+                <button className="flex w-full items-center py-2" onClick={() => router.push("/getSupport")}>
                     <div className='text-gray-600'><HelpOutline /></div>
                     <span className="text-[15px] ml-3 flex-grow text-left">Get Support</span>
                     <div className='text-gray-500'><KeyboardArrowRight /></div>
@@ -78,7 +78,7 @@ function DesktopProfile() {
     const menuItems = [
         { icon: <Person2 />, text: 'Profile', onClick: () => router.push('/userProfile/profileView') },
         { icon: <Settings />, text: 'Settings and Privacy', onClick: () => router.push('/settings') },
-        { icon: <HelpOutline />, text: 'Get Support', onClick: () => {router.push("/userProfile/support")} },
+        { icon: <HelpOutline />, text: 'Get Support', onClick: () => {router.push("/getSupport")} },
         { icon: <Description />, text: 'Terms and Conditions', onClick: () => {router.push("/terms")} },
         { icon: <LockPerson />, text: 'Privacy Policy', onClick: () => {router.push("/privacy")} },
         
