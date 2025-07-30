@@ -14,6 +14,7 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [emailValid, setEmailValid] = useState<null | boolean>(null);
+  const [showModal, setShowModal] = useState(false);
 
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -42,14 +43,11 @@ export default function SignupPage() {
     }
 
     try {
-    await fetchDetails();
-      alert("Signup successful!");
-      router.push("/"); 
+      await fetchDetails();
     } catch (error) {
       console.error("Signup error:", error);
     }
   };
-
 
   useEffect(() => {
     if (email === "") {
@@ -58,63 +56,73 @@ export default function SignupPage() {
       setEmailValid(validateEmail(email));
     }
   }, [email]);
-  const role="student"
-  
-  // ============================================================================
-  // 🚨 MOCK SIGNUP - REPLACE WITH REAL API CALL WHEN BACKEND IS READY
-  // ============================================================================
-  // fetch details
+
+  const role = "student";
+
+  // MOCK SIGNUP - REPLACE WITH REAL API CALL WHEN BACKEND IS READY
   const fetchDetails = async () => {
     try {
+      setShowModal(true);
+
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock successful signup
+
+      // Mock success
       console.log('🚨 MOCK: Signup successful for:', {
         name: `${firstName} ${lastName}`,
         email,
         role
       });
-      
+
+      // Clear fields
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
+      setAgreeTerms(false);
+
       alert("Account created successfully! Please login with your credentials.\n\nDemo credentials available:\n• demo@pgbee.com / demo123\n• john@example.com / password123");
+
+      setShowModal(false);
       router.push("/login");
-      
-      // ============================================================================
-      // END MOCK - Replace above with real backend call
-      // ============================================================================
-      
-      /* REAL CODE TO RESTORE:
-      await axios.post("https://server.pgbee.in/auth/signup", {
+
+      /* REAL BACKEND CALL:
+      const response = await axios.post("https://server.pgbee.in/auth/signup", {
         name: `${firstName} ${lastName}`,
         email,
         password,
         role
       });
-      alert("Account created successfully! Please login.");
-      router.push("/login");
+
+      if (response.status === 200) {
+        setShowModal(true);
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setPassword("");
+        setAgreeTerms(false);
+        router.push("/login");
+      } else {
+        alert("Signup failed. Please try again.");
+      }
       */
+
     } catch (error) {
       console.error("Error fetching details:", error);
       alert("Something went wrong. Please try again.");
+      setShowModal(false);
     }
-  }
+  };
 
   return (
     <div className="relative min-h-screen bg-[#f9f9f9] flex flex-col items-center justify-center overflow-hidden">
-      {/* Background Hexagons */}
-      {/*<img src="/Group2.png" alt="hexagon" className="absolute top-0 left-240 w-376.5px h-75 
-           "></img>
-            <img src="/Group 3.png" alt="hexagon" className="absolute top-100 left-0 w-500.5px h-200 "></img>*/}
-
       {/* Logo Heading */}
       <div className="absolute top-6 left-1/2 transform -translate-x-1/2 z-20 mt-4">
-        <Image src="/PgBee.png" alt="PgBee Logo" width= {120} height={50} />
+        <Image src="/PgBee.png" alt="PgBee Logo" width={120} height={50} />
       </div>
 
       {/* Signup Form */}
       <div className="w-full max-w-md p-6 bg-white rounded-xl shadow-xl z-10">
-
-        
         {/* Tabs */}
         <div className="flex mb-6 rounded-lg overflow-hidden border border-gray-300">
           <button className="w-1/2 py-2 bg-black text-white font-medium">Sign up</button>
@@ -142,7 +150,10 @@ export default function SignupPage() {
         {/* First and Last Name */}
         <div className="flex gap-2 mb-4">
           <div className="w-1/2">
-            <label className="block text-sm mb-1 text-gray-700">First name</label>
+            <label className="block text-sm mb-1 text-gray-700">
+  First name <span className="text-red-500">*</span>
+</label>
+
             <input
               type="text"
               placeholder="Enter your first name"
@@ -152,11 +163,12 @@ export default function SignupPage() {
             />
           </div>
           <div className="w-1/2">
-            <label className="block text-sm mb-1 text-gray-700">Last name</label>
+            <label className="block text-sm mb-1 text-gray-700">
+  Last name <span className="text-red-500">*</span>
+</label>
             <input
               type="text"
               placeholder="Enter your last name"
-              title="Last name"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
@@ -166,13 +178,14 @@ export default function SignupPage() {
 
         {/* Email */}
         <div className="mb-2">
-          <label className="block text-sm mb-1 text-gray-700">Email</label>
+           <label className="block text-sm mb-1 text-gray-700">
+  Email <span className="text-red-500">*</span>
+</label>
+
           <input
             type="email"
             placeholder="Enter your email address"
-            className={`w-full px-4 py-2 border ${emailValid === false ? "border-red-500" : "border-gray-300"
-              } rounded-md focus:outline-none focus:ring-2 ${emailValid === false ? "focus:ring-red-500" : "focus:ring-black"
-              }`}
+            className={`w-full px-4 py-2 border ${emailValid === false ? "border-red-500" : "border-gray-300"} rounded-md focus:outline-none focus:ring-2 ${emailValid === false ? "focus:ring-red-500" : "focus:ring-black"}`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -186,7 +199,10 @@ export default function SignupPage() {
 
         {/* Password */}
         <div className="mb-4">
-          <label className="block text-sm mb-1 text-gray-700">Password</label>
+          <label className="block text-sm mb-1 text-gray-700">
+  Password <span className="text-red-500">*</span>
+</label>
+
           <div className="relative">
             <input
               type="password"
@@ -195,7 +211,6 @@ export default function SignupPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            
           </div>
         </div>
 
@@ -206,8 +221,6 @@ export default function SignupPage() {
             checked={agreeTerms}
             onChange={() => setAgreeTerms(!agreeTerms)}
             className="mt-1"
-            title="Agree to terms and conditions"
-            placeholder="Agree to terms and conditions"
           />
           <p className="text-gray-700">
             By creating an account, I agree to the{" "}
@@ -225,6 +238,16 @@ export default function SignupPage() {
           Sign Up
         </button>
       </div>
+
+      {/* Success Modal */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-xl shadow-lg text-center flex flex-col items-center">
+            <div className="w-10 h-10 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p className="text-gray-700">Creating your account...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

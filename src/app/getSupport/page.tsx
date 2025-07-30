@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import React from "react";
 
 export default function GetSupportPage() {
   const router = useRouter();
@@ -24,9 +26,8 @@ export default function GetSupportPage() {
             className="inline-block mr-2"
           />
         </button>
-        <div className="flex-1 text-center">
-          <span className="text-2xl font-extrabold text-yellow-400">Pg</span>
-          <span className="text-2xl font-extrabold text-black">Bee</span>
+        <div className="flex-1 px-60 text-center">
+          <Image src="/PgBee.png" alt="PgBee Logo"  width={120} height={50} />
         </div>
         {/* Placeholder to center the logo */}
         <div className="w-8" />
@@ -63,10 +64,10 @@ export default function GetSupportPage() {
           reach out to our support team.
         </p>
         <p className="text-sm sm:text-base text-gray-700">
-          <strong>Email:</strong> support@pgbee.com
+          <strong>Email:</strong>  pgbeecompany@gmail.com
         </p>
         <p className="text-sm sm:text-base text-gray-700">
-          <strong>Phone:</strong> +91 12345 67890 (Mon-Fri, 9am-6pm IST)
+          <strong>Phone:</strong> +91 82814 80448 (Mon-Fri, 9am-6pm IST)
         </p>
 
         <div className="mt-8 text-center">
