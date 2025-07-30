@@ -6,7 +6,7 @@ import axios from 'axios';
 
 interface User {
   id: string;
-  name: string;
+  name: string | null;
   email: string;
   role: string;
 }
@@ -34,14 +34,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const checkAuth = async () => {
     try {
-     
-
-      const response = await axios.get('https://server.pgbee.in/auth/me', {
+      const response = await axios.get('http://192.168.1.73:8080/auth/login', {
         withCredentials: true,
       });
       
-      if (response.data.success) {
-        setUser(response.data.user);
+      if (response.data.ok) {
+        setUser(response.data.data);
       } else {
         setUser(null);
       }
@@ -75,11 +73,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-   
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
-   
-      const response = await axios.post('https://server.pgbee.in/auth/login', {
+
+      const response = await axios.post('http://192.168.1.73:8080/auth/login', {
         email,
         password,
         role: 'student'
@@ -87,8 +83,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         withCredentials: true,
       });
 
-      if (response.data.success) {
-        setUser(response.data.user);
+      if (response.data.ok) {
+        setUser(response.data.data);
         return true;
       } else {
         return false;
@@ -102,20 +98,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = async () => {
     try {
-     
-      // Original code should be:
-      axios.post('https://server.pgbee.in/auth/logout', {}, {
+      await axios.post('http://192.168.1.73:8080/auth/logout', {}, {
         withCredentials: true,
       });
-
-     
-      
-   
-      /* REAL CODE TO RESTORE:
-      await axios.post('https://server.pgbee.in/auth/logout', {}, {
-        withCredentials: true,
-      });
-      */
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
