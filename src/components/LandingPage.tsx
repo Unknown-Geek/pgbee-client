@@ -344,11 +344,6 @@ export default function LandingPage({ searchQuery = '', filters }: LandingPagePr
             roomTypes: ['Shared Room'],
             bathroomAttached: true
         },
-        
-        
-        
-
-        
         // Add more hostels here following the same structure
     ];
 
