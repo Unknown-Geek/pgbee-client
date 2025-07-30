@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-
+import axios from 'axios';
 interface User {
   id: string;
   name: string | null;
