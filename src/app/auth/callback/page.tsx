@@ -2,24 +2,28 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function AuthCallback() {
   const router = useRouter();
+  const { } = useAuth();
 
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        // The backend should handle the OAuth callback and set the session cookie
-        // After successful OAuth, check if user is authenticated
+        // First, try to refresh the auth state
         const response = await fetch('https://server.pgbee.in/auth/me', {
           credentials: 'include',
         });
 
         if (response.ok) {
           const data = await response.json();
-          if (data.success) {
-            // User is authenticated, redirect to dashboard
-            router.push('/userDashboard');
+          console.log('Auth callback response:', data);
+          
+          if (data.ok && data.data) {
+            // User is authenticated, redirect based on profile completion
+            // Force a page reload to refresh the AuthContext
+            window.location.href = '/userDashboard';
           } else {
             // Authentication failed
             router.push('/login?error=auth_failed');
@@ -34,8 +38,8 @@ export default function AuthCallback() {
       }
     };
 
-    // Add a small delay to ensure the page has loaded
-    const timer = setTimeout(handleCallback, 1000);
+    // Add a small delay to ensure the page has loaded and cookies are set
+    const timer = setTimeout(handleCallback, 2000);
 
     return () => clearTimeout(timer);
   }, [router]);

@@ -3,8 +3,9 @@
 import { FcGoogle } from "react-icons/fc";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
+
 import Image from "next/image";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -20,16 +21,6 @@ export default function LoginPage() {
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
-  };
-
-  const handleGoogleLogin = async () => {
-    try {
-      // Redirect to Google OAuth endpoint
-      window.location.href = 'https://server.pgbee.in/auth/google';
-    } catch (error) {
-      console.error("Google login error:", error);
-      alert("Failed to initiate Google login. Please try again.");
-    }
   };
 
   const handleLogin = async () => {
@@ -99,13 +90,7 @@ export default function LoginPage() {
           <button className="w-1/2 py-2 bg-black text-white font-medium">Log in</button>
         </div>
 
-        <button 
-          onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-2 border border-gray-400 py-2 rounded-xl mb-6 hover:bg-gray-100"
-        >
-          <FcGoogle size={24} />
-          Log In with Google
-        </button>
+    
 
         <div className="flex items-center justify-center mb-6">
           <hr className="w-1/3 border-gray-300" />
@@ -150,7 +135,7 @@ export default function LoginPage() {
           <div className="flex items-center border border-gray-300 rounded-md px-3 py-2 gap-2">
             <input type="checkbox" checked={captchaChecked} onChange={() => setCaptchaChecked(!captchaChecked)} />
             <span className="text-sm">I’m not a robot</span>
-            <Image src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" className="h-6 ml-auto" />
+            <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" className="h-6 ml-auto" />
           </div>
         </div>
 
